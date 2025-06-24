@@ -11,8 +11,13 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.10",
+    "framer-motion": "^12.18.1",
+    "gsap": "^3.13.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-intersection-observer": "^9.16.0",
+    "react-router-dom": "^7.6.2",
+    "styled-components": "^6.1.19",
     "tailwindcss": "^4.1.10"
   },
   "devDependencies": {
