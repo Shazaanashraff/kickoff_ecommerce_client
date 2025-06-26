@@ -7,14 +7,12 @@ import img4 from '../../assets/realMadrid.jpg'; // Commercial
 const categories = [
   {
     name: 'International',
-    name: 'International',
     desc: 'Shop the latest national team jerseys from around the world.',
     image: img1,
     gridClass: 'col-span-3 row-span-2',
     headingColor: 'text-teal-300'
   },
   {
-    name: 'Retro kits',
     name: 'Retro kits',
     desc: 'Classic throwback jerseys for true collectors.',
     image: img2,
