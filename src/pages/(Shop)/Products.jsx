@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
+import Navbar from '../../components/(Shop)/Navbar';
 
 // Sample products data - in a real app, this would come from an API
 const products = [

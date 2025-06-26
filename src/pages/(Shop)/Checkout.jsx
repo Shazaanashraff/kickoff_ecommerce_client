@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
-import Navbar from '../components/Navbar';
-import { useCart } from '../context/CartContext';
+import Navbar from '../../components/(Shop)/Navbar';
+import { useCart } from '../../context/CartContext';
 import { Link } from 'react-router-dom';
 
 const Checkout = () => {
   const { cartItems, getTotalPrice, updateQuantity, removeFromCart } = useCart();
-  const [shipping, setShipping] = useState({ name: '', address: '', city: '', zip: '', country: '' });
+  const [shipping, setShipping] = useState({
+    email: '',
+    firstName: '',
+    lastName: '',
+    address: '',
+    apartment: '',
+    city: '',
+    region: '',
+    postal: '',
+    country: '',
+    phone: '',
+  });
   const [payment, setPayment] = useState({ card: '', expiry: '', cvc: '' });
   const [step, setStep] = useState(1);
   const [orderPlaced, setOrderPlaced] = useState(false);
@@ -82,15 +93,39 @@ const Checkout = () => {
           {step === 1 && (
             <div>
               <div className="mb-6">
-                <label className="block text-white mb-2">Full Name</label>
+                <label className="block text-white mb-2">Email</label>
                 <input
-                  type="text"
-                  name="name"
-                  value={shipping.name}
+                  type="email"
+                  name="email"
+                  value={shipping.email}
                   onChange={handleShippingChange}
                   required
                   className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
                 />
+              </div>
+              <div className="flex gap-4 mb-6">
+                <div className="flex-1">
+                  <label className="block text-white mb-2">First Name</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={shipping.firstName}
+                    onChange={handleShippingChange}
+                    required
+                    className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-white mb-2">Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={shipping.lastName}
+                    onChange={handleShippingChange}
+                    required
+                    className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
+                  />
+                </div>
               </div>
               <div className="mb-6">
                 <label className="block text-white mb-2">Address</label>
@@ -100,6 +135,16 @@ const Checkout = () => {
                   value={shipping.address}
                   onChange={handleShippingChange}
                   required
+                  className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
+                />
+              </div>
+              <div className="mb-6">
+                <label className="block text-white mb-2">Apartment (optional)</label>
+                <input
+                  type="text"
+                  name="apartment"
+                  value={shipping.apartment}
+                  onChange={handleShippingChange}
                   className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
                 />
               </div>
@@ -115,12 +160,36 @@ const Checkout = () => {
                     className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
                   />
                 </div>
-                <div className="w-32">
-                  <label className="block text-white mb-2">ZIP</label>
+                <div className="flex-1">
+                  <label className="block text-white mb-2">Region</label>
                   <input
                     type="text"
-                    name="zip"
-                    value={shipping.zip}
+                    name="region"
+                    value={shipping.region}
+                    onChange={handleShippingChange}
+                    required
+                    className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
+                  />
+                </div>
+              </div>
+              <div className="flex gap-4 mb-6">
+                <div className="flex-1">
+                  <label className="block text-white mb-2">Postal Code</label>
+                  <input
+                    type="text"
+                    name="postal"
+                    value={shipping.postal}
+                    onChange={handleShippingChange}
+                    required
+                    className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-white mb-2">Country</label>
+                  <input
+                    type="text"
+                    name="country"
+                    value={shipping.country}
                     onChange={handleShippingChange}
                     required
                     className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
@@ -128,11 +197,11 @@ const Checkout = () => {
                 </div>
               </div>
               <div className="mb-8">
-                <label className="block text-white mb-2">Country</label>
+                <label className="block text-white mb-2">Phone</label>
                 <input
-                  type="text"
-                  name="country"
-                  value={shipping.country}
+                  type="tel"
+                  name="phone"
+                  value={shipping.phone}
                   onChange={handleShippingChange}
                   required
                   className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
@@ -151,6 +220,11 @@ const Checkout = () => {
           {/* Step 2: Payment */}
           {step === 2 && (
             <div>
+              {/* Payment Gateway Placeholder */}
+              <div className="mb-8 p-6 bg-black/30 border border-dashed border-[#00FF99] rounded-xl text-center">
+                <span className="text-[#00FF99] font-semibold text-lg">[ Payment Gateway Placeholder ]</span>
+                <p className="text-white/60 text-sm mt-2">This is where a real payment gateway (Stripe, PayPal, etc.) would be integrated.</p>
+              </div>
               <div className="mb-6">
                 <label className="block text-white mb-2">Card Number</label>
                 <input
