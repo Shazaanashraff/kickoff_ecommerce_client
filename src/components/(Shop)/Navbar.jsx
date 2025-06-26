@@ -6,10 +6,10 @@ import { useCart } from '../../context/CartContext'
 import CartDropdown from './CartDropdown'
 
 const navLinks = [
-  { name: 'Home', href: '/' },
   { name: 'Products', href: '/products' },
-  { name: 'Collections', href: '#' },
-  { name: 'About', href: '#' },
+  { name: 'About', href: '/about' },
+  { name: 'Order', href: '/order' },
+
 ]
 
 const Navbar = () => {

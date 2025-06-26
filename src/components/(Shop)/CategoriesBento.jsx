@@ -7,31 +7,25 @@ import img5 from '../../assets/womens.jpg'
 
 const categories = [
   {
-    name: 'International Kits',
+    name: 'International',
     desc: 'Shop the latest national team jerseys from around the world.',
     image: img1,
     size: 'row-span-2',
   },
   {
-    name: 'Retro Kits',
+    name: 'Retro kits',
     desc: 'Classic throwback jerseys for true collectors.',
     image: img2,
     size: '',
   },
   {
-    name: 'Premier League 24/25',
+    name: 'Seasonal Clubs',
     desc: 'Get the newest Premier League season kits.',
     image: img3,
     size: '',
   },
   {
-    name: 'LaLiga Kits',
-    desc: 'Official jerseys from Spain\'s top clubs.',
-    image: img4,
-    size: '',
-  },
-  {
-    name: "Women's Kits",
+    name: "Womens",
     desc: 'Top picks for women\'s football fans.',
     image: img5,
     size: '',
