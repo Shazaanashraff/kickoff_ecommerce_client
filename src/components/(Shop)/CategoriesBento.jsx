@@ -7,13 +7,13 @@ import img5 from '../../assets/womens.jpg';
 
 const categories = [
   {
-    name: 'International Kits',
+    name: 'International',
     desc: 'Shop the latest national team jerseys from around the world.',
     image: img1,
     gridClass: 'md:col-span-2 md:row-span-2',
   },
   {
-    name: 'Retro Kits',
+    name: 'Retro kits',
     desc: 'Classic throwback jerseys for true collectors.',
     image: img2,
     gridClass: 'md:col-span-1 md:row-span-1',
