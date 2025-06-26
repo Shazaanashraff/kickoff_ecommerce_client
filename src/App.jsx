@@ -1,16 +1,19 @@
-import React from 'react'
-import Hero from './components/Hero'
-import Navbar from './components/Navbar'
-import BestSellers from './components/BestSellers'
-import CategoriesBento from './components/CategoriesBento'
+import React from "react"
+import { Routes, Route } from "react-router-dom"
+import Home from "./pages/Home"
+import Products from "./pages/Products"
+import ProductDetails from "./pages/ProductDetails"
+import Checkout from "./pages/Checkout"
 
 const App = () => {
   return (
-    <div className='min-h-screen bg-black'>
-      <Navbar />
-      <Hero />
-      <BestSellers />
-      <CategoriesBento />
+    <div>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/products' element={<Products />} />
+        <Route path='/product/:id' element={<ProductDetails />} />
+        <Route path='/checkout' element={<Checkout />} />
+      </Routes>
     </div>
   )
 }

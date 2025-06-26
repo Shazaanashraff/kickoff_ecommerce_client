@@ -1,17 +1,23 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search } from 'lucide-react'
+import { Search, ShoppingBag } from 'lucide-react'
+import { Link, useLocation } from 'react-router-dom'
+import { useCart } from '../context/CartContext'
+import CartDropdown from './CartDropdown'
 
 const navLinks = [
-  { name: 'Shop', href: '#' },
+  { name: 'Home', href: '/' },
+  { name: 'Products', href: '/products' },
   { name: 'Collections', href: '#' },
   { name: 'About', href: '#' },
-  { name: 'Contact', href: '#' },
 ]
 
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchValue, setSearchValue] = useState('')
+  const location = useLocation()
+  const { getTotalItems, toggleCart } = useCart()
+  const cartItemCount = getTotalItems()
 
   return (
     <>
@@ -21,17 +27,20 @@ const Navbar = () => {
         style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: '13px' }}
       >
         {/* Brand */}
-        <motion.a
-          href="#"
+        <motion.div
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-lg font-semibold tracking-wide text-white select-none"
-          style={{ fontFamily: 'Space Grotesk, sans-serif' }}
         >
-          <span className="text-white">KICK</span>
-          <span className="text-[#00FF99]">OFF</span>
-        </motion.a>
+          <Link
+            to="/"
+            className="text-lg font-semibold tracking-wide text-white select-none"
+            style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+          >
+            <span className="text-white">KICK</span>
+            <span className="text-[#00FF99]">OFF</span>
+          </Link>
+        </motion.div>
 
         {/* Nav Links & CTA (hide when search is open) */}
         <AnimatePresence initial={false}>
@@ -47,18 +56,47 @@ const Navbar = () => {
               <ul className="hidden md:flex items-center justify-center flex-row flex-nowrap gap-[26px] h-[44px] w-min text-white text-sm font-semibold font-sans p-0 overflow-visible">
                 {navLinks.map((link) => (
                   <li key={link.name} className="group relative flex items-center">
-                    <a
-                      href={link.href}
-                      className="relative block text-sm font-semibold font-sans px-3 py-1 rounded-full transition-all duration-200 group-hover:text-[#00FF99]"
+                    <Link
+                      to={link.href}
+                      className={`relative block text-sm font-semibold font-sans px-3 py-1 rounded-full transition-all duration-200 group-hover:text-[#00FF99] ${
+                        location.pathname === link.href ? 'text-[#00FF99]' : 'text-white'
+                      }`}
                       style={{ WebkitFontSmoothing: 'inherit', boxSizing: 'border-box', height: 'auto', width: 'auto', opacity: 1 }}
                     >
                       {link.name}
-                      <span className="absolute left-1/2 -translate-x-1/2 bottom-0 h-[2px] w-4/5 origin-center scale-x-0 transform bg-[#00FF99] opacity-80 transition-transform duration-300 group-hover:scale-x-100 rounded-full"></span>
-
-                    </a>
+                      <span className={`absolute left-1/2 -translate-x-1/2 bottom-0 h-[2px] w-4/5 origin-center transform bg-[#00FF99] opacity-80 transition-transform duration-300 rounded-full ${
+                        location.pathname === link.href ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                      }`}></span>
+                    </Link>
                   </li>
                 ))}
               </ul>
+              
+              {/* Cart Icon */}
+              <div className="relative ml-4">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={toggleCart}
+                  className="relative p-2 text-white hover:text-[#00FF99] transition-colors"
+                >
+                  <ShoppingBag className="w-5 h-5" />
+                  <AnimatePresence>
+                    {cartItemCount > 0 && (
+                      <motion.div
+                        key="badge"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        exit={{ scale: 0 }}
+                        className="absolute -top-1 -right-1 w-4 h-4 bg-[#00FF99] text-black text-xs font-bold rounded-full flex items-center justify-center"
+                      >
+                        {cartItemCount}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.button>
+              </div>
+
               <motion.a
                 href="#"
                 whileHover={{ scale: 1.05 }}
@@ -125,6 +163,9 @@ const Navbar = () => {
           )}
         </AnimatePresence>
       </motion.div>
+
+      {/* Cart Dropdown */}
+      <CartDropdown />
     </>
   )
 }
