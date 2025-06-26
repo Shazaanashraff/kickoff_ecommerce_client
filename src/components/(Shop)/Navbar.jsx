@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, ShoppingBag } from 'lucide-react'
 import { Link, useLocation } from 'react-router-dom'
-import { useCart } from '../context/CartContext'
+import { useCart } from '../../context/CartContext'
 import CartDropdown from './CartDropdown'
 
 const navLinks = [

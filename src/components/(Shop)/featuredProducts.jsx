@@ -3,11 +3,11 @@ import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React from "react";
-import shoes1 from "../assets/realMadrid.jpg";
-import shoe from "../assets/Arsenal.jpg";
-import perfume from "../assets/images.jpg";
-import glass from "../assets/womens.jpg";
-import watch from "../assets/RealMadrid.jpg";
+import shoes1 from "../../assets/realMadrid.jpg";
+import shoe from "../../assets/womens.jpg";
+import perfume from "../../assets/images.jpg";
+import glass from "../../assets/womens.jpg";
+import watch from "../../assets/RealMadrid.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 

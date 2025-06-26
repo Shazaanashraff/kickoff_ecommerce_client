@@ -1,9 +1,9 @@
 import React from 'react'
-import img1 from '../assets/images.jpg'
-import img2 from '../assets/428df5dc.webp'
-import img3 from '../assets/Arsenal.jpg'
-import img4 from '../assets/realMadrid.jpg'
-import img5 from '../assets/womens.jpg'
+import img1 from '../../assets/images.jpg'
+import img2 from '../../assets/428df5dc.webp'
+import img3 from '../../assets/Arsenal.jpg'
+import img4 from '../../assets/realMadrid.jpg'
+import img5 from '../../assets/womens.jpg'
 
 const categories = [
   {

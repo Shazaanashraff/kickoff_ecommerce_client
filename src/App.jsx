@@ -1,9 +1,15 @@
 import React from "react"
 import { Routes, Route } from "react-router-dom"
-import Home from "./pages/Home"
-import Products from "./pages/Products"
-import ProductDetails from "./pages/ProductDetails"
-import Checkout from "./pages/Checkout"
+import Home from "./pages/(Shop)/Home"
+import Products from "./pages/(Shop)/Products"
+import ProductDetails from "./pages/(Shop)/ProductDetails"
+import Dashboard from "./pages/(Admin)/Dashboard"
+import Checkout from "./pages/(Shop)/Checkout"
+import AddProduct from "./pages/(Admin)/AddProduct"
+import AdminProducts from "./pages/(Admin)/Products"
+import Orders from "./pages/(Admin)/Orders"
+import Login from "./pages/(Admin)/Login"
+import RequireAdminAuth from "./pages/(Admin)/RequireAdminAuth"
 
 const App = () => {
   return (
@@ -13,6 +19,11 @@ const App = () => {
         <Route path='/products' element={<Products />} />
         <Route path='/product/:id' element={<ProductDetails />} />
         <Route path='/checkout' element={<Checkout />} />
+        <Route path='/admin/login' element={<Login />} />
+        <Route path='/admin' element={<RequireAdminAuth><Dashboard /></RequireAdminAuth>} />
+        <Route path='/admin/add-product' element={<RequireAdminAuth><AddProduct /></RequireAdminAuth>} />
+        <Route path='/admin/products' element={<RequireAdminAuth><AdminProducts /></RequireAdminAuth>} />
+        <Route path='/admin/orders' element={<RequireAdminAuth><Orders /></RequireAdminAuth>} />
       </Routes>
     </div>
   )

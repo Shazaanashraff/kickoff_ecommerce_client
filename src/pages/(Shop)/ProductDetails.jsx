@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import Navbar from '../components/Navbar';
-import { useCart } from '../context/CartContext';
+import Navbar from '../../components/(Shop)/Navbar';
+import { useCart } from '../../context/CartContext';
 
 // This would come from your API/database in a real application
 const getProductById = (id) => {
