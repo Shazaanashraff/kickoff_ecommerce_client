@@ -4,8 +4,7 @@ import Hero from '../../components/(Shop)/Hero'
 import BestSellers from '../../components/(Shop)/BestSellers'
 import CategoriesBento from '../../components/(Shop)/CategoriesBento'
 import FeaturedProducts from '../../components/(Shop)/featuredProducts'
-
-
+import Footer from '../../components/(Shop)/Footer'
 
 const Home = () => {
   return (
@@ -15,6 +14,7 @@ const Home = () => {
       <BestSellers />
       <CategoriesBento />
       <FeaturedProducts />
+      <Footer />
     </div>
   )
 }
