@@ -64,7 +64,7 @@ const FeaturedProducts = () => {
         trigger: containerRef.current,
         start: "top top",
         end: () => `+=${totalScrollLength}`,
-        scrub: 1.5,
+        scrub: 3,
         pin: true,
         anticipatePin: 1,
         invalidateOnRefresh: true,

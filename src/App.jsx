@@ -1,15 +1,18 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HomePage from "./pages/HomePage";
+import React from 'react'
+import Hero from './components/Hero'
+import Navbar from './components/Navbar'
+import BestSellers from './components/BestSellers'
+import CategoriesBento from './components/CategoriesBento'
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<HomePage />} /> {/* Main route */}
-      </Routes>
-    </Router>
-  );
-};
+    <div className='min-h-screen bg-black'>
+      <Navbar />
+      <Hero />
+      <BestSellers />
+      <CategoriesBento />
+    </div>
+  )
+}
 
 export default App;
