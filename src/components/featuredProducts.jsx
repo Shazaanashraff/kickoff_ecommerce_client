@@ -3,11 +3,6 @@ import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React from "react";
-import shoes1 from "../assets/realMadrid.jpg";
-import shoe from "../assets/Arsenal.jpg";
-import perfume from "../assets/images.jpg";
-import glass from "../assets/womens.jpg";
-import watch from "../assets/RealMadrid.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -64,7 +59,7 @@ const FeaturedProducts = () => {
         trigger: containerRef.current,
         start: "top top",
         end: () => `+=${totalScrollLength}`,
-        scrub: 3,
+        scrub: 6,
         pin: true,
         anticipatePin: 1,
         invalidateOnRefresh: true,
