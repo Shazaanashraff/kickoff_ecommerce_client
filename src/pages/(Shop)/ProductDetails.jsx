@@ -1,67 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '../../components/(Shop)/Navbar';
 import { useCart } from '../../context/CartContext';
+import axios from 'axios';
 
-// This would come from your API/database in a real application
-const getProductById = (id) => {
-  return {
-    id: parseInt(id),
-    name: 'Arsenal Home Kit 23/24',
-    price: 89.99,
-    images: [
-      'src/assets/Arsenal.jpg',
-      'src/assets/Arsenal.jpg',
-      'src/assets/Arsenal.jpg'
-    ],
-    description: 'The Arsenal Home Kit for the 2023/24 season combines traditional style with modern performance features. Made with lightweight, breathable fabric featuring sweat-wicking technology to keep you cool and comfortable.',
-    details: [
-      'Regular fit',
-      'Ribbed crewneck',
-      'Short sleeves',
-      'Arsenal crest embroidered on chest',
-      '100% recycled polyester',
-      'Moisture-absorbing AEROREADY'
-    ],
-    sizes: ['S', 'M', 'L', 'XL'],
-    category: 'Premier League'
-  };
-};
 
-// Sample related products
-const relatedProducts = [
-  {
-    id: 2,
-    name: 'Real Madrid Home Kit 23/24',
-    price: 94.99,
-    image: 'src/assets/realMadrid.jpg',
-    category: 'LaLiga'
-  },
-  {
-    id: 3,
-    name: "Women's National Team Kit",
-    price: 79.99,
-    image: 'src/assets/womens.jpg',
-    category: 'International'
-  },
-  {
-    id: 4,
-    name: 'Arsenal Away Kit 23/24',
-    price: 89.99,
-    image: 'src/assets/Arsenal.jpg',
-    category: 'Premier League'
-  }
-];
 
 const ProductDetails = () => {
   const { id } = useParams();
-  const product = getProductById(id);
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedSize, setSelectedSize] = useState('');
-  const [mainImage, setMainImage] = useState(product.images[0]);
+  const [mainImage, setMainImage] = useState('');
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const { addToCart } = useCart();
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await axios.get(`http://localhost:5001/api/products/${id}`);
+        if (res.data.success) {
+          setProduct(res.data.data);
+          setMainImage(res.data.data.images && res.data.data.images.length > 0 ? res.data.data.images[0] : '');
+        } else {
+          setError(res.data.message || 'Failed to fetch product');
+        }
+      } catch (err) {
+        setError(err.response?.data?.message || err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id]);
 
   const handleQuantityChange = (change) => {
     const newQuantity = quantity + change;
@@ -75,20 +51,43 @@ const ProductDetails = () => {
       alert('Please select a size');
       return;
     }
-
     setIsAdding(true);
-    
-    // Add to cart with size information
     addToCart({
       ...product,
       selectedSize,
     }, quantity);
-
-    // Reset after animation
     setTimeout(() => {
       setIsAdding(false);
     }, 1000);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex flex-col">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-white text-xl">Loading product...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !product) {
+    return (
+      <div className="min-h-screen bg-black flex flex-col">
+        <Navbar />
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-red-400 text-xl">{error || 'Product not found'}</div>
+        </div>
+      </div>
+    );
+  }
+
+  // Prepare sizes and details
+  const sizes = product.variants ? product.variants.map(v => v.size) : [];
+  const price = product.basePrice;
+  const images = product.images && product.images.length > 0 ? product.images : [''];
+  const details = product.details || [];
 
   return (
     <div className="min-h-screen bg-black">
@@ -117,7 +116,7 @@ const ProductDetails = () => {
               </motion.div>
               {/* Thumbnail Images */}
               <div className="grid grid-cols-3 gap-4">
-                {product.images.map((image, index) => (
+                {images.map((image, index) => (
                   <button
                     key={index}
                     onClick={() => setMainImage(image)}
@@ -146,15 +145,23 @@ const ProductDetails = () => {
             </nav>
 
             <h1 className="text-4xl font-bold text-white mb-4">{product.name}</h1>
-            <div className="text-2xl font-bold text-[#00FF99] mb-6">${product.price}</div>
+            <div className="text-2xl font-bold text-[#00FF99] mb-6">${price}</div>
 
-            <p className="text-white/80 mb-8">{product.description}</p>
+            <div className="text-white/80 mb-8">
+              {product.description
+                ? product.description.split(/\n|\\n/).map((line, idx) => (
+                    <p key={idx} style={{ margin: 0 }}>
+                      {line}
+                    </p>
+                  ))
+                : null}
+            </div>
 
             {/* Size Selection */}
             <div className="mb-8">
               <h3 className="text-white font-semibold mb-3">Select Size</h3>
               <div className="flex gap-3">
-                {product.sizes.map((size) => (
+                {sizes.map((size) => (
                   <button
                     key={size}
                     onClick={() => setSelectedSize(size)}
@@ -209,42 +216,11 @@ const ProductDetails = () => {
             <div className="border-t border-white/10 pt-8">
               <h3 className="text-white font-semibold mb-4">Product Details</h3>
               <ul className="list-disc list-inside text-white/80 space-y-2">
-                {product.details.map((detail, index) => (
+                {details.length > 0 ? details.map((detail, index) => (
                   <li key={index}>{detail}</li>
-                ))}
+                )) : <li>No additional details.</li>}
               </ul>
             </div>
-          </div>
-        </div>
-
-        {/* Related Products */}
-        <div className="mt-24">
-          <h2 className="text-3xl font-bold text-white mb-8">You May Also Like</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {relatedProducts.map(product => (
-              <Link 
-                key={product.id}
-                to={`/product/${product.id}`}
-                className="group relative bg-white/5 rounded-2xl overflow-hidden hover:bg-white/10 transition-all duration-300"
-              >
-                <div className="aspect-square overflow-hidden">
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="text-white font-semibold mb-2">{product.name}</h3>
-                  <div className="flex justify-between items-center">
-                    <span className="text-[#00FF99] font-bold">${product.price}</span>
-                    <span className="bg-white/10 text-white px-4 py-2 rounded-full text-sm font-medium group-hover:bg-[#00FF99] group-hover:text-black transition-all duration-300">
-                      View Details
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
           </div>
         </div>
       </div>

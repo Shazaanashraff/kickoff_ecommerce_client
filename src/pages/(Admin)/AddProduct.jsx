@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Sidebar from '../../components/(Admin)/Sidebar';
 import axios from 'axios';
-import { useAppContext } from '../../context/AppContext';
+import { AppContext } from '../../context/AppContext';
 
 const sizeOptions = ['S', 'M', 'L', 'XL'];
 
@@ -13,37 +13,33 @@ const initialState = {
   category: '',
   basePrice: '',
   variants: [], // Array of { size, price, stock, sku }
-  image: null,
+  images: [''], // Start with one image URL field
 };
 
 const AddProduct = () => {
-  const { backendUrl } = useAppContext();
+  const { backendUrl } = useContext(AppContext);
   const [form, setForm] = useState(initialState);
   const [selectedSizes, setSelectedSizes] = useState([]); // Track selected sizes
-  const [variantInputs, setVariantInputs] = useState({}); // { S: { price, stock, sku }, ... }
-  const [imagePreview, setImagePreview] = useState(null);
+  const [variantInputs, setVariantInputs] = useState({}); // { S: { price, stock }, ... }
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
-    const { name, value, files, type, checked } = e.target;
-    if (name === 'image') {
-      setForm({ ...form, image: files[0] });
-      setImagePreview(URL.createObjectURL(files[0]));
-    } else if (name === 'sizes') {
+    const { name, value, checked, type } = e.target;
+    if (name === 'sizes') {
       let updatedSizes;
       if (checked) {
         updatedSizes = [...selectedSizes, value];
+        if (!variantInputs[value]) {
+          setVariantInputs({ ...variantInputs, [value]: { price: '', stock: '' } });
+        }
       } else {
         updatedSizes = selectedSizes.filter(s => s !== value);
-      }
-      setSelectedSizes(updatedSizes);
-      // Remove variantInputs for unchecked size
-      if (!checked) {
         const newVariantInputs = { ...variantInputs };
         delete newVariantInputs[value];
         setVariantInputs(newVariantInputs);
       }
+      setSelectedSizes(updatedSizes);
     } else if (name.startsWith('variant-')) {
       // name: variant-S-price, variant-M-stock
       const [, size, field] = name.split('-');
@@ -54,9 +50,42 @@ const AddProduct = () => {
           [field]: value,
         },
       });
+    } else if (name.startsWith('price-')) {
+      const size = name.split('-')[1];
+      setVariantInputs({
+        ...variantInputs,
+        [size]: {
+          ...variantInputs[size],
+          price: value,
+        },
+      });
+    } else if (name.startsWith('stock-')) {
+      const size = name.split('-')[1];
+      setVariantInputs({
+        ...variantInputs,
+        [size]: {
+          ...variantInputs[size],
+          stock: value,
+        },
+      });
+    } else if (name.startsWith('image-url-')) {
+      // name: image-url-0, image-url-1, etc.
+      const idx = parseInt(name.split('-')[2], 10);
+      const newImages = [...form.images];
+      newImages[idx] = value;
+      setForm({ ...form, images: newImages });
     } else {
       setForm({ ...form, [name]: value });
     }
+  };
+
+  const handleAddImageField = () => {
+    setForm({ ...form, images: [...form.images, ''] });
+  };
+
+  const handleRemoveImageField = (idx) => {
+    const newImages = form.images.filter((_, i) => i !== idx);
+    setForm({ ...form, images: newImages.length ? newImages : [''] });
   };
 
   const handleSubmit = async (e) => {
@@ -73,21 +102,23 @@ const AddProduct = () => {
       setError('Please select at least one size and fill its details.');
       return;
     }
-    // Validate image
-    if (!form.image) {
-      setError('Please upload a product image.');
+    // Validate at least one image URL
+    const validImages = form.images.filter(url => url.trim() !== '');
+    if (validImages.length === 0) {
+      setError('Please provide at least one image URL.');
       return;
     }
-    // Prepare FormData
-    const formData = new FormData();
-    formData.append('name', form.name);
-    formData.append('description', form.description);
-    formData.append('category', form.category);
-    formData.append('basePrice', form.basePrice);
-    formData.append('image', form.image);
-    formData.append('variants', JSON.stringify(variants));
+    // Prepare data
+    const payload = {
+      name: form.name,
+      description: form.description,
+      category: form.category,
+      basePrice: form.basePrice,
+      images: validImages,
+      variants,
+    };
     try {
-      const res = await axios.post(`${backendUrl}/api/products`, formData)
+      const res = await axios.post(`http://localhost:5001/api/products`, payload);
       if (!res.data.success) {
         throw new Error(res.data.message || 'Failed to add product');
       }
@@ -95,7 +126,6 @@ const AddProduct = () => {
       setForm(initialState);
       setSelectedSizes([]);
       setVariantInputs({});
-      setImagePreview(null);
       setTimeout(() => setSuccess(false), 2000);
     } catch (err) {
       setError(err.response?.data?.message || err.message);
@@ -134,14 +164,19 @@ const AddProduct = () => {
           </div>
           <div className="mb-6">
             <label className="block text-white mb-2">Category</label>
-            <input
-              type="text"
+            <select
               name="category"
               value={form.category}
               onChange={handleChange}
               required
               className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
-            />
+            >
+              <option value="" disabled>Select category</option>
+              <option value="International">International</option>
+              <option value="Womens">Womens</option>
+              <option value="Retro kits">Retro kits</option>
+              <option value="Seasonal clubs">Seasonal clubs</option>
+            </select>
           </div>
           <div className="mb-6">
             <label className="block text-white mb-2">Base Price</label>
@@ -173,7 +208,6 @@ const AddProduct = () => {
                 </label>
               ))}
             </div>
-            {/* For each selected size, show inputs for price, stock, sku */}
             {selectedSizes.length > 0 && (
               <div className="space-y-4 mt-4">
                 {selectedSizes.map(size => (
@@ -181,7 +215,7 @@ const AddProduct = () => {
                     <span className="text-white font-semibold w-8">{size}</span>
                     <input
                       type="number"
-                      name={`variant-${size}-price`}
+                      name={`price-${size}`}
                       placeholder="Price"
                       value={variantInputs[size]?.price || ''}
                       onChange={handleChange}
@@ -192,7 +226,7 @@ const AddProduct = () => {
                     />
                     <input
                       type="number"
-                      name={`variant-${size}-stock`}
+                      name={`stock-${size}`}
                       placeholder="Stock"
                       value={variantInputs[size]?.stock || ''}
                       onChange={handleChange}
@@ -206,17 +240,24 @@ const AddProduct = () => {
             )}
           </div>
           <div className="mb-6">
-            <label className="block text-white mb-2">Product Image</label>
-            <input
-              type="file"
-              name="image"
-              accept="image/*"
-              onChange={handleChange}
-              className="w-full text-white"
-            />
-            {imagePreview && (
-              <img src={imagePreview} alt="Preview" className="mt-4 w-32 h-32 object-cover rounded-xl border border-white/10" />
-            )}
+            <label className="block text-white mb-2">Product Images (Cloudinary URLs)</label>
+            {form.images.map((url, idx) => (
+              <div key={idx} className="flex items-center gap-2 mb-2">
+                <input
+                  type="text"
+                  name={`image-url-${idx}`}
+                  value={url}
+                  onChange={handleChange}
+                  placeholder="https://res.cloudinary.com/..."
+                  className="w-full bg-black/40 border border-white/20 rounded px-4 py-2 text-white focus:outline-none"
+                  required={idx === 0}
+                />
+                {form.images.length > 1 && (
+                  <button type="button" onClick={() => handleRemoveImageField(idx)} className="text-red-400 px-2 py-1 rounded hover:bg-red-900/30">Remove</button>
+                )}
+              </div>
+            ))}
+            <button type="button" onClick={handleAddImageField} className="mt-2 bg-[#00FF99] text-black rounded px-4 py-2 font-semibold hover:bg-[#00E589]">Add Image</button>
           </div>
           <button
             type="submit"
