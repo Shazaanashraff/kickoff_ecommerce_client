@@ -77,7 +77,7 @@ const Order = () => {
       if (res.data.success) {
         setReviewInputs(prev => ({
           ...prev,
-          [productId]: { ...prev[productId], submitting: false, comment: '', name: '', success: true }
+          [productId]: { ...prev[productId], submitting: false, comment: '', name: '', lastSubmittedName: review.name, success: true }
         }));
         // Refetch order to show new review
         fetchOrder();
@@ -145,9 +145,9 @@ const Order = () => {
     }
   };
 
-  // Helper to find user's review for this product/order
-  const getUserReviewIdx = (product, orderId, name) => {
-    return product?.reviews?.findIndex(r => r.orderId === orderId && r.user === name);
+  // Helper to get the user's review index for this product/order (by orderId)
+  const getOrderReviewIdx = (product, orderId) => {
+    return product?.reviews?.findIndex(r => r.orderId === orderId);
   };
 
   // Animate van to current status on order load
@@ -241,22 +241,8 @@ const Order = () => {
                     </div>
                     {/* Reviews Section */}
                     <div className="mt-2 ml-20">
-                      <div className="mb-2">
-                        <span className="text-white/80 font-semibold">Reviews:</span>
-                        <ul className="ml-2 mt-1 space-y-1">
-                          {item.product?.reviews && item.product.reviews.length > 0 ? (
-                            item.product.reviews.map((review, i) => (
-                              <li key={i} className="text-white/70 text-sm border-b border-white/10 pb-1">
-                                <span className="font-bold text-white/90">{review.user?.name || review.user || 'Anonymous'}:</span> {review.comment}
-                              </li>
-                            ))
-                          ) : (
-                            <li className="text-white/40 text-xs">No reviews yet.</li>
-                          )}
-                        </ul>
-                      </div>
-                      {/* Only show review form if user hasn't submitted a review for this product/order */}
-                      {order.status === 'Delivered' && getUserReviewIdx(item.product, order._id, reviewInputs[item.product?._id]?.name || '') === -1 && (
+                      {/* Only show review form if no review for this product/order exists (by orderId) */}
+                      {order.status === 'Delivered' && getOrderReviewIdx(item.product, order._id) === -1 && (
                         <form
                           className="flex flex-col gap-2 bg-black/40 p-3 rounded-lg mt-2"
                           onSubmit={e => {
@@ -294,9 +280,9 @@ const Order = () => {
                           )}
                         </form>
                       )}
-                      {/* Show edit/delete for user's review for this order */}
+                      {/* Show edit/delete for user's review for this order (by orderId) */}
                       {(() => {
-                        const idx = getUserReviewIdx(item.product, order._id, reviewInputs[item.product?._id]?.name || '');
+                        const idx = getOrderReviewIdx(item.product, order._id);
                         if (idx === -1) return null;
                         return (
                           <div className="flex gap-2 mt-2">
