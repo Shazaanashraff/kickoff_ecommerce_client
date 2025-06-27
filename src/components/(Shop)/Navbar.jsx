@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, ShoppingBag } from 'lucide-react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useCart } from '../../context/CartContext'
 import CartDropdown from './CartDropdown'
 
@@ -18,6 +18,14 @@ const Navbar = () => {
   const location = useLocation()
   const { getTotalItems, toggleCart } = useCart()
   const cartItemCount = getTotalItems()
+  const navigate = useNavigate()
+
+  const handleSearchKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      navigate(`/products?search=${encodeURIComponent(searchValue)}`)
+      setSearchOpen(false)
+    }
+  }
 
   return (
     <>
@@ -152,6 +160,7 @@ const Navbar = () => {
                 placeholder="Search..."
                 className="flex-1 bg-transparent outline-none border-none text-white placeholder-gray-300 text-sm font-sans"
                 style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+                onKeyDown={handleSearchKeyDown}
               />
               <button
                 onClick={() => setSearchOpen(false)}
