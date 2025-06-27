@@ -11,6 +11,7 @@ import Orders from "./pages/(Admin)/Orders"
 import Login from "./pages/(Admin)/Login"
 import RequireAdminAuth from "./pages/(Admin)/RequireAdminAuth"
 import Order from "./pages/(Shop)/Order"
+import About from "./pages/(Shop)/About"
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path='/product/:id' element={<ProductDetails />} />
         <Route path='/checkout' element={<Checkout />} />
         <Route path='/order' element={<Order />} />
+        <Route path='/about' element={<About />} />
         <Route path='/admin/login' element={<Login />} />
         <Route path='/admin' element={<RequireAdminAuth><Dashboard /></RequireAdminAuth>} />
         <Route path='/admin/add-product' element={<RequireAdminAuth><AddProduct /></RequireAdminAuth>} />
