@@ -106,7 +106,7 @@ const Navbar = () => {
               </div>
 
               <motion.a
-                href="#"
+                href="#calltoaction"
                 whileHover={{ scale: 1.05 }}
                 className="bg-white text-black rounded-full px-4 py-1 text-xs font-semibold shadow transition hover:bg-gray-100 ml-2"
                 style={{ fontFamily: 'Space Grotesk, sans-serif' }}

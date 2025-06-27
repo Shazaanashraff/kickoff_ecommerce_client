@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../../components/(Shop)/Navbar';
 import { motion, useViewportScroll, useTransform } from 'framer-motion';
+import CallToAction from '../../components/(Shop)/CallToAction';
 
 const heroImg = 'https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=900&q=80'; // placeholder
 const jerseyImg = 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80'; // placeholder
@@ -63,7 +64,7 @@ const About = () => {
             At <span className="font-bold text-[#00FF99]">Kickoff</span>, we believe every jersey tells a story. Our collection is curated for those who live and breathe football, and who demand nothing but the best in quality and design. Each piece is crafted with precision, using premium fabrics and authentic details, so you can wear your passion on and off the pitch.
           </p>
           <p className="text-white/70 text-base">
-            Whether you’re a die-hard supporter or a collector, our jerseys are made to inspire greatness. Experience the difference of true craftsmanship and celebrate the beautiful game with us.
+            Whether you're a die-hard supporter or a collector, our jerseys are made to inspire greatness. Experience the difference of true craftsmanship and celebrate the beautiful game with us.
           </p>
         </motion.div>
         <motion.div
@@ -136,6 +137,7 @@ const About = () => {
       </section>
 
       {/* Social Media Links */}
+      <CallToAction id="calltoaction" />
       <footer className="py-10 bg-black/80 border-t border-white/10 flex flex-col items-center">
         <div className="flex gap-8 mb-4">
           {socialLinks.map(link => (
