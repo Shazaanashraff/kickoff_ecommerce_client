@@ -62,6 +62,7 @@ const ProductDetails = () => {
     }
     addToCart({
       ...product,
+      product: product._id,
       selectedSize,
       price: itemPrice,
     }, quantity);

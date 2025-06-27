@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Navbar from '../../components/(Shop)/Navbar';
 import { useCart } from '../../context/CartContext';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Checkout = () => {
   const { cartItems, getTotalPrice, updateQuantity, removeFromCart } = useCart();
@@ -20,6 +21,8 @@ const Checkout = () => {
   const [payment, setPayment] = useState({ card: '', expiry: '', cvc: '' });
   const [step, setStep] = useState(1);
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [orderError, setOrderError] = useState(null);
+  const [placingOrder, setPlacingOrder] = useState(false);
 
   const handleShippingChange = e => {
     setShipping({ ...shipping, [e.target.name]: e.target.value });
@@ -27,9 +30,40 @@ const Checkout = () => {
   const handlePaymentChange = e => {
     setPayment({ ...payment, [e.target.name]: e.target.value });
   };
-  const handlePlaceOrder = e => {
+  const handlePlaceOrder = async (e) => {
     e.preventDefault();
-    setOrderPlaced(true);
+    setOrderError(null);
+    setPlacingOrder(true);
+    try {
+      // Prepare order data
+      const items = cartItems.map(item => ({
+        product: item.product || item.id,
+        size: item.selectedSize,
+        quantity: item.quantity,
+        price: item.price
+      }));
+      const shippingInfo = {
+        name: shipping.firstName + ' ' + shipping.lastName,
+        address: shipping.address,
+        city: shipping.city,
+        postalCode: shipping.postal,
+        phone: shipping.phone
+      };
+      const payload = {
+        user: shipping.email,
+        items,
+        totalPrice: getTotalPrice(),
+        shippingInfo,
+      };
+      await axios.post('http://localhost:5001/api/orders', payload);
+      // Clear cart
+      localStorage.removeItem('cartItems');
+      setOrderPlaced(true);
+    } catch (err) {
+      setOrderError(err.response?.data?.message || 'Failed to place order');
+    } finally {
+      setPlacingOrder(false);
+    }
   };
 
   if (orderPlaced) {
@@ -38,8 +72,12 @@ const Checkout = () => {
         <Navbar />
         <div className="max-w-2xl mx-auto pt-32 pb-16 px-4 text-center">
           <h1 className="text-4xl font-bold text-[#00FF99] mb-4">Thank you for your order!</h1>
-          <p className="text-white/80 mb-8">Your order has been placed and is being processed. You will receive a confirmation email soon.</p>
-          <Link to="/products" className="bg-[#00FF99] text-black font-semibold rounded-full px-8 py-3 hover:bg-[#00E589] transition">Continue Shopping</Link>
+          <p className="text-white/80 mb-4">Your order has been placed and is being processed.</p>
+          <p className="text-white/80 mb-8">
+            Please check your email for confirmation and order details.<br/>
+            <span className="block mt-2 text-[#00FF99] font-semibold">{shipping.email}</span>
+          </p>
+          <Link to="/" className="bg-[#00FF99] text-black font-semibold rounded-full px-8 py-3 hover:bg-[#00E589] transition">Continue Shopping</Link>
         </div>
       </div>
     );
@@ -89,6 +127,7 @@ const Checkout = () => {
         {/* Checkout Form */}
         <form className="flex-1 bg-white/5 rounded-2xl p-8 shadow-lg" onSubmit={handlePlaceOrder}>
           <h2 className="text-2xl font-bold text-white mb-8">Checkout</h2>
+          {orderError && <div className="mb-4 text-red-400 font-semibold text-center">{orderError}</div>}
           {/* Step 1: Shipping */}
           {step === 1 && (
             <div>
@@ -268,9 +307,10 @@ const Checkout = () => {
               </div>
               <button
                 type="submit"
-                className="w-full bg-[#00FF99] text-black font-semibold rounded-full py-3 text-lg hover:bg-[#00E589] transition mb-2"
+                className="w-full bg-[#00FF99] text-black font-semibold rounded-full py-3 text-lg hover:bg-[#00E589] transition mb-2 disabled:opacity-60 disabled:cursor-not-allowed"
+                disabled={placingOrder}
               >
-                Place Order
+                {placingOrder ? 'Placing Order...' : 'Place Order'}
               </button>
               <button
                 type="button"
