@@ -41,7 +41,7 @@ const ProductDetails = () => {
 
   const handleQuantityChange = (change) => {
     const newQuantity = quantity + change;
-    if (newQuantity >= 1 && newQuantity <= 10) {
+    if (newQuantity >= 1 && newQuantity <= maxStock) {
       setQuantity(newQuantity);
     }
   };
@@ -85,7 +85,19 @@ const ProductDetails = () => {
 
   // Prepare sizes and details
   const sizes = product.variants ? product.variants.map(v => v.size) : [];
-  const price = product.basePrice;
+  let price = product.basePrice;
+  let maxStock = 10;
+  if (selectedSize && product.variants) {
+    const variant = product.variants.find(v => v.size === selectedSize);
+    if (variant) {
+      if (typeof variant.price !== 'undefined') {
+        price = variant.price;
+      }
+      if (typeof variant.stock !== 'undefined') {
+        maxStock = variant.stock;
+      }
+    }
+  }
   const images = product.images && product.images.length > 0 ? product.images : [''];
   const details = product.details || [];
 
@@ -184,6 +196,7 @@ const ProductDetails = () => {
                   <button 
                     onClick={() => handleQuantityChange(-1)}
                     className="w-10 h-10 flex items-center justify-center text-white hover:text-[#00FF99] transition-colors"
+                    disabled={quantity <= 1}
                   >
                     -
                   </button>
@@ -191,6 +204,7 @@ const ProductDetails = () => {
                   <button 
                     onClick={() => handleQuantityChange(1)}
                     className="w-10 h-10 flex items-center justify-center text-white hover:text-[#00FF99] transition-colors"
+                    disabled={quantity >= maxStock}
                   >
                     +
                   </button>

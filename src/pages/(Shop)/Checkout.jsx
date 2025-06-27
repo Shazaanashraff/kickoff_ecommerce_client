@@ -70,12 +70,12 @@ const Checkout = () => {
                         min={1}
                         max={10}
                         value={item.quantity}
-                        onChange={e => updateQuantity(item.id, Number(e.target.value))}
+                        onChange={e => updateQuantity(item.id, item.selectedSize, Number(e.target.value))}
                         className="w-12 bg-transparent border border-white/20 rounded px-2 py-1 text-white text-center focus:outline-none"
                       />
                     </div>
                   </div>
-                  <button onClick={() => removeFromCart(item.id)} className="text-white/60 hover:text-[#00FF99] text-sm">Remove</button>
+                  <button onClick={() => removeFromCart(item.id, item.selectedSize)} className="text-white/60 hover:text-[#00FF99] text-sm">Remove</button>
                 </div>
               ))}
               <div className="flex justify-between items-center border-t border-white/10 pt-6 mt-6">
