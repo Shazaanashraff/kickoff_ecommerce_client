@@ -17,6 +17,7 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const { addToCart } = useCart();
+  const [showSizePopup, setShowSizePopup] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -48,13 +49,21 @@ const ProductDetails = () => {
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      alert('Please select a size');
+      setShowSizePopup(true);
       return;
     }
     setIsAdding(true);
+    let itemPrice = product.basePrice;
+    if (selectedSize && product.variants) {
+      const variant = product.variants.find(v => v.size === selectedSize);
+      if (variant && typeof variant.price !== 'undefined') {
+        itemPrice = variant.price;
+      }
+    }
     addToCart({
       ...product,
       selectedSize,
+      price: itemPrice,
     }, quantity);
     setTimeout(() => {
       setIsAdding(false);
@@ -104,6 +113,22 @@ const ProductDetails = () => {
   return (
     <div className="min-h-screen bg-black">
       <Navbar />
+      
+      {/* Size selection popup */}
+      {showSizePopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full text-center">
+            <h2 className="text-xl font-bold text-black mb-4">Please select a size</h2>
+            <p className="text-black/80 mb-6">You must choose a size before adding to cart.</p>
+            <button
+              onClick={() => setShowSizePopup(false)}
+              className="bg-[#00FF99] text-black font-semibold rounded-full px-8 py-3 text-lg hover:bg-[#00E589] transition"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
       
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 pt-24 pb-16">
