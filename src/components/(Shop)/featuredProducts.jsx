@@ -3,11 +3,10 @@ import { motion } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import React from "react";
-import shoes1 from "../../assets/realMadrid.jpg";
+import realMadrid from "../../assets/realMadrid.jpg";
 import shoe from "../../assets/womens.jpg";
 import perfume from "../../assets/images.jpg";
 import glass from "../../assets/womens.jpg";
-import watch from "../../assets/RealMadrid.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,7 +14,7 @@ const featuredProducts = [
   {
     title: "Luxury Reimagined",
     brand: "Jetwing",
-    image: watch,
+    image: realMadrid,
     gradient: "from-pink-300 via-pink-500 to-red-500",
   },
   {
@@ -39,7 +38,7 @@ const featuredProducts = [
   {
     title: "Walk in style",
     brand: "Addidas",
-    image: shoes1,
+    image: realMadrid,
     gradient: "from-green-200 via-green-400 to-green-700",
   },
 ];
