@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Navbar from '../../components/(Shop)/Navbar';
 import axios from 'axios';
 
 // const products = [ ... ] // REMOVE DUMMY DATA
 
-const categories = ['International', 'Womens', 'Retro kits', 'Seasonal Clubs'];
+const categories = ['All', 'International', 'Womens', 'Retro kits', 'Seasonal Clubs'];
 const sizes = ['S', 'M', 'L', 'XL'];
 
 const Products = () => {
+  const location = useLocation();
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedSize, setSelectedSize] = useState('');
@@ -16,6 +17,13 @@ const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Set category from query string on mount
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const cat = params.get('category');
+    if (cat) setSelectedCategory(cat);
+  }, [location.search]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -39,7 +47,7 @@ const Products = () => {
 
   // Filter products based on selected filters
   const filteredProducts = products.filter(product => {
-    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'All' || (product.category && product.category.trim().toLowerCase() === selectedCategory.trim().toLowerCase());
     const availableSizes = product.variants ? product.variants.map(v => v.size) : [];
     const matchesSize = !selectedSize || availableSizes.includes(selectedSize);
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
