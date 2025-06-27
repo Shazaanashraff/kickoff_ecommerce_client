@@ -5,8 +5,6 @@ import { AppContext } from '../../context/AppContext';
 
 const sizeOptions = ['S', 'M', 'L', 'XL'];
 
-
-
 const initialState = {
   name: '',
   description: '',
@@ -14,6 +12,7 @@ const initialState = {
   basePrice: '',
   variants: [], // Array of { size, price, stock, sku }
   images: [''], // Start with one image URL field
+  isFeatured: false,
 };
 
 const AddProduct = () => {
@@ -74,6 +73,8 @@ const AddProduct = () => {
       const newImages = [...form.images];
       newImages[idx] = value;
       setForm({ ...form, images: newImages });
+    } else if (name === 'isFeatured') {
+      setForm({ ...form, isFeatured: checked });
     } else {
       setForm({ ...form, [name]: value });
     }
@@ -116,6 +117,7 @@ const AddProduct = () => {
       basePrice: form.basePrice,
       images: validImages,
       variants,
+      isFeatured: form.isFeatured,
     };
     try {
       const res = await axios.post(`http://localhost:5001/api/products`, payload);
@@ -258,6 +260,17 @@ const AddProduct = () => {
               </div>
             ))}
             <button type="button" onClick={handleAddImageField} className="mt-2 bg-[#00FF99] text-black rounded px-4 py-2 font-semibold hover:bg-[#00E589]">Add Image</button>
+          </div>
+          <div className="mb-6 flex items-center gap-3">
+            <input
+              type="checkbox"
+              name="isFeatured"
+              checked={form.isFeatured}
+              onChange={handleChange}
+              className="accent-[#00FF99] w-5 h-5"
+              id="isFeatured"
+            />
+            <label htmlFor="isFeatured" className="text-white select-none cursor-pointer">Featured Product</label>
           </div>
           <button
             type="submit"

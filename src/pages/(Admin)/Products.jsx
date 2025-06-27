@@ -68,6 +68,7 @@ const Products = () => {
       images: product.images && product.images.length > 0 ? [...product.images] : [''],
       sizes: Object.keys(sizeMap), // checked sizes
       sizeData: sizeMap, // { S: { price, stock }, ... }
+      isFeatured: !!product.isFeatured,
     });
   };
 
@@ -119,6 +120,9 @@ const Products = () => {
     } else {
       setEditForm({ ...editForm, [name]: value });
     }
+    if (name === 'isFeatured') {
+      setEditForm({ ...editForm, isFeatured: checked });
+    }
   };
 
   const handleAddImageField = () => {
@@ -145,6 +149,7 @@ const Products = () => {
       basePrice: parseFloat(editForm.price),
       images,
       variants,
+      isFeatured: !!editForm.isFeatured,
     };
     try {
       const res = await axios.put(`http://localhost:5001/api/products/${id}`, updatedProduct);
@@ -243,7 +248,19 @@ const Products = () => {
               </div>
               <div className="mb-6">
                 <label className="block text-white mb-2">Category</label>
-                <input type="text" name="category" value={editForm.category} onChange={handleEditChange} required className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none" />
+                <select
+                  name="category"
+                  value={editForm.category}
+                  onChange={handleEditChange}
+                  required
+                  className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
+                >
+                  <option value="" disabled>Select category</option>
+                  <option value="International">International</option>
+                  <option value="Womens">Womens</option>
+                  <option value="Retro kits">Retro kits</option>
+                  <option value="Seasonal clubs">Seasonal clubs</option>
+                </select>
               </div>
               <div className="mb-6">
                 <label className="block text-white mb-2">Sizes</label>
@@ -289,6 +306,17 @@ const Products = () => {
                     </div>
                   ))}
                 </div>
+              </div>
+              <div className="mb-6 flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  name="isFeatured"
+                  checked={editForm.isFeatured}
+                  onChange={handleEditChange}
+                  className="accent-[#00FF99] w-5 h-5"
+                  id="isFeatured-edit"
+                />
+                <label htmlFor="isFeatured-edit" className="text-white select-none cursor-pointer">Featured Product</label>
               </div>
               <div className="flex gap-4">
                 <button type="submit" className="bg-[#00FF99] text-black font-semibold rounded-full py-3 px-8 text-lg hover:bg-[#00E589] transition">Save</button>
@@ -345,6 +373,7 @@ const Products = () => {
               <h3 className="text-lg font-bold text-white mb-1">{product.name}</h3>
               <div className="text-[#00FF99] font-semibold mb-1">${product.basePrice}</div>
               <div className="text-white/70 text-sm mb-2">{product.category}</div>
+              {product.isFeatured && <div className="text-[#00FF99] text-xs font-bold mb-2">★ Featured</div>}
               <div className="text-white/60 text-xs mb-4">Sizes: {product.variants ? product.variants.map(v => v.size).join(', ') : ''}</div>
               <div className="flex gap-2">
                 <button onClick={() => handleEdit(product)} className="bg-blue-500 text-white px-4 py-1 rounded font-semibold flex items-center gap-1 hover:bg-blue-600 transition"><Pencil size={16}/>Edit</button>
