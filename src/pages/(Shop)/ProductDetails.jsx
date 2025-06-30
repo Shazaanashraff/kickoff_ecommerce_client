@@ -18,6 +18,7 @@ const ProductDetails = () => {
   const [isAdding, setIsAdding] = useState(false);
   const { addToCart } = useCart();
   const [showSizePopup, setShowSizePopup] = useState(false);
+  const [showReviews, setShowReviews] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -252,14 +253,31 @@ const ProductDetails = () => {
               {isAdding ? 'Added to Cart!' : 'Add to Cart'}
             </motion.button>
 
-            {/* Product Details */}
+            {/* Show Reviews Button and Reviews List */}
             <div className="border-t border-white/10 pt-8">
-              <h3 className="text-white font-semibold mb-4">Product Details</h3>
-              <ul className="list-disc list-inside text-white/80 space-y-2">
-                {details.length > 0 ? details.map((detail, index) => (
-                  <li key={index}>{detail}</li>
-                )) : <li>No additional details.</li>}
-              </ul>
+              <button
+                onClick={() => setShowReviews(v => !v)}
+                className="bg-white/10 hover:bg-[#00FF99] hover:text-black text-white font-semibold rounded-full px-6 py-2 mb-4 transition"
+              >
+                {showReviews ? 'Hide Reviews' : 'Show Reviews'}
+              </button>
+              {showReviews && (
+                <div className="mt-4">
+                  <h3 className="text-white font-semibold mb-2">Product Reviews</h3>
+                  <ul className="space-y-3">
+                    {product.reviews && product.reviews.length > 0 ? (
+                      product.reviews.map((review, idx) => (
+                        <li key={idx} className="bg-black/30 rounded-lg p-4 border border-white/10">
+                          <div className="text-[#00FF99] font-bold mb-1">{review.user?.name || review.user || 'Anonymous'}</div>
+                          <div className="text-white/90">{review.comment}</div>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-white/60">No reviews yet.</li>
+                    )}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>
