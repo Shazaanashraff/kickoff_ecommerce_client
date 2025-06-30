@@ -1,8 +1,9 @@
 import React from 'react';
 import { Instagram, Twitter, Facebook } from 'lucide-react';
 
-const Footer = () => (
-  <footer className="bg-black border-t border-white/10 py-8 px-4 mt-16">
+const Footer = ({ SignupForDeals }) => (
+  <footer className="py-10 bg-black/80 border-t border-white/10 flex flex-col items-center">
+    {SignupForDeals && <SignupForDeals />}
     <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
       <div className="text-white/80 text-sm">&copy; {new Date().getFullYear()} Kickoff Ecommerce. All rights reserved.</div>
       <div className="flex gap-6 items-center">

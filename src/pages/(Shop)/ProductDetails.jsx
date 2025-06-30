@@ -17,6 +17,8 @@ const ProductDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const { addToCart } = useCart();
+  const [showSizePopup, setShowSizePopup] = useState(false);
+  const [showReviews, setShowReviews] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -41,20 +43,29 @@ const ProductDetails = () => {
 
   const handleQuantityChange = (change) => {
     const newQuantity = quantity + change;
-    if (newQuantity >= 1 && newQuantity <= 10) {
+    if (newQuantity >= 1 && newQuantity <= maxStock) {
       setQuantity(newQuantity);
     }
   };
 
   const handleAddToCart = () => {
     if (!selectedSize) {
-      alert('Please select a size');
+      setShowSizePopup(true);
       return;
     }
     setIsAdding(true);
+    let itemPrice = product.basePrice;
+    if (selectedSize && product.variants) {
+      const variant = product.variants.find(v => v.size === selectedSize);
+      if (variant && typeof variant.price !== 'undefined') {
+        itemPrice = variant.price;
+      }
+    }
     addToCart({
       ...product,
+      product: product._id,
       selectedSize,
+      price: itemPrice,
     }, quantity);
     setTimeout(() => {
       setIsAdding(false);
@@ -85,13 +96,41 @@ const ProductDetails = () => {
 
   // Prepare sizes and details
   const sizes = product.variants ? product.variants.map(v => v.size) : [];
-  const price = product.basePrice;
+  let price = product.basePrice;
+  let maxStock = 10;
+  if (selectedSize && product.variants) {
+    const variant = product.variants.find(v => v.size === selectedSize);
+    if (variant) {
+      if (typeof variant.price !== 'undefined') {
+        price = variant.price;
+      }
+      if (typeof variant.stock !== 'undefined') {
+        maxStock = variant.stock;
+      }
+    }
+  }
   const images = product.images && product.images.length > 0 ? product.images : [''];
   const details = product.details || [];
 
   return (
     <div className="min-h-screen bg-black">
       <Navbar />
+      
+      {/* Size selection popup */}
+      {showSizePopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="bg-white rounded-2xl shadow-xl p-8 max-w-sm w-full text-center">
+            <h2 className="text-xl font-bold text-black mb-4">Please select a size</h2>
+            <p className="text-black/80 mb-6">You must choose a size before adding to cart.</p>
+            <button
+              onClick={() => setShowSizePopup(false)}
+              className="bg-[#00FF99] text-black font-semibold rounded-full px-8 py-3 text-lg hover:bg-[#00E589] transition"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
       
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 pt-24 pb-16">
@@ -184,6 +223,7 @@ const ProductDetails = () => {
                   <button 
                     onClick={() => handleQuantityChange(-1)}
                     className="w-10 h-10 flex items-center justify-center text-white hover:text-[#00FF99] transition-colors"
+                    disabled={quantity <= 1}
                   >
                     -
                   </button>
@@ -191,6 +231,7 @@ const ProductDetails = () => {
                   <button 
                     onClick={() => handleQuantityChange(1)}
                     className="w-10 h-10 flex items-center justify-center text-white hover:text-[#00FF99] transition-colors"
+                    disabled={quantity >= maxStock}
                   >
                     +
                   </button>
@@ -212,14 +253,31 @@ const ProductDetails = () => {
               {isAdding ? 'Added to Cart!' : 'Add to Cart'}
             </motion.button>
 
-            {/* Product Details */}
+            {/* Show Reviews Button and Reviews List */}
             <div className="border-t border-white/10 pt-8">
-              <h3 className="text-white font-semibold mb-4">Product Details</h3>
-              <ul className="list-disc list-inside text-white/80 space-y-2">
-                {details.length > 0 ? details.map((detail, index) => (
-                  <li key={index}>{detail}</li>
-                )) : <li>No additional details.</li>}
-              </ul>
+              <button
+                onClick={() => setShowReviews(v => !v)}
+                className="bg-white/10 hover:bg-[#00FF99] hover:text-black text-white font-semibold rounded-full px-6 py-2 mb-4 transition"
+              >
+                {showReviews ? 'Hide Reviews' : 'Show Reviews'}
+              </button>
+              {showReviews && (
+                <div className="mt-4">
+                  <h3 className="text-white font-semibold mb-2">Product Reviews</h3>
+                  <ul className="space-y-3">
+                    {product.reviews && product.reviews.length > 0 ? (
+                      product.reviews.map((review, idx) => (
+                        <li key={idx} className="bg-black/30 rounded-lg p-4 border border-white/10">
+                          <div className="text-[#00FF99] font-bold mb-1">{review.user?.name || review.user || 'Anonymous'}</div>
+                          <div className="text-white/90">{review.comment}</div>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="text-white/60">No reviews yet.</li>
+                    )}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>

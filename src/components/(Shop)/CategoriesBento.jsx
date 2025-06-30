@@ -3,6 +3,7 @@ import img1 from '../../assets/images.jpg'; // Events
 import img2 from '../../assets/428df5dc.webp'; // Animation
 import img3 from '../../assets/Arsenal.jpg'; // Fashion
 import img4 from '../../assets/realMadrid.jpg'; // Commercial
+import { useNavigate } from 'react-router-dom';
 
 const categories = [
   {
@@ -36,6 +37,10 @@ const categories = [
 ];
 
 const CategoriesBento = () => {
+  const navigate = useNavigate();
+  const handleCategoryClick = (categoryName) => {
+    navigate(`/products?category=${encodeURIComponent(categoryName)}`);
+  };
   return (
     <section className="max-w-7xl mx-auto py-20 px-4">
       <h2 className="text-4xl md:text-5xl font-bold text-white mb-12 text-center font-sans tracking-tight">
@@ -47,6 +52,11 @@ const CategoriesBento = () => {
           <div
             key={i}
             className={`group relative overflow-hidden rounded-3xl border border-white/20 backdrop-blur-sm ${category.gridClass} cursor-pointer transition-shadow duration-500 hover:shadow-2xl`}
+            onClick={() => handleCategoryClick(category.name)}
+            tabIndex={0}
+            role="button"
+            aria-label={`View ${category.name} products`}
+            onKeyDown={e => { if (e.key === 'Enter') handleCategoryClick(category.name); }}
           >
             {/* Background Image */}
             <img

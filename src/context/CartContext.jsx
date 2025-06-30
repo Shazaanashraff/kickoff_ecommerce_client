@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const CartContext = createContext();
@@ -13,15 +13,29 @@ export const useCart = () => {
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+
+  // Load cart from localStorage on mount
+  useEffect(() => {
+    const storedCart = localStorage.getItem('cartItems');
+    if (storedCart) {
+      setCartItems(JSON.parse(storedCart));
+    }
+  }, []);
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
+
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   const addToCart = (product, quantity = 1) => {
     setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.id === product.id);
+      const existingItem = prevItems.find(item => item.id === product.id && item.selectedSize === product.selectedSize);
       
       if (existingItem) {
         return prevItems.map(item =>
-          item.id === product.id
+          item.id === product.id && item.selectedSize === product.selectedSize
             ? { ...item, quantity: item.quantity + quantity }
             : item
         );
@@ -31,16 +45,16 @@ export const CartProvider = ({ children }) => {
     });
   };
 
-  const removeFromCart = (productId) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
+  const removeFromCart = (productId, selectedSize) => {
+    setCartItems(prevItems => prevItems.filter(item => !(item.id === productId && item.selectedSize === selectedSize)));
   };
 
-  const updateQuantity = (productId, newQuantity) => {
+  const updateQuantity = (productId, selectedSize, newQuantity) => {
     if (newQuantity < 1) return;
     
     setCartItems(prevItems =>
       prevItems.map(item =>
-        item.id === productId
+        item.id === productId && item.selectedSize === selectedSize
           ? { ...item, quantity: newQuantity }
           : item
       )

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Navbar from '../../components/(Shop)/Navbar';
 import axios from 'axios';
 
 // const products = [ ... ] // REMOVE DUMMY DATA
 
-const categories = ['All', 'Premier League', 'LaLiga', 'International', 'Retro'];
+const categories = ['All', 'International', 'Womens', 'Retro kits', 'Seasonal Clubs'];
 const sizes = ['S', 'M', 'L', 'XL'];
 
 const Products = () => {
+  const location = useLocation();
   const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedSize, setSelectedSize] = useState('');
@@ -16,6 +17,13 @@ const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Set category from query string on mount
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const cat = params.get('category');
+    if (cat) setSelectedCategory(cat);
+  }, [location.search]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -39,7 +47,7 @@ const Products = () => {
 
   // Filter products based on selected filters
   const filteredProducts = products.filter(product => {
-    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'All' || (product.category && product.category.trim().toLowerCase() === selectedCategory.trim().toLowerCase());
     const availableSizes = product.variants ? product.variants.map(v => v.size) : [];
     const matchesSize = !selectedSize || availableSizes.includes(selectedSize);
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -116,7 +124,8 @@ const Products = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="bg-white/10 text-white px-4 py-2 rounded-full text-sm focus:outline-none hover:bg-white/20 transition-all"
+              className="bg-black text-white px-4 py-2 rounded-full text-sm focus:outline-none border border-white/20 appearance-none pr-8 relative"
+              style={{ minWidth: '170px', backgroundImage: 'url("data:image/svg+xml;utf8,<svg fill=\'white\' height=\'16\' viewBox=\'0 0 20 20\' width=\'16\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7.293 7.293a1 1 0 011.414 0L10 8.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z\'/></svg>")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.75rem center', backgroundSize: '1.25em 1.25em' }}
             >
               <option value="featured">Featured</option>
               <option value="price-low">Price: Low to High</option>
@@ -125,7 +134,8 @@ const Products = () => {
             <select
               value={selectedSize}
               onChange={(e) => setSelectedSize(e.target.value)}
-              className="bg-white/10 text-white px-4 py-2 rounded-full text-sm focus:outline-none hover:bg-white/20 transition-all"
+              className="bg-black text-white px-4 py-2 rounded-full text-sm focus:outline-none border border-white/20 appearance-none pr-8 relative"
+              style={{ minWidth: '120px', backgroundImage: 'url("data:image/svg+xml;utf8,<svg fill=\'white\' height=\'16\' viewBox=\'0 0 20 20\' width=\'16\' xmlns=\'http://www.w3.org/2000/svg\'><path d=\'M7.293 7.293a1 1 0 011.414 0L10 8.586l1.293-1.293a1 1 0 111.414 1.414l-2 2a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z\'/></svg>")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.75rem center', backgroundSize: '1.25em 1.25em' }}
             >
               <option value="">All Sizes</option>
               {sizes.map(size => (

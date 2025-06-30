@@ -48,7 +48,7 @@ const CartDropdown = () => {
               <div className="space-y-4 mb-8">
                 {cartItems.map((item) => (
                   <motion.div
-                    key={item.id}
+                    key={item.id + (item.selectedSize || '')}
                     layout
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -66,19 +66,23 @@ const CartDropdown = () => {
                     <div className="flex-1">
                       <h3 className="text-white font-semibold mb-1">{item.name}</h3>
                       <p className="text-[#00FF99] font-bold">${item.price}</p>
+                      {/* Show size if present */}
+                      {item.selectedSize && (
+                        <div className="text-white/60 text-xs mb-1">Size: {item.selectedSize}</div>
+                      )}
                       
                       {/* Quantity Controls */}
                       <div className="flex items-center gap-3 mt-2">
                         <div className="flex items-center bg-white/10 rounded-full">
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                            onClick={() => updateQuantity(item.id, item.selectedSize, item.quantity - 1)}
                             className="w-8 h-8 flex items-center justify-center text-white hover:text-[#00FF99] transition-colors"
                           >
                             <Minus className="w-4 h-4" />
                           </button>
                           <span className="w-8 text-center text-white">{item.quantity}</span>
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.id, item.selectedSize, item.quantity + 1)}
                             className="w-8 h-8 flex items-center justify-center text-white hover:text-[#00FF99] transition-colors"
                           >
                             <Plus className="w-4 h-4" />
@@ -87,7 +91,7 @@ const CartDropdown = () => {
                         
                         {/* Remove Button */}
                         <button
-                          onClick={() => removeFromCart(item.id)}
+                          onClick={() => removeFromCart(item.id, item.selectedSize)}
                           className="text-white/60 hover:text-[#00FF99] text-sm transition-colors"
                         >
                           Remove
