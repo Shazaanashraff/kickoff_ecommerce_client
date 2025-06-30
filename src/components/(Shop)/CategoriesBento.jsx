@@ -62,7 +62,7 @@ const CategoriesBento = () => {
 
             {/* Striped Glass Overlay - only on hover */}
             <div className="absolute inset-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-black/70">
-              <div className="w-full h-full bg-[repeating-linear-gradient(90deg,rgba(255,255,255,0.07)_0px,rgba(255,255,255,0.07)_2px,transparent_2px,transparent_48px)] rounded-3xl border border-white/30 mask-stripe-fade"></div>
+              <div className="w-full h-full bg-[repeating-linear-gradient(90deg,rgba(255,255,255,0.07)_0px,rgba(255,255,255,0.07)_1px,transparent_1px,transparent_50px)] rounded-3xl border border-white/30 mask-stripe-fade"></div>
             </div>
 
             {/* Text Content */}
