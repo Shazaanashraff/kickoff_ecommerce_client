@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Sidebar from '../../components/(Admin)/Sidebar';
 import axios from 'axios';
+import { AppContext } from '../../context/AppContext';
 
 const statusOptions = ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled', 'Returned'];
 
@@ -21,13 +22,14 @@ const Orders = () => {
   const [popupMsg, setPopupMsg] = useState('');
   const [editFields, setEditFields] = useState({});
   const [saving, setSaving] = useState({});
+  const { backendUrl } = useContext(AppContext);
 
   useEffect(() => {
     const fetchOrders = async () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.get('http://localhost:5001/api/orders');
+        const res = await axios.get(`${backendUrl}/api/orders`);
         if (res.data.success) {
           setOrders(res.data.data);
         } else {
@@ -40,7 +42,7 @@ const Orders = () => {
       }
     };
     fetchOrders();
-  }, []);
+  }, [backendUrl]);
 
   const handleFieldChange = (id, field, value) => {
     setEditFields(prev => ({
@@ -56,7 +58,7 @@ const Orders = () => {
     setSaving(prev => ({ ...prev, [id]: true }));
     try {
       const fields = editFields[id] || {};
-      const res = await axios.patch(`http://localhost:5001/api/orders/${id}/status`, {
+      const res = await axios.patch(`${backendUrl}/api/orders/${id}/status`, {
         status: newStatus,
         shippingPrice: fields.shippingPrice !== undefined ? Number(fields.shippingPrice) : undefined,
         estimatedArrival: fields.estimatedArrival || undefined,

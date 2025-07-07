@@ -6,13 +6,16 @@ import CategoriesBento from '../../components/(Shop)/CategoriesBento'
 import FeaturedProducts from '../../components/(Shop)/featuredProducts'
 import Footer from '../../components/(Shop)/Footer'
 import CallToAction from '../../components/(Shop)/CallToAction'
+import HeroProducts from '../../components/(Shop)/HeroProducts'
 
 const Home = () => {
   return (
     <div className='min-h-screen bg-black'>
       <Navbar />
       <Hero />
+
       <BestSellers />
+      <HeroProducts />
       <CategoriesBento />
       <FeaturedProducts />
       <CallToAction id="calltoaction" />

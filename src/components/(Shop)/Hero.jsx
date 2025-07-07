@@ -42,19 +42,19 @@ const Hero = () => {
         ease: 'power2.inOut'
       }, 0.05);
 
+      tl.fromTo(
+        videoFrameRef.current,
+        { scale: 0.2, y: '0vh', opacity: 0 },
+        { scale: 1.2, y: '-5vh', opacity: 1, ease: 'power2.inOut' },
+        0.3
+      );
+
       tl.to(showreelRef.current, {
         y: '-5vh',
         scale: 0.5,
         opacity: 0,
         ease: 'power2.inOut',
-      }, 0);
-
-      tl.fromTo(
-        videoFrameRef.current,
-        { scale: 0.2, y: '0vh' },
-        { scale: 1.2, y: '-5vh', ease: 'power2.inOut' },
-        0
-      );
+      }, 0.4);
     }, sectionRef);
 
     return () => ctx.revert();
@@ -106,13 +106,14 @@ const Hero = () => {
           }}
         />
         <h2
+          ref={showreelRef}
           className="uppercase font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-slate-100 to-gray-400 text-[32vw] text-center leading-none whitespace-nowrap mt-[18vh] relative z-20"
           style={{
             fontFamily: 'Bebas Neue, sans-serif',
             letterSpacing: '-0.04em',
           }}
         >
-          SHOWREEL
+          COMPETE
         </h2>
       </div>
 

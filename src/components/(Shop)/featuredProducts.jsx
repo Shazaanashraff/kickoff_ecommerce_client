@@ -100,9 +100,10 @@ const FeaturedProducts = () => {
           whileInView={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="text-3xl md:text-4xl font-bold text-left"
+          className="text-3xl md:text-4xl font-semibold text-left tracking-normal text-white"
+          style={{ fontFamily: 'Figtree, Arial, sans-serif' }}
         >
-          Featured Products
+          Featured Products eggs in the basket
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, x: -50 }}
@@ -140,28 +141,6 @@ const FeaturedProducts = () => {
               alt={item.title}
               className="w-full h-full object-cover rounded-3xl"
             />
-            <div className="absolute bottom-6 left-6 right-6 flex flex-col gap-2 z-10">
-              <motion.h3
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                viewport={{ once: false, amount: 0.5 }}
-                className={`text-2xl md:text-3xl font-extrabold tracking-wide bg-gradient-to-r ${item.gradient} bg-clip-text text-transparent drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]`}
-              >
-                {item.title}
-              </motion.h3>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                viewport={{ once: false, amount: 0.5 }}
-                className="text-xs md:text-sm font-semibold uppercase tracking-widest text-white/80 drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]"
-              >
-                {item.brand}
-              </motion.p>
-            </div>
           </motion.div>
         ))}
       </div>

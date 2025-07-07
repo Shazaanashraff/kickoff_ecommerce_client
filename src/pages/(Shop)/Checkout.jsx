@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Navbar from '../../components/(Shop)/Navbar';
 import { useCart } from '../../context/CartContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { AppContext } from '../../context/AppContext';
 
 const Checkout = () => {
   const { cartItems, getTotalPrice, updateQuantity, removeFromCart } = useCart();
@@ -23,6 +24,7 @@ const Checkout = () => {
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderError, setOrderError] = useState(null);
   const [placingOrder, setPlacingOrder] = useState(false);
+  const { backendUrl } = useContext(AppContext);
 
   const handleShippingChange = e => {
     setShipping({ ...shipping, [e.target.name]: e.target.value });
@@ -55,7 +57,7 @@ const Checkout = () => {
         totalPrice: getTotalPrice(),
         shippingInfo,
       };
-      await axios.post('http://localhost:5001/api/orders', payload);
+      await axios.post(`${backendUrl}/api/orders`, payload);
       // Clear cart
       localStorage.removeItem('cartItems');
       setOrderPlaced(true);

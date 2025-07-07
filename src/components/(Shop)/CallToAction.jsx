@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AppContext } from '../../context/AppContext';
 
 const CallToAction = () => {
   const [email, setEmail] = useState('');
@@ -9,6 +10,7 @@ const CallToAction = () => {
   const [success, setSuccess] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { backendUrl } = useContext(AppContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,7 +18,7 @@ const CallToAction = () => {
     setSuccess(null);
     setError(null);
     try {
-      const res = await axios.post('http://localhost:5001/api/contact', { email, message });
+      const res = await axios.post(`${backendUrl}/api/contact`, { email, message });
       if (res.data.success) {
         setSuccess('Your message has been sent!');
         setEmail('');

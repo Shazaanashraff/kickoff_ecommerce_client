@@ -20,7 +20,7 @@ const Products = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.get(`http://localhost:5001/api/products`);
+        const res = await axios.get(`${backendUrl}/api/products`);
         console.log("products :", res)
         if (res.data.success) {
           setProducts(res.data.data);
@@ -38,7 +38,7 @@ const Products = () => {
 
   const handleDelete = async (id) => {
     try {
-      const res = await axios.delete(`http://localhost:5001/api/products/${id}`);
+      const res = await axios.delete(`${backendUrl}/api/products/${id}`);
       if (res.data.success) {
         setProducts(products.filter(p => p._id !== id));
         if (selected && selected._id === id) setSelected(null);
@@ -152,7 +152,7 @@ const Products = () => {
       isFeatured: !!editForm.isFeatured,
     };
     try {
-      const res = await axios.put(`http://localhost:5001/api/products/${id}`, updatedProduct);
+      const res = await axios.put(`${backendUrl}/api/products/${id}`, updatedProduct);
       if (res.data.success) {
         setProducts(products.map(p =>
           p._id === id ? res.data.data : p

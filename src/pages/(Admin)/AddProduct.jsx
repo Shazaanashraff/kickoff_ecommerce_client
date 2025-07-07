@@ -120,7 +120,7 @@ const AddProduct = () => {
       isFeatured: form.isFeatured,
     };
     try {
-      const res = await axios.post(`http://localhost:5001/api/products`, payload);
+      const res = await axios.post(`${backendUrl}/api/products`, payload);
       if (!res.data.success) {
         throw new Error(res.data.message || 'Failed to add product');
       }

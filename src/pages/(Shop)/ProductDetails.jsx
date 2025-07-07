@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Navbar from '../../components/(Shop)/Navbar';
 import { useCart } from '../../context/CartContext';
 import axios from 'axios';
-
-
+import { AppContext } from '../../context/AppContext';
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -19,13 +18,14 @@ const ProductDetails = () => {
   const { addToCart } = useCart();
   const [showSizePopup, setShowSizePopup] = useState(false);
   const [showReviews, setShowReviews] = useState(false);
+  const { backendUrl } = useContext(AppContext);
 
   useEffect(() => {
     const fetchProduct = async () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.get(`http://localhost:5001/api/products/${id}`);
+        const res = await axios.get(`${backendUrl}/api/products/${id}`);
         if (res.data.success) {
           setProduct(res.data.data);
           setMainImage(res.data.data.images && res.data.data.images.length > 0 ? res.data.data.images[0] : '');
@@ -39,7 +39,7 @@ const ProductDetails = () => {
       }
     };
     fetchProduct();
-  }, [id]);
+  }, [id, backendUrl]);
 
   const handleQuantityChange = (change) => {
     const newQuantity = quantity + change;

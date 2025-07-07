@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Navbar from '../../components/(Shop)/Navbar';
 import axios from 'axios';
+import { AppContext } from '../../context/AppContext';
 
 // const products = [ ... ] // REMOVE DUMMY DATA
 
@@ -17,6 +18,7 @@ const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { backendUrl } = useContext(AppContext);
 
   // Set category from query string on mount
   useEffect(() => {
@@ -30,7 +32,7 @@ const Products = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await axios.get('http://localhost:5001/api/products');
+        const res = await axios.get(`${backendUrl}/api/products`);
         if (res.data.success) {
           setProducts(res.data.data);
         } else {
@@ -43,7 +45,7 @@ const Products = () => {
       }
     };
     fetchProducts();
-  }, []);
+  }, [backendUrl]);
 
   // Filter products based on selected filters
   const filteredProducts = products.filter(product => {

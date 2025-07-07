@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Truck, Package, CheckCircle, Box, Search } from 'lucide-react';
 import axios from 'axios';
 import Navbar from '../../components/(Shop)/Navbar';
+import { AppContext } from '../../context/AppContext';
 
 const STATUS_STEPS = [
   { key: 'Pending', label: 'Pending', icon: <Box /> },
@@ -21,6 +22,7 @@ const Order = () => {
   const [vanPosition, setVanPosition] = useState(0);
   const [reviewInputs, setReviewInputs] = useState({});
   const [editingReview, setEditingReview] = useState({});
+  const { backendUrl } = useContext(AppContext);
 
   const fetchOrder = async () => {
     setLoading(true);
@@ -28,7 +30,7 @@ const Order = () => {
     setOrder(null);
     try {
       // Replace with your backend endpoint
-      const res = await axios.get(`http://localhost:5001/api/orders/${orderId}`);
+      const res = await axios.get(`${backendUrl}/api/orders/${orderId}`);
       if (res.data.success) {
         setOrder(res.data.data);
         setTimeout(() => {
@@ -73,7 +75,7 @@ const Order = () => {
         name: review.name,
         orderId: order._id,
       };
-      const res = await axios.post(`http://localhost:5001/api/products/${productId}/reviews`, payload);
+      const res = await axios.post(`${backendUrl}/api/products/${productId}/reviews`, payload);
       if (res.data.success) {
         setReviewInputs(prev => ({
           ...prev,
@@ -112,7 +114,7 @@ const Order = () => {
         orderId: order._id,
         edit: true
       };
-      const res = await axios.post(`http://localhost:5001/api/products/${productId}/reviews`, payload);
+      const res = await axios.post(`${backendUrl}/api/products/${productId}/reviews`, payload);
       if (res.data.success) {
         setEditingReview({});
         fetchOrder();
@@ -134,7 +136,7 @@ const Order = () => {
         orderId: order._id,
         delete: true
       };
-      const res = await axios.post(`http://localhost:5001/api/products/${productId}/reviews`, payload);
+      const res = await axios.post(`${backendUrl}/api/products/${productId}/reviews`, payload);
       if (res.data.success) {
         fetchOrder();
       } else {

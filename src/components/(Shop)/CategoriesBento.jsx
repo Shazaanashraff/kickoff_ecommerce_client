@@ -1,8 +1,8 @@
 import React from 'react';
-import img1 from '../../assets/images.jpg'; // Events
+import img1 from '../../assets/International.jpg'; // Events
 import img2 from '../../assets/428df5dc.webp'; // Animation
 import img3 from '../../assets/Arsenal.jpg'; // Fashion
-import img4 from '../../assets/realMadrid.jpg'; // Commercial
+import img4 from '../../assets/womens.webp'; // Commercial
 import { useNavigate } from 'react-router-dom';
 
 const categories = [
@@ -11,28 +11,24 @@ const categories = [
     desc: 'Shop the latest national team jerseys from around the world.',
     image: img1,
     gridClass: 'col-span-3 row-span-2',
-    headingColor: 'text-teal-300'
   },
   {
     name: 'Retro kits',
     desc: 'Classic throwback jerseys for true collectors.',
     image: img2,
     gridClass: 'col-span-2 row-span-2',
-    headingColor: 'text-purple-300'
   },
   {
     name: 'Seasonal Clubs',
     desc: 'Get the newest 24/25 season kits of European top 5 leagues.',
     image: img3,
     gridClass: 'col-span-2 row-span-2',
-    headingColor: 'text-pink-300'
   },
   {
     name: 'Womens Kits',
     desc: 'Top picks for women\'s football fans',
     image: img4,
     gridClass: 'col-span-3 row-span-2',
-    headingColor: 'text-yellow-300'
   }
 ];
 
@@ -42,12 +38,12 @@ const CategoriesBento = () => {
     navigate(`/products?category=${encodeURIComponent(categoryName)}`);
   };
   return (
-    <section className="max-w-7xl mx-auto py-20 px-4">
-      <h2 className="text-4xl md:text-5xl font-bold text-white mb-12 text-center font-sans tracking-tight">
+    <section className="max-w-7xl mx-auto py-28 px-4">
+      <h2 className="text-4xl md:text-5xl text-white mb-12 text-center font-sans tracking-tight" style={{ fontFamily: 'var(--font-primary)' }}>
         Shop by Category
       </h2>
 
-      <div className="grid grid-cols-5 auto-rows-[160px] gap-5">
+      <div className="grid grid-cols-5 auto-rows-[240px] gap-4">
         {categories.map((category, i) => (
           <div
             key={i}
@@ -62,7 +58,7 @@ const CategoriesBento = () => {
             <img
               src={category.image}
               alt={category.name}
-              className="absolute inset-0 w-full h-full object-cover rounded-3xl transition-transform duration-700 ease-in-out group-hover:scale-110 group-hover:opacity-30"
+              className="absolute inset-0 w-full opacity-70 h-full object-cover rounded-3xl transition-transform duration-700 ease-in-out group-hover:scale-110 group-hover:opacity-30"
             />
 
             {/* Shine Animation */}
@@ -78,10 +74,10 @@ const CategoriesBento = () => {
             {/* Text Content */}
             <div className="relative z-30 h-full w-full p-6 flex flex-col justify-end">
               <div className="transition-all duration-500 ease-in-out transform group-hover:-translate-y-2">
-                <h3 className={`text-2xl font-bold drop-shadow-md ${category.headingColor}`}>
+                <h3 className="text-2xl text-white font-bold drop-shadow-md" style={{ fontFamily: 'var(--font-primary)' }}>
                   {category.name}
                 </h3>
-                <p className="text-white/80 text-sm mt-2 drop-shadow-md transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0">
+                <p className="text-white/80 text-sm mt-2 drop-shadow-md transition-all duration-500 ease-in-out opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0" style={{ fontFamily: 'var(--font-primary)' }}>
                   {category.desc}
                 </p>
               </div>
