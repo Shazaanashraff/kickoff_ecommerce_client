@@ -5,8 +5,13 @@
 :root {
   --font-primary: 'Montserrat', Arial, Helvetica, sans-serif;
   --font-secondary: 'Edu NSW ACT Hand Pre', cursive, sans-serif;
+  /* Global Color Palette */
+  --color-white: #FFFFFF; /* Background, cards */
+  --color-light-gray: #D4D4D4; /* Secondary elements, borders */
+  --color-medium-gray: #B3B3B3; /* Text/icons on white */
+  --color-dark-gray: #2B2B2B; /* Headings, primary text */
 }
 
-+html, body {
+html, body {
   font-family: var(--font-primary);
 }

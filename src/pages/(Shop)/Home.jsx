@@ -1,6 +1,6 @@
 import React from 'react'
-import Navbar from '../../components/(Shop)/Navbar'
-import Hero from '../../components/(Shop)/Hero'
+import Navbar from '../../components/(Shop)/home/Navbar'
+import Hero from '../../components/(Shop)/home/Hero'
 import BestSellers from '../../components/(Shop)/BestSellers'
 import CategoriesBento from '../../components/(Shop)/CategoriesBento'
 import FeaturedProducts from '../../components/(Shop)/featuredProducts'
@@ -10,16 +10,10 @@ import HeroProducts from '../../components/(Shop)/HeroProducts'
 
 const Home = () => {
   return (
-    <div className='min-h-screen bg-black'>
+    <div className='min-h-screen bg-white text-dark-gray'>
       <Navbar />
       <Hero />
-
-      <BestSellers />
-      <HeroProducts />
-      <CategoriesBento />
-      <FeaturedProducts />
-      <CallToAction id="calltoaction" />
-      <Footer SignupForDeals={SignupForDeals} />
+      {/* Home page intentionally left empty for redesign */}
     </div>
   )
 }
