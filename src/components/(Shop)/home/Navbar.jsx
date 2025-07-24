@@ -43,10 +43,12 @@ const Navbar = () => {
             <span className="text-light-gray">OFF</span>
           </Link>
         </div>
-        {/* Center Nav Links & Let'sTalk - always centered */}
+
+        {/* Center Nav Links & Let'sTalk */}
         <div
           className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center transition-all duration-300
-            ${scrolled ? 'bg-dark-gray/95 rounded-2xl px-6 py-2 shadow-lg' : 'hover:bg-dark-gray/95 hover:rounded-2xl hover:px-6 hover:py-2 hover:shadow-lg'}`}
+            ${scrolled ? 'glass-marble' : 'hover:glass-marble'}
+          `}
           style={{ minHeight: '48px', maxWidth: '900px' }}
         >
           <ul className="flex items-center gap-8 md:gap-12">
@@ -78,7 +80,8 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        {/* Right Side: Search & Cart - each in its own box */}
+
+        {/* Right Side: Search & Cart */}
         <div className="flex items-center gap-4 md:gap-6 ml-8 transition-all duration-300">
           {/* Search Icon */}
           <div
@@ -115,17 +118,15 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      {/* Search Dropdown (full-width, nearly full-height panel) */}
+
+      {/* Search Panel */}
       {searchOpen && (
         <>
-          {/* Overlay at the bottom for closing search when clicked */}
           <div className="fixed left-0 right-0 bottom-0 h-20 z-40" onClick={() => setSearchOpen(false)} />
-          {/* Animated search panel */}
           <div
             className="fixed left-0 right-0 top-[64px] bottom-30 z-50 bg-white border-t border-light-gray flex flex-col animate-slideDown"
             style={{ animation: 'slideDown 0.4s cubic-bezier(0.4,0,0.2,1)' }}
           >
-            {/* Top search bar and underline */}
             <div className="max-w-5xl mx-auto w-full">
               <div className="flex items-center gap-4 py-6 px-0">
                 <div className="flex-1 flex items-center gap-4">
@@ -151,9 +152,7 @@ const Navbar = () => {
               </div>
               <div className="border-b border-light-gray w-full" />
             </div>
-            {/* Main content */}
             <div className="flex flex-1 py-8 gap-12 max-w-5xl mx-auto w-full overflow-y-auto">
-              {/* Left: Popular categories */}
               <div className="w-1/4 min-w-[140px]">
                 <h3 className="text-xs font-semibold text-medium-gray mb-6 tracking-widest">POPULAR</h3>
                 <ul className="space-y-4">
@@ -163,12 +162,10 @@ const Navbar = () => {
                   <li className="text-dark-gray text-sm cursor-pointer hover:underline">Seasonal</li>
                 </ul>
               </div>
-              {/* Right: Featured products (placeholder) */}
               <div className="flex-1">
                 <h3 className="text-xs font-semibold text-medium-gray mb-6 tracking-widest">We think you might like</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {/* Placeholder product card */}
-                  {[1,2,3].map((i) => (
+                  {[1, 2, 3].map((i) => (
                     <div key={i} className="bg-white border border-light-gray rounded-lg p-3 flex flex-col items-center">
                       <div className="w-24 h-32 bg-light-gray rounded mb-3" />
                       <div className="w-full flex flex-col items-start">
@@ -186,7 +183,6 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-          {/* Waterfall animation keyframes */}
           <style>{`
             @keyframes slideDown {
               0% { transform: translateY(-40px); opacity: 0; }
@@ -195,8 +191,21 @@ const Navbar = () => {
           `}</style>
         </>
       )}
+
+      {/* Add marble effect utility class */}
+      <style>{`
+        .glass-marble {
+          background: rgba(255, 255, 255, 0.25);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border-radius: 1rem;
+          padding: 0.5rem 1.5rem;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+      `}</style>
     </>
   );
 };
 
-export default Navbar; 
+export default Navbar;
