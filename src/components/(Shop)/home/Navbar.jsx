@@ -157,15 +157,15 @@ const Navbar = () => {
               <div className="w-1/4 min-w-[140px]">
                 <h3 className="text-xs font-semibold text-medium-gray mb-6 tracking-widest">POPULAR</h3>
                 <ul className="space-y-4">
-                  <li className="text-dark-gray text-sm cursor-pointer hover:underline">Dress</li>
-                  <li className="text-dark-gray text-sm cursor-pointer hover:underline">Shirts</li>
-                  <li className="text-dark-gray text-sm cursor-pointer hover:underline">Mini Bags</li>
-                  <li className="text-dark-gray text-sm cursor-pointer hover:underline">Cushion Covers</li>
+                  <li className="text-dark-gray text-sm cursor-pointer hover:underline">Internatioanl</li>
+                  <li className="text-dark-gray text-sm cursor-pointer hover:underline">Women</li>
+                  <li className="text-dark-gray text-sm cursor-pointer hover:underline">Retro kits</li>
+                  <li className="text-dark-gray text-sm cursor-pointer hover:underline">Seasonal</li>
                 </ul>
               </div>
               {/* Right: Featured products (placeholder) */}
               <div className="flex-1">
-                <h3 className="text-xs font-semibold text-medium-gray mb-6 tracking-widest">FEATURED</h3>
+                <h3 className="text-xs font-semibold text-medium-gray mb-6 tracking-widest">We think you might like</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {/* Placeholder product card */}
                   {[1,2,3].map((i) => (
