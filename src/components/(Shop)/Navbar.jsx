@@ -7,7 +7,6 @@ import CartDropdown from './CartDropdown'
 
 const navLinks = [
   { name: 'Products', href: '/products' },
-  { name: 'About', href: '/about' },
   { name: 'Order', href: '/order' },
 
 ]

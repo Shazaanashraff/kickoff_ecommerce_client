@@ -7,6 +7,7 @@ import FeaturedProducts from '../../components/(Shop)/featuredProducts'
 import Footer from '../../components/(Shop)/Footer'
 import CallToAction from '../../components/(Shop)/CallToAction'
 import HeroProducts from '../../components/(Shop)/HeroProducts'
+import InfiniteScroller from '../../components/(Shop)/InfiniteScroller'
 
 const Home = () => {
   return (
@@ -18,7 +19,7 @@ const Home = () => {
       <HeroProducts />
       <CategoriesBento />
       <FeaturedProducts />
-      <CallToAction id="calltoaction" />
+      <InfiniteScroller/>
       <Footer SignupForDeals={SignupForDeals} />
     </div>
   )
