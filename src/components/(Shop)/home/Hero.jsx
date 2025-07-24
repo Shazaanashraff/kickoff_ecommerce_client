@@ -83,7 +83,7 @@ const Hero = () => {
             <img src={YamalImg} alt="Yamal Shirt" className="w-full h-full object-cover mb-4" />
           </div>
           <div>
-            <h3 className="font-semibold text-lg text-dark-gray group-hover:underline">Kratom Silk Twill Side Slit Boxy Shirt</h3>
+            <h3 className="font-semibold text-lg text-dark-gray group-hover:underline">FC Barcelona X Cactus Jack Mens Jersey</h3>
             <p className="text-sm text-medium-gray">Rs 69,917</p>
           </div>
         </Link>
@@ -92,22 +92,20 @@ const Hero = () => {
             <img src={WomanCacImg} alt="Fisherman Pants" className="w-full h-full object-cover mb-4" />
           </div>
           <div>
-            <h3 className="font-semibold text-lg text-dark-gray group-hover:underline">Kratom Silk Twill Zip Fisherman Pants</h3>
+            <h3 className="font-semibold text-lg text-dark-gray group-hover:underline">FC Barcelona X Cactus Jack Womens Jersey</h3>
             <p className="text-sm text-medium-gray">Rs 83,410</p>
           </div>
         </Link>
       </div>
       {/* Bottom: Text fills the gap below */}
-      <div className="mt-8 max-w-full flex-shrink-0 flex-grow-0">
-        <h2 className="text-2xl md:text-3xl font-semibold text-dark-gray mb-4">KRATOM PRINT</h2>
+      <div className="mt-8 max-w-full bg-white p-6">
+    <h2 className="text-2xl md:text-3xl font-semibold text-dark-gray mb-4">FC Barcelona X Cactus Jack</h2>
         <p className="text-base text-medium-gray leading-relaxed mb-6">
-          Step into serenity with our latest print, KRATOM. Inspired by the quiet beauty of the countryside,
-          this design features fluid lines and soft hues that bring a sense of calm to both men’s and women’s silhouettes.
-          Each piece is a gentle reminder to slow down and find stillness in the everyday.
+          Featuring the "Cactus Jack" logo. The jersey, Which retains the traditional Blaugrana design, Incoporates distinctive visual elements from Travis Scott's creative universe and will be available for purchase
         </p>
-        <button className="px-6 py-2 bg-dark-gray text-white text-sm font-medium rounded-none hover:bg-medium-gray block flex flex-wrap">
+        <a href="#" className="inline-block text-dark-gray text-lg font-medium underline underline-offset-4 hover:text-medium-gray transition-colors duration-200">
           SHOP COLLECTION
-        </button>
+        </a>
       </div>
     </div>
 
