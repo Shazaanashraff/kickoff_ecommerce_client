@@ -1,7 +1,7 @@
 import React from 'react'
 import Navbar from '../../components/(Shop)/home/Navbar'
 import Hero from '../../components/(Shop)/home/Hero'
-import BestSellers from '../../components/(Shop)/BestSellers'
+import BestSellers from '../../components/(Shop)/home/BestSellers';
 import CategoriesBento from '../../components/(Shop)/CategoriesBento'
 import FeaturedProducts from '../../components/(Shop)/featuredProducts'
 import Footer from '../../components/(Shop)/Footer'
@@ -13,6 +13,7 @@ const Home = () => {
     <div className='min-h-screen bg-white text-dark-gray'>
       <Navbar />
       <Hero />
+      <BestSellers />
       {/* Home page intentionally left empty for redesign */}
     </div>
   )
