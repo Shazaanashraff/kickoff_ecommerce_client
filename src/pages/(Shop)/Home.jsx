@@ -8,6 +8,7 @@ import Footer from '../../components/(Shop)/Footer'
 import CallToAction from '../../components/(Shop)/CallToAction'
 import HeroProducts from '../../components/(Shop)/HeroProducts'
 import InfiniteScroller from '../../components/(Shop)/InfiniteScroller'
+import PromoSplit from '../../components/(Shop)/home/PromoSplit'
 
 const Home = () => {
   return (
@@ -15,6 +16,8 @@ const Home = () => {
       <Navbar />
       <Hero />
       {/* Home page intentionally left empty for redesign */}
+
+      <PromoSplit className='z-30' />
     </div>
   )
 }
