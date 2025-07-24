@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 
+
 const gradientTextStyle = {
   color: "#525252", // Tailwind neutral-600
   fontWeight: 700,
@@ -11,14 +12,6 @@ const gradientTextStyle = {
   transition: "color 0.2s",
 };
 
-const dotStyle = {
-  display: "inline-block",
-  width: "1vw",
-  height: "1vw",
-  background: "#ffe066",
-  borderRadius: "50%",
-  margin: "0 2vw",
-};
 
 const fadeMaskStyle = {
   pointerEvents: "none",
@@ -34,11 +27,11 @@ const fadeMaskStyle = {
 const marqueeContent = (
   <span style={{ display: "flex", alignItems: "center" }}>
     <span style={gradientTextStyle}>Kickoff</span>
-    <span style={dotStyle}></span>
+    <span className="dot"></span>
     <span style={gradientTextStyle}>Kickoff</span>
-    <span style={dotStyle}></span>
+    <span className="dot"></span>
     <span style={gradientTextStyle}>Kickoff</span>
-    <span style={dotStyle}></span>
+    <span className="dot"></span>
   </span>
 );
 
