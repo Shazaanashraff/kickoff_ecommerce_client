@@ -18,7 +18,7 @@ const Home = () => {
       <BestSellers />
       {/* Home page intentionally left empty for redesign */}
 
-      <PromoSplit className='z-30' />
+      <PromoSplit/>
     </div>
   )
 }

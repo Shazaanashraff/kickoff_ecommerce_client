@@ -5,7 +5,7 @@ import heroImg from '../../../assets/hero.jpg';
 const PromoSplit = () => {
   return (
     <>
-      <section className="w-full bg-white min-h-[70vh] flex flex-col md:flex-row items-stretch justify-center z-30">
+      <section className="w-full bg-white min-h-[70vh] flex flex-col md:flex-row items-stretch justify-center z-30 relative">
         {/* Left: Image */}
         <div className="md:w-1/2 w-full flex items-center justify-center bg-gray-100">
           <img
@@ -30,7 +30,7 @@ const PromoSplit = () => {
         </div>
       </section>
       {/* New Section: Radical Caps */}
-      <section className="w-full bg-white min-h-[70vh] flex flex-col md:flex-row items-stretch justify-center border-t border-gray-100">
+      <section className="w-full bg-white min-h-[70vh] flex flex-col md:flex-row items-stretch justify-center border-t border-gray-100 z-30 relative">
         {/* Left: Content */}
         <div className="md:w-1/2 w-full flex flex-col justify-center items-start px-6 md:px-16 py-12 md:py-0 gap-6">
           <span className="uppercase text-xs tracking-widest text-medium-gray font-semibold mb-2">From Bio-Plastic to Biotech</span>
