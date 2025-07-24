@@ -1,6 +1,8 @@
 import React from 'react';
 // Placeholder image, swap as needed
-import heroImg from '../../../assets/hero.jpg';
+import International from '../../../assets/International.jpeg';
+import Clubs from '../../../assets/Clubs.jpeg';
+
 
 const PromoSplit = () => {
   return (
@@ -9,7 +11,7 @@ const PromoSplit = () => {
         {/* Left: Image */}
         <div className="md:w-1/2 w-full flex items-center justify-center bg-gray-100">
           <img
-            src={heroImg}
+            src={International}
             alt="Promo visual"
             className="object-cover w-full h-full max-h-[500px] md:max-h-none md:rounded-none rounded-b-lg shadow-md"
           />
@@ -48,7 +50,7 @@ const PromoSplit = () => {
         <div className="md:w-1/2 w-full flex items-center justify-center bg-gray-100">
           {/* Placeholder image, swap as needed */}
           <img
-            src={heroImg}
+            src={Clubs}
             alt="Radical Cap visual"
             className="object-cover w-full h-full max-h-[500px] md:max-h-none md:rounded-none rounded-b-lg shadow-md"
           />
