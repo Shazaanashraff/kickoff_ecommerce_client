@@ -43,7 +43,7 @@ const Hero = () => {
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden">
       {/* Fixed Video Background */}
-      <div className="absolute inset-0 w-full h-full z-0">
+      <div className="fixed inset-0 w-full h-full z-0">
         <video
           src={heroVideo}
           autoPlay
