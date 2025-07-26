@@ -1,8 +1,8 @@
 import React from 'react';
-import img1 from '../../assets/International.jpg'; // Events
-import img2 from '../../assets/428df5dc.webp'; // Animation
-import img3 from '../../assets/Arsenal.jpg'; // Fashion
-import img4 from '../../assets/womens.webp'; // Commercial
+import img1 from '../../assets/int.jpeg'; // Events
+import img2 from '../../assets/int.jpeg'; // Animation
+import img3 from '../../assets/int.jpeg'; // Fashion
+import img4 from '../../assets/int.jpeg'; // Commercial
 import { useNavigate } from 'react-router-dom';
 
 const categories = [

@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import jerseyFront from '../../assets/travis.jpg'; // Front image
-import jerseyBack from '../../assets/yamal.jpg';   // Back image
+import jerseyFront from '../../assets/int.jpeg'; // Front image
+import jerseyBack from '../../assets/int.jpeg';   // Back image
 
 const HeroProducts = () => {
   const navigate = useNavigate();

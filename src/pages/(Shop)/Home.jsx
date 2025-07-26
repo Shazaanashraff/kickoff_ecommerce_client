@@ -9,6 +9,7 @@ import CallToAction from '../../components/(Shop)/CallToAction'
 import HeroProducts from '../../components/(Shop)/HeroProducts'
 import InfiniteScroller from '../../components/(Shop)/InfiniteScroller'
 import PromoSplit from '../../components/(Shop)/home/PromoSplit'
+import ShopNewReleases from '../../components/(Shop)/home/ShopNewRelease';
 
 const Home = () => {
   return (
@@ -20,6 +21,7 @@ const Home = () => {
 
       <PromoSplit />
       <InfiniteScroller />
+      <ShopNewReleases />
     </div>
   )
 }

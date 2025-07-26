@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import heroVideo from '../../../assets/hero.mp4';
+import heroVideo from '../../../assets/Hero video/hero.mp4';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
-import YamalImg from '../../../assets/Yamal.jpg';
-import WomanCacImg from '../../../assets/woman-cac.jpeg';
-import TravisImg from '../../../assets/Travis.jpg';
+import YamalImg from '../../../assets/HeroProduct/Yamal.jpg';
+import WomanCacImg from '../../../assets/HeroProduct/woman-cac.jpeg';
+import TravisImg from '../../../assets/HeroProduct/Travis.jpg';
 import { Link } from 'react-router-dom';
 
 const Hero = () => {

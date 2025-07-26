@@ -1,7 +1,7 @@
 import React from 'react';
 // Placeholder image, swap as needed
-import International from '../../../assets/International.jpeg';
-import Clubs from '../../../assets/Clubs.jpeg';
+import International from '../../../assets/PromoSelect/International.jpeg';
+import Clubs from '../../../assets/PromoSelect/Clubs.jpeg';
 
 
 const PromoSplit = () => {
