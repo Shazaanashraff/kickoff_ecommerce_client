@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       fontFamily: {
         heading: ['"Space Grotesk"', 'sans-serif'],
+        crospor: ['Crospor', 'Arial',  'sans-serif'], // Add custom font
       },
       animation: {
         breathe: 'breathe 2s ease-in-out infinite',
