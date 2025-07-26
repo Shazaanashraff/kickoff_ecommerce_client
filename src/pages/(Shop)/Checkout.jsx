@@ -1,5 +1,4 @@
 import React, { useState, useContext } from 'react';
-import Navbar from '../../components/(Shop)/Navbar';
 import { useCart } from '../../context/CartContext';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -71,7 +70,6 @@ const Checkout = () => {
   if (orderPlaced) {
     return (
       <div className="min-h-screen bg-black">
-        <Navbar />
         <div className="max-w-2xl mx-auto pt-32 pb-16 px-4 text-center">
           <h1 className="text-4xl font-bold text-[#00FF99] mb-4">Thank you for your order!</h1>
           <p className="text-white/80 mb-4">Your order has been placed and is being processed.</p>
@@ -87,7 +85,6 @@ const Checkout = () => {
 
   return (
     <div className="min-h-screen bg-black">
-      <Navbar />
       <div className="max-w-5xl mx-auto pt-28 pb-16 px-4 flex flex-col lg:flex-row gap-12">
         {/* Order Summary */}
         <div className="lg:w-2/5 w-full bg-white/5 rounded-2xl p-8 shadow-lg h-fit">

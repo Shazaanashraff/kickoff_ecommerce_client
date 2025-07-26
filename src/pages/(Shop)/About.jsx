@@ -1,5 +1,4 @@
 import React from 'react';
-import Navbar from '../../components/(Shop)/Navbar';
 import { motion, useViewportScroll, useTransform } from 'framer-motion';
 import CallToAction from '../../components/(Shop)/CallToAction';
 
@@ -21,7 +20,6 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-black text-white font-sans">
-      <Navbar />
       {/* Hero Section */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
         <motion.img

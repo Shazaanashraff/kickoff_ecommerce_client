@@ -67,9 +67,10 @@ const InfiniteScroller = () => {
       style={{
         width: "100vw",
         overflow: "hidden",
-        background: "none",
+        background: "#fff",
         padding: "2vw 0",
-        position: "relative",
+        position: "relative", // REQUIRED for zIndex to work
+        zIndex: 10,            // Now this will work
       }}
     >
       <div style={fadeMaskStyle} />

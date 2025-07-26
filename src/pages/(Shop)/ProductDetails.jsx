@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import Navbar from '../../components/(Shop)/Navbar';
 import { useCart } from '../../context/CartContext';
 import axios from 'axios';
 import { AppContext } from '../../context/AppContext';
@@ -75,7 +74,6 @@ const ProductDetails = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex flex-col">
-        <Navbar />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-white text-xl">Loading product...</div>
         </div>
@@ -86,7 +84,6 @@ const ProductDetails = () => {
   if (error || !product) {
     return (
       <div className="min-h-screen bg-black flex flex-col">
-        <Navbar />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-red-400 text-xl">{error || 'Product not found'}</div>
         </div>
@@ -114,7 +111,6 @@ const ProductDetails = () => {
 
   return (
     <div className="min-h-screen bg-black">
-      <Navbar />
       
       {/* Size selection popup */}
       {showSizePopup && (
