@@ -38,3 +38,13 @@ html, body {
   border-radius: 50%;
   margin: 0 2vw;
 }
+
+.bg-custom-light-gray {
+  background-color: var(--color-light-gray);
+}
+.bg-extra-light-gray {
+  background-color: #ECECEC;
+}
+.card-clickable {
+  cursor: pointer;
+}

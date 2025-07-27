@@ -10,18 +10,19 @@ import RequireAdminAuth from "./pages/(Admin)/RequireAdminAuth"
 import ProductDetail from "./pages/productDetails/ProductDetails.jsx"
 import Navbar from "./components/(Shop)/home/Navbar";
 import Footer from "./components/(Shop)/home/Footer.jsx"
-import AllProducts from "./pages/AllProducts/AllProducts.jsx"
+import Categories from "./pages/Categories/Categories.jsx"
 import ProductComparison from "./pages/Compare/Compare.jsx"
 import Contact from "./pages/Contact/Contact.jsx"
 import ProductList from "./pages/ProductList/ProductList.jsx"
 
 const App = () => {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/products' element={<AllProducts />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/products' element={<Categories />} />
         <Route path='/product/:id' element={<ProductDetail />} />
         <Route path='/product-list' element={<ProductList />} />
         <Route path='/compare' element={<ProductComparison />} />

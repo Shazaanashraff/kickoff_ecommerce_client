@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Navbar from '../../components/(Shop)/Navbar';
 import axios from 'axios';
 import { AppContext } from '../../context/AppContext';
 
@@ -66,7 +65,6 @@ const Products = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex flex-col">
-        <Navbar />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-white text-xl">Loading products...</div>
         </div>
@@ -77,7 +75,6 @@ const Products = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-black flex flex-col">
-        <Navbar />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-red-400 text-xl">{error}</div>
         </div>
@@ -87,7 +84,6 @@ const Products = () => {
 
   return (
     <div className="min-h-screen bg-black">
-      <Navbar />
       {/* Hero Section */}
       <div className="relative h-[40vh] flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 to-black z-10"></div>

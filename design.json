@@ -1,0 +1,228 @@
+{
+  "designSystem": {
+    "name": "Product Carousel Interface",
+    "version": "1.0",
+    "category": "e-commerce/product-showcase",
+    "description": "Horizontal scrolling product carousel with premium badge system and lifestyle photography"
+  },
+  
+  "colorPalette": {
+    "primary": {
+      "background": "#1A1D29",
+      "description": "Deep navy/charcoal for main carousel background"
+    },
+    "cardBackgrounds": {
+      "neutral": "#C5A572",
+      "blue": "#4A90E2", 
+      "white": "#F8F8F8",
+      "description": "Varied warm and cool tones for individual product cards"
+    },
+    "accent": {
+      "exclusiveBadge": "#E91E63",
+      "description": "Bright magenta/pink for premium badges"
+    },
+    "text": {
+      "primary": "#FFFFFF",
+      "secondary": "#B8BCC8",
+      "price": "#FFFFFF",
+      "description": "High contrast white text on dark backgrounds"
+    },
+    "navigation": {
+      "dots": "#FFD700",
+      "dotsInactive": "#4A4A4A",
+      "arrow": "#FFFFFF",
+      "description": "Golden accent for active states, muted for inactive"
+    }
+  },
+
+  "typography": {
+    "hierarchy": {
+      "productTitle": {
+        "size": "1rem",
+        "weight": "500",
+        "color": "white",
+        "lineHeight": "1.3",
+        "maxLines": 2
+      },
+      "price": {
+        "size": "1.1rem",
+        "weight": "600",
+        "color": "white",
+        "format": "€XX.XX EUR"
+      },
+      "badgeText": {
+        "size": "0.75rem",
+        "weight": "700",
+        "case": "uppercase",
+        "color": "white",
+        "letterSpacing": "0.05em"
+      },
+      "collectionLabel": {
+        "size": "0.9rem",
+        "weight": "600",
+        "case": "uppercase",
+        "color": "accent",
+        "letterSpacing": "0.1em"
+      }
+    },
+    "fontStack": "system-ui, -apple-system, BlinkMacSystemFont, sans-serif"
+  },
+
+  "layout": {
+    "carousel": {
+      "direction": "horizontal",
+      "itemsVisible": {
+        "desktop": 5.5,
+        "tablet": 3.5,
+        "mobile": 1.5
+      },
+      "gap": "1rem",
+      "padding": "2rem",
+      "scrollBehavior": "smooth"
+    },
+    "cardDimensions": {
+      "aspectRatio": "3:4",
+      "minWidth": "280px",
+      "maxWidth": "320px"
+    },
+    "spacing": {
+      "cardPadding": "0",
+      "textPadding": "1rem",
+      "badgeMargin": "1rem",
+      "elementGap": "0.5rem"
+    }
+  },
+
+  "components": {
+    "productCard": {
+      "structure": [
+        "background image (full card)",
+        "exclusive badge (top-left overlay)",
+        "content overlay (bottom section)",
+        "product title",
+        "price"
+      ],
+      "backgroundTreatment": "full-bleed lifestyle photography",
+      "overlayGradient": "subtle dark gradient from transparent to semi-opaque",
+      "borderRadius": "12px",
+      "overflow": "hidden"
+    },
+
+    "exclusiveBadge": {
+      "style": "rounded pill with icon",
+      "background": "bright accent gradient",
+      "position": "absolute top-left",
+      "margin": "1rem",
+      "padding": "0.5rem 1rem",
+      "iconPosition": "left",
+      "textTransform": "uppercase",
+      "shadow": "subtle drop shadow"
+    },
+
+    "contentOverlay": {
+      "position": "absolute bottom",
+      "background": "linear-gradient(transparent, rgba(0,0,0,0.7))",
+      "padding": "2rem 1rem 1rem",
+      "textAlign": "left"
+    },
+
+    "carouselNavigation": {
+      "arrows": {
+        "style": "circular buttons",
+        "position": "center-right edge",
+        "background": "semi-transparent dark",
+        "iconColor": "white",
+        "size": "48px",
+        "shadow": "subtle"
+      },
+      "dots": {
+        "style": "small circles",
+        "position": "bottom center",
+        "activeColor": "golden accent",
+        "inactiveColor": "muted gray",
+        "gap": "0.5rem"
+      }
+    },
+
+    "specialCard": {
+      "type": "collection highlight",
+      "backgroundTreatment": "solid color or minimal pattern",
+      "textAlignment": "center",
+      "emphasizedTypography": "larger, bolder text",
+      "purpose": "category navigation or featured collection"
+    }
+  },
+
+  "visualStyle": {
+    "aesthetic": "dark premium lifestyle",
+    "photographyStyle": "lifestyle context, natural poses, varied backgrounds",
+    "productPresentation": "products worn/used in realistic settings",
+    "overallTone": "sophisticated, contemporary, aspirational",
+    "cardVariety": "mixed background colors and contexts for visual interest"
+  },
+
+  "interactions": {
+    "cardHover": {
+      "effect": "subtle scale (1.02x) and shadow increase",
+      "duration": "300ms",
+      "easing": "ease-out",
+      "additionalEffects": "slight brightness increase on image"
+    },
+    "scrollBehavior": {
+      "type": "momentum scrolling",
+      "snapTo": "none (free scroll)",
+      "overscroll": "bounce effect"
+    },
+    "navigationArrows": {
+      "hoverEffect": "background opacity increase",
+      "clickFeedback": "brief scale animation"
+    },
+    "dotNavigation": {
+      "clickBehavior": "smooth scroll to section",
+      "activeState": "highlighted with accent color"
+    }
+  },
+
+  "responsive": {
+    "breakpoints": {
+      "mobile": "320px-768px",
+      "tablet": "768px-1200px",
+      "desktop": "1200px+"
+    },
+    "adaptations": {
+      "itemsVisible": "progressively fewer items on smaller screens",
+      "cardSize": "maintain aspect ratio, adjust width",
+      "textScaling": "reduce font sizes proportionally",
+      "navigationArrows": "hide on mobile, use touch scroll"
+    }
+  },
+
+  "dataStructure": {
+    "productItem": {
+      "id": "unique identifier",
+      "title": "product name",
+      "price": "numerical value",
+      "currency": "currency code",
+      "imageUrl": "high-resolution product image",
+      "isExclusive": "boolean flag",
+      "category": "product classification",
+      "backgroundColor": "card background color override"
+    }
+  },
+
+  "designPrinciples": {
+    "visualHierarchy": "image first, then essential product info",
+    "premiumPositioning": "exclusive badges create urgency and value",
+    "browsabilityFirst": "easy horizontal navigation encourages exploration",
+    "contextualPresentation": "lifestyle imagery shows products in use",
+    "darkModeOptimized": "design works primarily in dark theme",
+    "accessibilityConscious": "high contrast text and clear navigation"
+  },
+
+  "technicalImplementation": {
+    "scrollingTechnology": "CSS scroll-snap or JavaScript carousel library",
+    "imageOptimization": "lazy loading, responsive images, WebP format",
+    "performanceConsiderations": "virtualization for large product sets",
+    "touchSupport": "native touch scrolling on mobile devices"
+  }
+}

@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Truck, Package, CheckCircle, Box, Search } from 'lucide-react';
 import axios from 'axios';
-import Navbar from '../../components/(Shop)/Navbar';
 import { AppContext } from '../../context/AppContext';
 
 const STATUS_STEPS = [
@@ -171,7 +170,6 @@ const Order = () => {
 
   return (
     <div className="min-h-screen bg-black flex flex-col items-center py-16 px-4">
-      <Navbar />
       <div className="max-w-xl w-full bg-white/5 rounded-2xl shadow-lg p-8 mb-10 mt-24">
         <h1 className="text-3xl font-bold text-white mb-6 text-center">Track Your Order</h1>
         <div className="flex gap-2 items-center mb-6">
