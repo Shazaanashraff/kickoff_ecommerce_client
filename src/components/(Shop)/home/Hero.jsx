@@ -35,7 +35,7 @@ const Hero = () => {
           muted
           playsInline
           className="object-cover w-full h-full"
-          style={{ minHeight: '100vh', minWidth: '100vw' }}
+          style={{ minHeight: '100vh', minWidth: '100%', maxWidth: '100vw' }}
         />
       </div>
       {/* Parallax Text Overlay */}
