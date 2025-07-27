@@ -14,6 +14,7 @@ import Categories from "./pages/Categories/Categories.jsx"
 import ProductComparison from "./pages/Compare/Compare.jsx"
 import Contact from "./pages/Contact/Contact.jsx"
 import ProductList from "./pages/ProductList/ProductList.jsx"
+import Checkout from "./pages/Checkout/Checkout.jsx"
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
         <Route path='/product-list' element={<ProductList />} />
         <Route path='/compare' element={<ProductComparison />} />
         <Route path='/contact' element={<Contact />} />
+        <Route path='/checkout' element={<Checkout />} />
         <Route path='/admin/login' element={<Login />} />
         <Route path='/admin' element={<RequireAdminAuth><Dashboard /></RequireAdminAuth>} />
         <Route path='/admin/add-product' element={<RequireAdminAuth><AddProduct /></RequireAdminAuth>} />

@@ -24,6 +24,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [productsAccordionOpen, setProductsAccordionOpen] = useState(false);
+  const [cartSidebarOpen, setCartSidebarOpen] = useState(false);
   const location = useLocation();
   const { getTotalItems, toggleCart } = useCart();
   const cartItemCount = getTotalItems();
@@ -121,7 +122,7 @@ const Navbar = () => {
           >
             <button
               className="p-0 m-0 bg-transparent text-dark-gray focus:outline-none"
-              onClick={toggleCart}
+              onClick={() => setCartSidebarOpen((v) => !v)}
               aria-label="Open cart"
             >
               <ShoppingBag className="w-5 h-5 text-dark-gray" />
@@ -225,8 +226,8 @@ const Navbar = () => {
         </>
       )}
 
-      {/* Sidebar Cart Dropdown */}
-      <Sidebar />
+      {/* Cart Sidebar */}
+      <Sidebar open={cartSidebarOpen} onClose={() => setCartSidebarOpen(false)} />
 
       {/* Search Panel */}
       {searchOpen && (
