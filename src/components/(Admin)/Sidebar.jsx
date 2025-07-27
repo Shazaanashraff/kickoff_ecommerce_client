@@ -1,31 +1,41 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BarChart2, PlusCircle, Edit, ShoppingBag } from 'lucide-react';
 
 const links = [
-  { label: 'Dashboard', to: '/admin', icon: <BarChart2 size={20} /> },
-  { label: 'Add Product', to: '/admin/add-product', icon: <PlusCircle size={20} /> },
-  { label: 'Update/Delete Product', to: '/admin/products', icon: <Edit size={20} /> },
-  { label: 'Orders', to: '/admin/orders', icon: <ShoppingBag size={20} /> },
+  { label: 'Dashboard', to: '/admin' },
+  { label: 'Products', to: '/admin/products' },
+  { label: 'Orders', to: '/admin/orders' },
+  { label: 'Add Product', to: '/admin/add-product' },
 ];
 
 const Sidebar = () => {
   const location = useLocation();
   return (
-    <aside className="h-screen w-64 bg-black border-r border-white/10 flex flex-col py-8 px-4 fixed top-0 left-0 z-40">
-      <div className="mb-10 text-2xl font-bold text-[#00FF99] tracking-wide text-center select-none">ADMIN</div>
-      <nav className="flex flex-col gap-2">
-        {links.map(link => (
-          <Link
-            key={link.to}
-            to={link.to}
-            className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium text-white transition-all hover:bg-[#00FF99]/10 hover:text-[#00FF99] ${location.pathname === link.to ? 'bg-[#00FF99]/20 text-[#00FF99]' : ''}`}
-          >
-            {link.icon}
-            {link.label}
-          </Link>
-        ))}
-      </nav>
+    <aside className="hidden md:block fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-200 shadow-lg z-40">
+      <div className="flex flex-col h-full p-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-10">Admin</h2>
+        <nav className="flex-1">
+          <ul className="space-y-4">
+            {links.map(link => (
+              <li key={link.to}>
+                <Link
+                  to={link.to}
+                  className={`block px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
+                    location.pathname === link.to
+                      ? 'bg-gray-100 text-gray-900 font-semibold border-l-4 border-gray-800'
+                      : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <div className="mt-auto pt-8 border-t border-gray-100 text-xs text-gray-400">
+          &copy; {new Date().getFullYear()} Kickoff Admin
+        </div>
+      </div>
     </aside>
   );
 };
