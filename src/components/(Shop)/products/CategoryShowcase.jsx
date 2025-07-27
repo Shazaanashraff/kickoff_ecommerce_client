@@ -25,12 +25,12 @@ const categories = [
 ];
 
 const CategoryShowcase = () => (
-  <div className="w-full bg-dark-gray py-12 px-4 md:px-12 flex justify-center">
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-7xl">
+  <div className="w-full bg-dark-gray py-12 flex justify-center">
+    <div className="grid grid-cols-[30%_30%_40%] gap-[2px] w-full max-w-7xl">
       {categories.map((cat, idx) => (
         <div
           key={idx}
-          className="relative rounded-2xl overflow-hidden group shadow-lg min-h-[500px] flex items-end"
+          className="relative overflow-hidden group shadow-lg min-h-[500px] flex items-end"
           style={{ background: '#181633' }}
         >
           <img
