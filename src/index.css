@@ -2,9 +2,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Edu+NSW+ACT+Hand+Pre:wght@400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 @import "tailwindcss";
 
+/* In your index.css */
+@font-face {
+  font-family: 'Crospor';
+  src: url('../assets/fonts/CrosporRegular.woff2') format('woff2'),
+       url('../assets/fonts/CrosporRegular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
 :root {
   --font-primary: 'Montserrat', Arial, Helvetica, sans-serif;
   --font-secondary: 'Edu NSW ACT Hand Pre', cursive, sans-serif;
+  --custom-font: 'CustomFont', sans-serif;
   /* Global Color Palette */
   --color-white: #FFFFFF; /* Background, cards */
   --color-light-gray: #D4D4D4; /* Secondary elements, borders */

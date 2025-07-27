@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, ShoppingBag } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../../../context/CartContext';
+import Sidebar from '../products/Sidebar';
 
 const navLinks = [
   { name: 'Products', href: '/products' },
@@ -118,6 +119,9 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+
+      {/* Sidebar Cart Dropdown */}
+      <Sidebar />
 
       {/* Search Panel */}
       {searchOpen && (

@@ -13,22 +13,22 @@ import Order from "./pages/(Shop)/Order"
 import ProductDetail from "./pages/productDetails/ProductDetails.jsx"
 import Navbar from "./components/(Shop)/home/Navbar";
 import Footer from "./components/(Shop)/home/Footer.jsx"
+import AllProducts from "./pages/AllProducts/AllProducts.jsx"
 
 const App = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-1">
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/product/:id' element={<ProductDetail />} />
-          <Route path='/admin/login' element={<Login />} />
-          <Route path='/admin' element={<RequireAdminAuth><Dashboard /></RequireAdminAuth>} />
-          <Route path='/admin/add-product' element={<RequireAdminAuth><AddProduct /></RequireAdminAuth>} />
-          <Route path='/admin/products' element={<RequireAdminAuth><AdminProducts /></RequireAdminAuth>} />
-          <Route path='/admin/orders' element={<RequireAdminAuth><Orders /></RequireAdminAuth>} />
-        </Routes>
-      </main>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/products' element={<AllProducts />} />
+        <Route path='/product/:id' element={<ProductDetail />} />
+        <Route path='/admin/login' element={<Login />} />
+        <Route path='/admin' element={<RequireAdminAuth><Dashboard /></RequireAdminAuth>} />
+        <Route path='/admin/add-product' element={<RequireAdminAuth><AddProduct /></RequireAdminAuth>} />
+        <Route path='/admin/products' element={<RequireAdminAuth><AdminProducts /></RequireAdminAuth>} />
+        <Route path='/admin/orders' element={<RequireAdminAuth><Orders /></RequireAdminAuth>} />
+      </Routes>
       <Footer />
     </div>
   )
