@@ -2,10 +2,13 @@ import React from 'react';
 import relatedProducts from '../../data/relatedProducts'; // Import related products data
 import neymarImage from '../../assets/Neymar.jpeg'; // Import Neymar image
 import psgImage from '../../assets/bestSellers/psg.jpeg'; // Import PSG image
+import Menubar from '../../components/(Shop)/products/Menubar';
 
 const AllProducts = () => {
     return (
+<>
         <div className="min-h-screen bg-white flex flex-col pt-20 px-8">
+
             {/* International Section */}
             <div className="flex flex-col md:flex-row items-start mt-12">
                 {/* Neymar Image */}
@@ -16,6 +19,7 @@ const AllProducts = () => {
                         className="w-full h-full object-cover rounded-lg shadow-md"
                     />
                 </div>
+                
                 {/* Products List */}
                 <div className="flex-1 md:pl-8">
                     <h2 className="text-2xl font-semibold text-gray-800 mb-6">International</h2>
@@ -91,6 +95,7 @@ const AllProducts = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 
