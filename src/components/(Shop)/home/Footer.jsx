@@ -47,7 +47,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between border-b border-[var(--color-medium-gray)] pb-10 mb-10 gap-8">
           <div>
             <h2 className="text-3xl font-serif mb-2">Join Our Newsletter</h2>
-            <p className="text-[var(--color-medium-gray)] mb-4">Subscribe for updates on our <span></span>next drop.</p>
+            <p className="font-semibold text-[var(--color-dark-gray)] mb-4">Subscribe for updates on our <span className='font-bold'>next drop</span>.</p>
             <form className="flex max-w-md">
               <input
                 type="email"
@@ -65,27 +65,26 @@ const Footer = () => {
             <div>
               <div className="uppercase text-xs font-semibold mb-3 tracking-widest">Brand</div>
               <ul className="space-y-2">
-                <li><a href="#" className="hover:underline">About</a></li>
-                <li><a href="#" className="hover:underline">Press</a></li>
-                <li><a href="#" className="hover:underline">Careers</a></li>
+                <li><a href="/products" className="hover:underline">Products</a></li>
+                <li><a href="/order" className="hover:underline">Order</a></li>
               </ul>
             </div>
             <div>
               <div className="uppercase text-xs font-semibold mb-3 tracking-widest">Support</div>
               <ul className="space-y-2">
-                <li><a href="#" className="hover:underline">FAQs</a></li>
-                <li><a href="#" className="hover:underline">Contact Us</a></li>
-                <li><a href="#" className="hover:underline">Find A Store</a></li>
+                <li><a href="/contact" className="hover:underline">FAQs</a></li>
+                <li><a href="/contact" className="hover:underline">Contact Us</a></li>
+                <li><a href="/contact" className="hover:underline">Find A Store</a></li>
               </ul>
             </div>
             <div className="flex flex-col gap-2 min-w-[180px]">
               <div className="flex items-center gap-2 text-[var(--color-medium-gray)]">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 12a4 4 0 01-8 0 4 4 0 018 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M12 14v7m0 0H9m3 0h3" /></svg>
-                <span>support@jimthompson.com</span>
+                <span>kickoff.official.acc@gmail.com</span>
               </div>
               <div className="flex items-center gap-2 text-[var(--color-medium-gray)]">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5h2l.4 2M7 13h10l4-8H5.4" /><circle cx="7" cy="21" r="1" /><circle cx="17" cy="21" r="1" /></svg>
-                <span>+66 (0) 2-700-2801</span>
+                <span>+94 74 075 4584</span>
               </div>
             </div>
           </div>
@@ -106,8 +105,7 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 text-xs text-[var(--color-medium-gray)]">
             <a href="#" className="hover:underline">Terms & Conditions</a>
             <a href="#" className="hover:underline">Privacy Policy</a>
-            <span>© 2025 Jim Thompson</span>
-            <span>Designed by 360&5</span>
+            <span>© 2025 Kickoff </span>
           </div>
         </div>
       </div>
