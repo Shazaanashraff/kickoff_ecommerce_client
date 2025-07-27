@@ -39,7 +39,11 @@ const Navbar = () => {
       <nav className="fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 md:px-12 py-3 bg-transparent" style={{ minHeight: '64px' }}>
         {/* Brand/Logo */}
         <div className="flex items-center min-w-[120px]">
-          <Link to="/" className="text-xl md:text-2xl font-bold tracking-wide select-none" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+          <Link
+            to="/"
+            className="text-xl md:text-2xl font-bold tracking-wide select-none"
+            style={{ fontFamily: "'Crospor', sans-serif" }}
+          >
             <span className="text-dark-gray">KICK</span>
             <span className="text-light-gray">OFF</span>
           </Link>

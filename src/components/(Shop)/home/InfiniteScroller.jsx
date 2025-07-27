@@ -19,11 +19,11 @@ const fadeMaskStyle = {
 
 const MarqueeContent = () => (
   <span className="flex items-center">
-    <span className={gradientTextClass}>Kickoff</span>
+    <span className={gradientTextClass}>KickoFF</span>
     <span className={dotClass} style={{ width: '1vw', height: '1vw' }}></span>
     <span className={gradientTextClass}>Store</span>
     <span className={dotClass} style={{ width: '1vw', height: '1vw' }}></span>
-    <span className={gradientTextClass}>Kickoff</span>
+    <span className={gradientTextClass}>KickoFF</span>
     <span className={dotClass} style={{ width: '1vw', height: '1vw' }}></span>
   </span>
 );
@@ -67,9 +67,9 @@ const InfiniteScroller = () => {
       style={{
         width: "100vw",
         overflow: "hidden",
-        background: "var(--color-white)", // Apply background color
+        background: "var(--color-white)",
         position: "relative",
-        zIndex:30,
+        zIndex: 30,
       }}
     >
       <div style={fadeMaskStyle} />
@@ -95,10 +95,12 @@ const InfiniteScroller = () => {
         }
         .marquee-text {
           font-size: 7vw;
+          font-family: 'Crospor', sans-serif;
         }
         @media (max-width: 600px) {
           .marquee-text {
             font-size: 12vw !important;
+            font-family: 'Crospor', sans-serif;
           }
         }
       `}</style>
