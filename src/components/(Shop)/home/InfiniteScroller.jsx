@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 
 const gradientTextClass =
-  "marquee-text text-neutral-600 font-bold uppercase inline-block leading-none transition-colors duration-200 font-crospor"; // Use Tailwind class for Crospor font
+  "marquee-text text-neutral-600 font-bold uppercase inline-block leading-none transition-colors duration-200";
 
 const dotClass =
   "inline-block bg-yellow-300 rounded-full mx-[2vw]";
@@ -19,11 +19,11 @@ const fadeMaskStyle = {
 
 const MarqueeContent = () => (
   <span className="flex items-center">
-    <span className={gradientTextClass}>Kickoff</span>
+    <span className={gradientTextClass}>KickoFF</span>
     <span className={dotClass} style={{ width: '1vw', height: '1vw' }}></span>
     <span className={gradientTextClass}>Store</span>
     <span className={dotClass} style={{ width: '1vw', height: '1vw' }}></span>
-    <span className={gradientTextClass}>Kickoff</span>
+    <span className={gradientTextClass}>KickoFF</span>
     <span className={dotClass} style={{ width: '1vw', height: '1vw' }}></span>
   </span>
 );
@@ -67,10 +67,9 @@ const InfiniteScroller = () => {
       style={{
         width: "100vw",
         overflow: "hidden",
-        background: "#fff",
-        padding: "2vw 0",
-        position: "relative", // REQUIRED for zIndex to work
-        zIndex: 10,            // Now this will work
+        background: "var(--color-white)",
+        position: "relative",
+        zIndex: 30,
       }}
     >
       <div style={fadeMaskStyle} />
@@ -96,10 +95,12 @@ const InfiniteScroller = () => {
         }
         .marquee-text {
           font-size: 7vw;
+          font-family: 'Crospor', sans-serif;
         }
         @media (max-width: 600px) {
           .marquee-text {
             font-size: 12vw !important;
+            font-family: 'Crospor', sans-serif;
           }
         }
       `}</style>
