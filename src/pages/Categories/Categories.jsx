@@ -9,6 +9,7 @@ const Categories = () => {
         <div className="min-h-screen bg-white">
             {/* International Section */}
             <International />
+            <Womens />
             
             {/* Seasonal Section */}
             <Seasonal />
@@ -17,7 +18,7 @@ const Categories = () => {
             <Retro />
             
             {/* Womens Section */}
-            <Womens />
+           
         </div>
     );
 };

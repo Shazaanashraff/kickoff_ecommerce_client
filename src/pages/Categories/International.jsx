@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import internationalImage from '../../assets/PromoSelect/International.jpeg';
-import argentinaImg from '../../assets/International/arg.png';
-import franceImg from '../../assets/International/france.png';
+import argentinaImg from '../../assets/Categories/arg.png';
+import franceImg from '../../assets/Categories/france.png';
 import ProductCard from '../../components/(Shop)/products/ProductCard';
 
 const internationalProducts = [
