@@ -10,10 +10,11 @@ import Orders from "./pages/(Admin)/Orders"
 import Login from "./pages/(Admin)/Login"
 import RequireAdminAuth from "./pages/(Admin)/RequireAdminAuth"
 import Order from "./pages/(Shop)/Order"
+import About from "./pages/(Shop)/About"
 import ProductDetail from "./pages/productDetails/ProductDetails.jsx"
 import Navbar from "./components/(Shop)/home/Navbar";
 import Footer from "./components/(Shop)/home/Footer.jsx"
-import AllProducts from "./pages/AllProducts/AllProducts.jsx"
+import Categories from "./pages/Categories/Categories.jsx"
 
 const App = () => {
   return (
@@ -21,7 +22,8 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/products' element={<AllProducts />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/products' element={<Categories />} />
         <Route path='/product/:id' element={<ProductDetail />} />
         <Route path='/admin/login' element={<Login />} />
         <Route path='/admin' element={<RequireAdminAuth><Dashboard /></RequireAdminAuth>} />
