@@ -4,6 +4,7 @@ import new1 from '../../../assets/bestSellers/barca.jpeg';
 import new2 from '../../../assets/bestSellers/messi.jpeg';
 import new3 from '../../../assets/bestSellers/psg.jpeg';
 import new4 from '../../../assets/bestSellers/rm.jpeg';
+import ProductCard from '../products/ProductCard';
 
 const newReleases = [
   {
@@ -48,18 +49,14 @@ const ShopNewReleases = () => {
       </div>
       <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-light-gray scrollbar-track-white">
         {newReleases.map((item, idx) => (
-          <div key={idx} className="min-w-[220px] max-w-[240px] bg-white border border-light-gray rounded-lg flex-shrink-0 flex flex-col items-center p-4 relative">
-            {item.isNew && (
-              <span className="absolute top-3 left-3 bg-[#00FF99] text-black text-xs font-bold px-2 py-1 rounded-full z-10">
-                NEW
-              </span>
-            )}
-            <img src={item.img} alt={item.name} className="w-full h-56 object-contain mb-4" />
-            <div className="w-full">
-              <h3 className="text-base font-semibold text-dark-gray mb-1" style={{ fontFamily: 'var(--font-primary)' }}>{item.name}</h3>
-              <p className="text-sm text-medium-gray mb-2">{item.price}</p>
-            </div>
-          </div>
+          <ProductCard
+            key={idx}
+            name={item.name}
+            price={parseInt(item.price.replace(/[^\d]/g, ''))}
+            badge={item.isNew ? 'NEW' : undefined}
+            image={item.img}
+            onClick={() => {}}
+          />
         ))}
       </div>
     </section>
