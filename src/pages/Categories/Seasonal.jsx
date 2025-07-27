@@ -1,39 +1,175 @@
-import React from 'react';
-import relatedProducts from '../../data/relatedProducts';
-import psgImage from '../../assets/bestSellers/psg.jpeg';
+import React, { useRef, useState, useEffect } from 'react';
+import seasonHeroImg from '../../assets/Categories/newsSeason.webp';
+import barcaImg from '../../assets/Categories/1.png';
+import mancImg from '../../assets/Categories/2.png';
+import lyonImg from '../../assets/Categories/3.png';
+import chelseaImg from '../../assets/Categories/4.png';
+import ProductCard from '../../components/(Shop)/products/ProductCard';
+
+const seasonalProducts = [
+  {
+    name: 'Barcelona 25/26 Home Jersey',
+    price: 109.99,
+    badge: '25/26 SEASON',
+    image: barcaImg,
+  },
+  {
+    name: 'Manchester City 25/26 Home Jersey',
+    price: 109.99,
+    badge: '25/26 SEASON',
+    image: mancImg,
+  },
+  {
+    name: 'Olympique Lyonnais 25/26 Home Jersey',
+    price: 109.99,
+    badge: '25/26 SEASON',
+    image: lyonImg,
+  },
+  {
+    name: 'Chelsea 25/26 Home Jersey',
+    price: 109.99,
+    badge: '25/26 SEASON',
+    image: chelseaImg,
+  },
+  {
+    name: 'Barcelona 25/26 Home Jersey',
+    price: 109.99,
+    badge: '25/26 SEASON',
+    image: barcaImg,
+  },
+  {
+    name: 'Manchester City 25/26 Home Jersey',
+    price: 109.99,
+    badge: '25/26 SEASON',
+    image: mancImg,
+  },
+];
+
+const DOTS_COLOR_ACTIVE = '#2B2B2B';
+const DOTS_COLOR_INACTIVE = '#B3B3B3';
 
 const Seasonal = () => {
+    const scrollRef = useRef(null);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
+
+    const products = seasonalProducts;
+    const visibleCards = 3; // Number of cards visible at once
+
+    const checkScroll = () => {
+        const el = scrollRef.current;
+        if (!el) return;
+        setCanScrollLeft(el.scrollLeft > 0);
+        setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+        // Calculate active dot
+        const cardWidth = el.firstChild ? el.firstChild.offsetWidth + 16 : 1; // 16px gap
+        setActiveIndex(Math.round(el.scrollLeft / cardWidth));
+    };
+
+    useEffect(() => {
+        checkScroll();
+        const el = scrollRef.current;
+        if (!el) return;
+        el.addEventListener('scroll', checkScroll);
+        window.addEventListener('resize', checkScroll);
+        return () => {
+            el.removeEventListener('scroll', checkScroll);
+            window.removeEventListener('resize', checkScroll);
+        };
+    }, []);
+
+    const scrollByAmount = (amount) => {
+        scrollRef.current.scrollBy({ left: amount, behavior: 'smooth' });
+    };
+
+    // Hide scrollbar CSS
+    const hideScrollbar = {
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none',
+    };
+
+    // Dot count logic
+    const dotCount = Math.ceil(products.length / visibleCards);
+
     return (
-        <div className="bg-white flex flex-col py-16 px-8">
-            {/* Seasonal Section */}
-            <div>
-                {/* PSG Image */}
-                <div className="w-full h-64 md:h-96 overflow-hidden mb-8">
-                    <img
-                        src={psgImage}
-                        alt="PSG Seasonal"
-                        className="w-full h-full object-cover rounded-lg shadow-md"
-                    />
+        <div className="min-h-screen">
+            {/* Top Section - Seasonal Hero */}
+            <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
+                {/* Background Image */}
+                <img
+                    src={seasonHeroImg}
+                    alt="NEW IN 25/26"
+                    className="absolute inset-0 w-full h-full object-cover"
+                />
+                {/* Overlay for better text readability */}
+                <div className="absolute inset-0 bg-dark-gray/40"></div>
+                {/* Content */}
+                <div className="relative z-10 text-center px-8 max-w-4xl mx-auto flex flex-col items-center">
+                    <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-wider text-white mb-8 drop-shadow-lg">
+                        NEW IN 25/26
+                    </h1>
+                    <button className="bg-white text-dark-gray px-6 py-3 font-bold text-base uppercase tracking-wide transition-colors duration-300 inline-flex items-center mt-4 rounded-none hover:bg-palette-medium-gray">
+                        SHOP NOW
+                        <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </button>
                 </div>
-                <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Seasonal</h2>
-                {/* Product List */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {relatedProducts.slice(0, 8).map((product) => (
-                        <div key={product.id} className="bg-white rounded-lg shadow-md p-4 flex flex-col items-center">
-                            <img
-                                src={product.image}
-                                alt={product.name}
-                                className="w-full h-48 object-contain rounded-lg mb-4"
-                            />
-                            <h2 className="text-lg font-medium text-gray-700 mb-2">{product.name}</h2>
-                            <p className="text-sm text-gray-500 mb-4">Rs {product.price.toLocaleString()}</p>
-                            <button className="bg-gray-800 text-white py-2 px-4 rounded hover:bg-black transition">
-                                View Details
-                            </button>
-                        </div>
+            </section>
+
+            {/* Bottom Section - Scrollable Product Cards */}
+            <section className="bg-dark-gray py-12 px-4 relative">
+                {/* Left Arrow */}
+                {canScrollLeft && (
+                    <button
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white text-dark-gray rounded-full shadow p-2 hover:bg-light-gray transition"
+                        onClick={() => scrollByAmount(-220)}
+                        aria-label="Scroll left"
+                    >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                )}
+                {/* Right Arrow */}
+                {canScrollRight && (
+                    <button
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white text-dark-gray rounded-full shadow p-2 hover:bg-light-gray transition"
+                        onClick={() => scrollByAmount(220)}
+                        aria-label="Scroll right"
+                    >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                )}
+                <div
+                    ref={scrollRef}
+                    className="flex overflow-x-auto gap-4 pb-2 scrollbar-hide scroll-smooth"
+                    style={{ ...hideScrollbar, scrollBehavior: 'smooth' }}
+                >
+                    {products.map((product, idx) => (
+                        <ProductCard key={idx} {...product} />
                     ))}
                 </div>
-            </div>
+                {/* Dot Indicator */}
+                <div className="flex justify-center mt-6 gap-2">
+                    {Array.from({ length: dotCount }).map((_, i) => (
+                        <span
+                            key={i}
+                            style={{
+                                width: 12,
+                                height: 12,
+                                borderRadius: '50%',
+                                display: 'inline-block',
+                                background: i === activeIndex ? DOTS_COLOR_ACTIVE : DOTS_COLOR_INACTIVE,
+                                transition: 'background 0.2s',
+                            }}
+                        />
+                    ))}
+                </div>
+            </section>
         </div>
     );
 };

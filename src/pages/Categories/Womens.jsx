@@ -8,10 +8,6 @@ const womensProducts = [
   { name: "England Lionesses 2023 Home Jersey", price: 94.99, badge: "WOMEN'S EXCLUSIVE", image: womCatImg },
   { name: "France Women 2023 Home Jersey", price: 89.99, badge: "WOMEN'S EXCLUSIVE", image: womCatImg },
   { name: "Spain Women 2023 Home Jersey", price: 89.99, badge: "WOMEN'S EXCLUSIVE", image: womCatImg },
-  { name: "Germany Women 2023 Home Jersey", price: 89.99, badge: "WOMEN'S EXCLUSIVE", image: womCatImg },
-  { name: "Brazil Women 2023 Home Jersey", price: 89.99, badge: "WOMEN'S EXCLUSIVE", image: womCatImg },
-  { name: "Italy Women 2023 Home Jersey", price: 89.99, badge: "WOMEN'S EXCLUSIVE", image: womCatImg },
-  { name: "Netherlands Women 2023 Home Jersey", price: 89.99, badge: "WOMEN'S EXCLUSIVE", image: womCatImg },
 ];
 
 const Womens = () => {

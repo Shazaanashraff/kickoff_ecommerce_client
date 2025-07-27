@@ -36,22 +36,10 @@ const internationalProducts = [
     image: argentinaImg,
   },
   {
-    name: 'England 2022 Home Jersey',
-    price: 89.99,
-    badge: 'BARÇA EXCLUSIVE',
-    image: franceImg,
-  },
-  {
-    name: 'Portugal 2022 Home Jersey',
+    name: 'Spain 2022 Home Jersey',
     price: 89.99,
     badge: 'BARÇA EXCLUSIVE',
     image: argentinaImg,
-  },
-  {
-    name: 'Netherlands 2022 Home Jersey',
-    price: 89.99,
-    badge: 'BARÇA EXCLUSIVE',
-    image: franceImg,
   },
 ];
 

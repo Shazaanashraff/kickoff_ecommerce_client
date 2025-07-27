@@ -48,3 +48,6 @@ html, body {
 .card-clickable {
   cursor: pointer;
 }
+.hover\:bg-palette-medium-gray:hover {
+  background-color: var(--color-medium-gray) !important;
+}
