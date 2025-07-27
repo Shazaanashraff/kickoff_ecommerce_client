@@ -5,6 +5,7 @@ import image1 from '../../assets/reltedProducts/image1.jpeg';
 import image2 from '../../assets/reltedProducts/image2.jpeg';
 import image3 from '../../assets/reltedProducts/image3.jpeg';
 import image4 from '../../assets/reltedProducts/image4.jpeg';
+import ProductCard from '../../components/(Shop)/products/ProductCard';
 
 const products = [
   // Related Products
@@ -66,37 +67,14 @@ const ProductList = () => {
       {/* Products */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-10">
         {products.map((product) => (
-          <div key={product.id} className="text-center">
-            <div className="relative bg-white p-4">
-              {product.badge && (
-                <span className="absolute top-2 left-2 bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded uppercase font-semibold">
-                  {product.badge}
-                </span>
-              )}
-              <div className="flex justify-center mb-2">
-                <div className="relative">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-auto object-contain"
-                  />
-                  {/* Optional stickers (e.g. award badges) */}
-                  <div className="absolute top-0 right-0 flex flex-col gap-1">
-                    {product.stickers.map((src, i) => (
-                      <img
-                        key={i}
-                        src={`/images/${src}`}
-                        alt="badge"
-                        className="w-12 h-12 object-contain"
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <h3 className="text-sm font-semibold mt-2">{product.name}</h3>
-              <p className="text-sm mt-1">{product.price}</p>
-            </div>
-          </div>
+          <ProductCard
+            key={product.id}
+            name={product.name}
+            price={parseFloat(product.price.replace('€', '').replace(' EUR', '').replace(',', ''))}
+            badge={product.badge}
+            image={product.image}
+            onClick={() => {}}
+          />
         ))}
       </div>
     </div>

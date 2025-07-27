@@ -47,7 +47,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between border-b border-[var(--color-medium-gray)] pb-10 mb-10 gap-8">
           <div>
             <h2 className="text-3xl font-serif mb-2">Join Our Newsletter</h2>
-            <p className="text-[var(--color-medium-gray)] mb-4">Subscribe for updates on our next drop.</p>
+            <p className="text-[var(--color-medium-gray)] mb-4">Subscribe for updates on our <span></span>next drop.</p>
             <form className="flex max-w-md">
               <input
                 type="email"
@@ -61,10 +61,6 @@ const Footer = () => {
           </div>
           <div className="flex flex-1 justify-between gap-8">
             <div>
-              <div className="uppercase text-xs font-semibold mb-3 tracking-widest">Account</div>
-              <ul className="space-y-2">
-                <li><a href="#" className="hover:underline">My Account</a></li>
-              </ul>
             </div>
             <div>
               <div className="uppercase text-xs font-semibold mb-3 tracking-widest">Brand</div>
