@@ -97,7 +97,8 @@ const Footer = () => {
         {/* Bottom Row */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-8">
           <div className="flex flex-col gap-2">
-            <span className="text-3xl font-signature">Jim Thompson</span>
+           
+            <span className="text-3xl"  style={{ fontFamily: "'Crospor', sans-serif" }} >Kickoff</span>
           </div>
           <div className="flex items-center gap-6 mb-2">
             {socialIcons.map((icon) => (

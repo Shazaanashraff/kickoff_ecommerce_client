@@ -6,7 +6,7 @@ import Sidebar from '../products/Sidebar';
 
 const navLinks = [
   { name: 'Products', href: '/products' },
-  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
   { name: 'Order', href: '/order' },
 ];
 
