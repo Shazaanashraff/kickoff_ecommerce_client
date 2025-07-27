@@ -41,7 +41,7 @@ const socialIcons = [
 
 const Footer = () => {
   return (
-    <footer className="bg-[var(--color-light-gray)] text-[var(--color-dark-gray)] pt-12 pb-4 px-4 md:px-16 mt-16">
+    <footer className="bg-[var(--color-light-gray)] text-[var(--color-dark-gray)] pt-12 pb-4 px-4 md:px-16 mt-16 z-30 relative">
       <div className="max-w-7xl mx-auto">
         {/* Newsletter */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between border-b border-[var(--color-medium-gray)] pb-10 mb-10 gap-8">

@@ -1,33 +1,42 @@
 import React from 'react';
-// Placeholder image, swap as needed
-import International from '../../../assets/PromoSelect/International.jpeg';
+import { useNavigate } from 'react-router-dom';
+// Update the import to use OwnJersey.jpeg
+import OwnJersey from '../../../assets/PromoSelect/OwnJersey.jpeg';
 import Clubs from '../../../assets/PromoSelect/Clubs.jpeg';
 
-
 const PromoSplit = () => {
+  const navigate = useNavigate();
+
+  const handleContactUs = () => {
+    navigate('/about'); // Navigate to the about page which likely has contact info
+  };
+
   return (
     <>
       <section className="w-full bg-white min-h-[70vh] flex flex-col md:flex-row items-stretch justify-center z-30 relative">
         {/* Left: Image */}
         <div className="md:w-1/2 w-full flex items-center justify-center bg-gray-100">
           <img
-            src={International}
-            alt="Promo visual"
+            src={OwnJersey}
+            alt="Custom Jersey Design"
             className="object-cover w-full h-full max-h-[500px] md:max-h-none md:rounded-none rounded-b-lg shadow-md"
           />
         </div>
         {/* Right: Content */}
         <div className="md:w-1/2 w-full flex flex-col justify-center items-start px-6 md:px-16 py-12 md:py-0 gap-6">
-          <span className="uppercase text-xs tracking-widest text-medium-gray font-semibold mb-2">Perfume Minis</span>
+          <span className="uppercase text-xs tracking-widest text-medium-gray font-semibold mb-2">Custom Design</span>
           <h2 className="text-3xl md:text-5xl font-bold text-dark-gray leading-tight mb-4">
-            Build Your Own Mini Set
+            Create Your Own Custom Jersey
           </h2>
           <blockquote className="text-base md:text-lg text-medium-gray font-medium mb-2 border-l-4 border-dark-gray pl-4">
-            "You can always layer the spritzes for a fragrant impression that’s entirely personal to you."
+            "Design your dream jersey with personalized colors, logos, and team names. Make it uniquely yours."
           </blockquote>
-          <span className="text-sm text-dark-gray mb-6">— Byrdie</span>
-          <button className="px-8 py-2 border border-dark-gray text-dark-gray text-sm font-medium rounded-none hover:bg-dark-gray hover:text-white transition-colors">
-            DISCOVER
+          <span className="text-sm text-dark-gray mb-6">— Kickoff Store</span>
+          <button 
+            onClick={handleContactUs}
+            className="px-8 py-2 border border-dark-gray text-dark-gray text-sm font-medium rounded-none hover:bg-dark-gray hover:text-white transition-colors"
+          >
+            CONTACT US
           </button>
         </div>
       </section>

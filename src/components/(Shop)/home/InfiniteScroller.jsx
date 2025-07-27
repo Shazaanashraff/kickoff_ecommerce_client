@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 
 const gradientTextClass =
-  "marquee-text text-neutral-600 font-bold uppercase inline-block leading-none transition-colors duration-200 font-crospor"; // Use Tailwind class for Crospor font
+  "marquee-text text-neutral-600 font-bold uppercase inline-block leading-none transition-colors duration-200";
 
 const dotClass =
   "inline-block bg-yellow-300 rounded-full mx-[2vw]";
@@ -67,9 +67,9 @@ const InfiniteScroller = () => {
       style={{
         width: "100vw",
         overflow: "hidden",
-        background: "none",
-        padding: "2vw 0",
+        background: "var(--color-white)", // Apply background color
         position: "relative",
+        zIndex:30,
       }}
     >
       <div style={fadeMaskStyle} />
