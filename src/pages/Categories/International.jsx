@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import internationalImage from '../../assets/PromoSelect/International.jpeg';
 import argentinaImg from '../../assets/International/arg.png';
 import franceImg from '../../assets/International/france.png';
+import ProductCard from '../../components/ProductCard';
 
 const internationalProducts = [
   {
@@ -54,10 +55,10 @@ const internationalProducts = [
   },
 ];
 
-const DOTS_COLOR_ACTIVE = '#2B2B2B'; // White for active dot
-const DOTS_COLOR_INACTIVE = '#B3B3B3'; // Dark gray for inactive dot
+const DOTS_COLOR_ACTIVE = '#2B2B2B';
+const DOTS_COLOR_INACTIVE = '#B3B3B3';
 
-const About = () => {
+const International = () => {
     const scrollRef = useRef(null);
     const [canScrollLeft, setCanScrollLeft] = useState(false);
     const [canScrollRight, setCanScrollRight] = useState(false);
@@ -159,31 +160,7 @@ const About = () => {
                     style={{ ...hideScrollbar, scrollBehavior: 'smooth' }}
                 >
                     {products.map((product, idx) => (
-                        <button
-                            key={idx}
-                            className="flex-shrink-0 w-48 flex flex-col items-center card-clickable bg-transparent border-none p-0 m-0"
-                            style={{ background: 'none' }}
-                        >
-                            {/* Product Card (Image + Badge) */}
-                            <div className="w-full bg-extra-light-gray  overflow-hidden mb-2" style={{ minHeight: '180px' }}>
-                                <div className="relative aspect-[3/4] flex items-center justify-center">
-                                    {product.image && (
-                                        <img src={product.image} alt={product.name} className="object-contain max-h-full max-w-full" />
-                                    )}
-                                </div>
-                            </div>
-                            {/* Product Details (on section background) */}
-                            <div className="w-full px-1 text-left">
-                                <h3 className="text-light-gray font-semibold text-sm mb-1 line-clamp-2">
-                                    {product.name}
-                                </h3>
-                                <div className="flex justify-between items-center mb-1">
-                                    <span className="text-light-gray font-bold text-base">
-                                        €{product.price.toLocaleString()} EUR
-                                    </span>
-                                </div>
-                            </div>
-                        </button>
+                        <ProductCard key={idx} {...product} />
                     ))}
                 </div>
                 {/* Dot Indicator */}
@@ -207,4 +184,4 @@ const About = () => {
     );
 };
 
-export default About;
+export default International;
