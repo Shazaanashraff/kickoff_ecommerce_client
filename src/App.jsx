@@ -14,6 +14,7 @@ import ProductDetail from "./pages/productDetails/ProductDetails.jsx"
 import Navbar from "./components/(Shop)/home/Navbar";
 import Footer from "./components/(Shop)/home/Footer.jsx"
 import AllProducts from "./pages/AllProducts/AllProducts.jsx"
+import ProductComparison from "./pages/(Shop)/Compare.jsx"
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/products' element={<AllProducts />} />
         <Route path='/product/:id' element={<ProductDetail />} />
+        <Route path='/compare' element={<ProductComparison />} />
         <Route path='/admin/login' element={<Login />} />
         <Route path='/admin' element={<RequireAdminAuth><Dashboard /></RequireAdminAuth>} />
         <Route path='/admin/add-product' element={<RequireAdminAuth><AddProduct /></RequireAdminAuth>} />
