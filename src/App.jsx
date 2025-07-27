@@ -1,20 +1,20 @@
 import React from "react"
 import { Routes, Route } from "react-router-dom"
 import Home from "./pages/(Shop)/Home"
-import Products from "./pages/(Shop)/Products"
 import Dashboard from "./pages/(Admin)/Dashboard"
-import Checkout from "./pages/(Shop)/Checkout"
 import AddProduct from "./pages/(Admin)/AddProduct"
 import AdminProducts from "./pages/(Admin)/Products"
 import Orders from "./pages/(Admin)/Orders"
 import Login from "./pages/(Admin)/Login"
 import RequireAdminAuth from "./pages/(Admin)/RequireAdminAuth"
-import Order from "./pages/(Shop)/Order"
-import About from "./pages/(Shop)/About"
 import ProductDetail from "./pages/productDetails/ProductDetails.jsx"
 import Navbar from "./components/(Shop)/home/Navbar";
 import Footer from "./components/(Shop)/home/Footer.jsx"
 import Categories from "./pages/Categories/Categories.jsx"
+import ProductComparison from "./pages/Compare/Compare.jsx"
+import Contact from "./pages/Contact/Contact.jsx"
+import ProductList from "./pages/ProductList/ProductList.jsx"
+import Checkout from "./pages/Checkout/Checkout.jsx"
 
 const App = () => {
   return (
@@ -22,9 +22,13 @@ const App = () => {
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
         <Route path='/products' element={<Categories />} />
         <Route path='/product/:id' element={<ProductDetail />} />
+        <Route path='/product-list' element={<ProductList />} />
+        <Route path='/compare' element={<ProductComparison />} />
+        <Route path='/contact' element={<Contact />} />
+        <Route path='/checkout' element={<Checkout />} />
         <Route path='/admin/login' element={<Login />} />
         <Route path='/admin' element={<RequireAdminAuth><Dashboard /></RequireAdminAuth>} />
         <Route path='/admin/add-product' element={<RequireAdminAuth><AddProduct /></RequireAdminAuth>} />

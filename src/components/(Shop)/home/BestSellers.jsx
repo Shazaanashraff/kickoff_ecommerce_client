@@ -4,6 +4,7 @@ import messiImg from '../../../assets/bestSellers/messi.jpeg';
 import psgImg from '../../../assets/bestSellers/psg.jpeg';
 import rmImg from '../../../assets/bestSellers/rm.jpeg';
 import mancImg from '../../../assets/bestSellers/manc.jpeg';
+import ProductCard from '../products/ProductCard';
 
 const bestSellers = [
   {
@@ -51,18 +52,13 @@ const BestSellers = () => {
       </div>
       <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-light-gray scrollbar-track-white">
         {bestSellers.map((item, idx) => (
-          <div key={idx} className="min-w-[220px] max-w-[240px] bg-white border border-light-gray rounded-lg flex-shrink-0 flex flex-col items-center p-4">
-            <img src={item.img} alt={item.name} className="w-full h-56 object-contain mb-4" />
-            <div className="w-full">
-              <h3 className="text-base font-semibold text-dark-gray mb-1" style={{ fontFamily: 'var(--font-primary)' }}>{item.name}</h3>
-              <p className="text-sm text-medium-gray mb-2">{item.price}</p>
-              <div className="flex gap-2">
-                {item.colors.map((color, i) => (
-                  <span key={i} className="w-6 h-6 border border-light-gray rounded inline-block" style={{ background: color }}></span>
-                ))}
-              </div>
-            </div>
-          </div>
+          <ProductCard
+            key={idx}
+            name={item.name}
+            price={parseInt(item.price.replace(/[^\d]/g, ''))}
+            image={item.img}
+            onClick={() => {}}
+          />
         ))}
       </div>
     </section>

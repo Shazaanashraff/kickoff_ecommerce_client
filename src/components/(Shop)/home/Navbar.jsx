@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { Search, ShoppingBag } from 'lucide-react';
+import { Search, ShoppingBag, Menu, X, Plus, Minus } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../../../context/CartContext';
 import Sidebar from '../products/Sidebar';
 
 const navLinks = [
   { name: 'Products', href: '/products' },
-  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
   { name: 'Order', href: '/order' },
+];
+
+const productCategories = [
+  { name: 'International', href: '/categories/international' },
+  { name: 'Retro', href: '/categories/retro' },
+  { name: 'Seasonal', href: '/categories/seasonal' },
+  { name: 'Women', href: '/categories/womens' },
+  { name: 'Kids', href: '/categories/kids' },
 ];
 
 const Navbar = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [scrolled, setScrolled] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [productsAccordionOpen, setProductsAccordionOpen] = useState(false);
+  const [cartSidebarOpen, setCartSidebarOpen] = useState(false);
   const location = useLocation();
   const { getTotalItems, toggleCart } = useCart();
   const cartItemCount = getTotalItems();
@@ -49,9 +60,10 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Center Nav Links & Let'sTalk */}
+
+        {/* Center Nav Links & Let'sTalk (hidden on mobile) */}
         <div
-          className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center transition-all duration-300
+          className={`absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:flex items-center justify-center transition-all duration-300 hidden md:block
             ${scrolled ? 'glass-marble' : 'hover:glass-marble'}
           `}
           style={{ minHeight: '48px', maxWidth: '900px' }}
@@ -110,7 +122,7 @@ const Navbar = () => {
           >
             <button
               className="p-0 m-0 bg-transparent text-dark-gray focus:outline-none"
-              onClick={toggleCart}
+              onClick={() => setCartSidebarOpen((v) => !v)}
               aria-label="Open cart"
             >
               <ShoppingBag className="w-5 h-5 text-dark-gray" />
@@ -121,22 +133,112 @@ const Navbar = () => {
               )}
             </button>
           </div>
+          {/* Hamburger for mobile (moved here) */}
+          <button
+            className="md:hidden flex items-center justify-center w-10 h-10 rounded-lg border border-light-gray bg-transparent hover:bg-white transition z-50"
+            onClick={() => setSidebarOpen(true)}
+            aria-label="Open menu"
+          >
+            <Menu className="w-6 h-6 text-dark-gray" />
+          </button>
         </div>
       </nav>
 
-      {/* Sidebar Cart Dropdown */}
-      <Sidebar />
+      {/* Sidebar for mobile nav */}
+      {sidebarOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm"
+            onClick={() => setSidebarOpen(false)}
+          />
+          <aside
+            className="fixed top-0 right-0 h-full w-72 max-w-full bg-white z-50 shadow-lg flex flex-col p-6 animate-slideIn"
+            style={{ animation: 'slideIn 0.3s cubic-bezier(0.4,0,0.2,1)' }}
+          >
+            <button
+              className="self-end mb-6 text-dark-gray text-2xl px-2 py-1 rounded-full hover:bg-light-gray/30 transition"
+              onClick={() => setSidebarOpen(false)}
+              aria-label="Close menu"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <ul className="flex flex-col gap-4">
+              {/* Products Accordion */}
+              <li>
+                <button
+                  className="w-full flex items-center justify-between text-base font-semibold text-dark-gray py-2 px-2 rounded hover:bg-light-gray/30 transition"
+                  onClick={() => setProductsAccordionOpen((v) => !v)}
+                  aria-expanded={productsAccordionOpen}
+                  aria-controls="products-accordion"
+                >
+                  Products
+                  {/* Plus/Minus icon for accordion */}
+                  <span className="ml-2 transition-transform">
+                    {productsAccordionOpen ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                  </span>
+                </button>
+                {productsAccordionOpen && (
+                  <ul id="products-accordion" className="pl-4 mt-2 flex flex-col gap-2">
+                    {productCategories.map((cat) => (
+                      <li key={cat.name}>
+                        <Link
+                          to={cat.href}
+                          className="block text-medium-gray py-1 px-2 rounded hover:bg-light-gray/30 transition"
+                          onClick={() => setSidebarOpen(false)}
+                        >
+                          {cat.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+              {/* Other nav links */}
+              {navLinks.filter(l => l.name !== 'Products').map((link) => (
+                <li key={link.name}>
+                  <Link
+                    to={link.href}
+                    className="block text-base font-semibold text-dark-gray py-2 px-2 rounded hover:bg-light-gray/30 transition"
+                    onClick={() => setSidebarOpen(false)}
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+              {/* Let's Talk Button */}
+              <li>
+                <a
+                  href="#calltoaction"
+                  className="block text-base font-semibold text-dark-gray py-2 px-2 rounded hover:bg-light-gray/30 transition"
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  Let'sTalk
+                </a>
+              </li>
+            </ul>
+          </aside>
+          <style>{`
+            @keyframes slideIn {
+              0% { transform: translateX(100%); opacity: 0; }
+              100% { transform: translateX(0); opacity: 1; }
+            }
+          `}</style>
+        </>
+      )}
+
+      {/* Cart Sidebar */}
+      <Sidebar open={cartSidebarOpen} onClose={() => setCartSidebarOpen(false)} />
 
       {/* Search Panel */}
       {searchOpen && (
         <>
           <div className="fixed left-0 right-0 bottom-0 h-20 z-40" onClick={() => setSearchOpen(false)} />
           <div
-            className="fixed left-0 right-0 top-[64px] bottom-30 z-50 bg-white border-t border-light-gray flex flex-col animate-slideDown"
+            className="fixed left-0 right-0 top-[64px] bottom-80 z-50 bg-white border-t border-light-gray flex flex-col animate-slideDown max-h-[100vh] overflow-y-auto"
             style={{ animation: 'slideDown 0.4s cubic-bezier(0.4,0,0.2,1)' }}
           >
-            <div className="max-w-5xl mx-auto w-full">
-              <div className="flex items-center gap-4 py-6 px-0">
+            <div className="max-w-5xl mx-auto w-full px-2 sm:px-4">
+              <div className="flex items-center gap-4 py-4 sm:py-6 px-0">
                 <div className="flex-1 flex items-center gap-4">
                   <Search className="w-6 h-6 text-medium-gray" />
                   <input
@@ -158,31 +260,34 @@ const Navbar = () => {
                   &#10005;
                 </button>
               </div>
-              <div className="border-b border-light-gray w-full" />
+              <div className="border-b border-light-gray w-full mb-6" />
             </div>
-            <div className="flex flex-1 py-8 gap-12 max-w-5xl mx-auto w-full overflow-y-auto">
-              <div className="w-1/4 min-w-[140px]">
-                <h3 className="text-xs font-semibold text-medium-gray mb-6 tracking-widest">POPULAR</h3>
-                <ul className="space-y-4">
-                  <li className="text-dark-gray text-sm cursor-pointer hover:underline">Internatioanl</li>
-                  <li className="text-dark-gray text-sm cursor-pointer hover:underline">Women</li>
-                  <li className="text-dark-gray text-sm cursor-pointer hover:underline">Retro kits</li>
-                  <li className="text-dark-gray text-sm cursor-pointer hover:underline">Seasonal</li>
+            {/* Main content: links left, images right, always side by side */}
+            <div className="flex flex-1 mx-auto w-full px-2 sm:px-4 gap-4 sm:gap-8 overflow-y-auto">
+              {/* Links section */}
+              <div className="w-2/5 sm:w-1/4 min-w-[120px] flex-shrink-0">
+                <h3 className="text-xs font-semibold text-medium-gray mb-4 sm:mb-6 tracking-widest">POPULAR</h3>
+                <ul className="flex flex-col gap-2 sm:gap-4">
+                  <li className="text-dark-gray text-sm cursor-pointer hover:underline whitespace-nowrap">International</li>
+                  <li className="text-dark-gray text-sm cursor-pointer hover:underline whitespace-nowrap">Women</li>
+                  <li className="text-dark-gray text-sm cursor-pointer hover:underline whitespace-nowrap">Retro kits</li>
+                  <li className="text-dark-gray text-sm cursor-pointer hover:underline whitespace-nowrap">Seasonal</li>
                 </ul>
               </div>
-              <div className="flex-1">
-                <h3 className="text-xs font-semibold text-medium-gray mb-6 tracking-widest">We think you might like</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* Images section */}
+              <div className="flex-1 flex flex-col">
+                <h3 className="text-xs font-semibold text-medium-gray mb-4 sm:mb-6 tracking-widest">We think you might like</h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6">
                   {[1, 2, 3].map((i) => (
-                    <div key={i} className="bg-white border border-light-gray rounded-lg p-3 flex flex-col items-center">
-                      <div className="w-24 h-32 bg-light-gray rounded mb-3" />
+                    <div key={i} className="bg-white border border-light-gray rounded-lg p-2 sm:p-4 flex flex-col items-center">
+                      <div className="w-20 h-20 sm:w-32 sm:h-40 bg-light-gray rounded mb-2 sm:mb-3" />
                       <div className="w-full flex flex-col items-start">
                         <div className="text-xs font-bold text-medium-gray mb-1">SALE</div>
-                        <div className="h-3 w-3/4 bg-light-gray rounded mb-1" />
-                        <div className="h-2 w-1/2 bg-light-gray rounded mb-1" />
-                        <div className="flex gap-2 mt-2">
-                          <div className="w-4 h-4 rounded bg-dark-gray" />
-                          <div className="w-4 h-4 rounded bg-light-gray" />
+                        <div className="h-2 w-3/4 bg-light-gray rounded mb-1" />
+                        <div className="h-1 w-1/2 bg-light-gray rounded mb-1" />
+                        <div className="flex gap-1 mt-2">
+                          <div className="w-3 h-3 rounded bg-dark-gray" />
+                          <div className="w-3 h-3 rounded bg-light-gray" />
                         </div>
                       </div>
                     </div>
