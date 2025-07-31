@@ -1,9 +1,8 @@
 import React from 'react';
-import barcaImg from '../../../assets/bestSellers/barca.jpeg';
-import messiImg from '../../../assets/bestSellers/messi.jpeg';
-import psgImg from '../../../assets/bestSellers/psg.jpeg';
-import rmImg from '../../../assets/bestSellers/rm.jpeg';
-import mancImg from '../../../assets/bestSellers/manc.jpeg';
+import barcaImg from '../../../assets/bestSellers/barca.png';
+import messiImg from '../../../assets/bestSellers/messi.png';
+import psgImg from '../../../assets/bestSellers/psg.png';
+import rmImg from '../../../assets/bestSellers/rm.png';
 import ProductCard from '../products/ProductCard';
 
 const bestSellers = [
@@ -31,12 +30,7 @@ const bestSellers = [
     img: rmImg,
     colors: ['#FFFFFF', '#FFD600'],
   },
-  {
-    name: 'Man City Home Jersey',
-    price: 'Rs 8,499',
-    img: mancImg,
-    colors: ['#98C1D9', '#FFFFFF'],
-  },
+  
 ];
 
 const BestSellers = () => {
@@ -50,7 +44,7 @@ const BestSellers = () => {
           SHOP ALL
         </a>
       </div>
-      <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-light-gray scrollbar-track-white">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 w-full">
         {bestSellers.map((item, idx) => (
           <ProductCard
             key={idx}
@@ -58,6 +52,7 @@ const BestSellers = () => {
             price={parseInt(item.price.replace(/[^\d]/g, ''))}
             image={item.img}
             onClick={() => {}}
+            large
           />
         ))}
       </div>

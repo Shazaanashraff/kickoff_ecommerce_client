@@ -1,9 +1,9 @@
 import React from 'react';
 // Use your own images here
-import new1 from '../../../assets/bestSellers/barca.jpeg';
-import new2 from '../../../assets/bestSellers/messi.jpeg';
-import new3 from '../../../assets/bestSellers/psg.jpeg';
-import new4 from '../../../assets/bestSellers/rm.jpeg';
+import new1 from '../../../assets/bestSellers/barca.png';
+import new2 from '../../../assets/bestSellers/messi.png';
+import new3 from '../../../assets/bestSellers/psg.png';
+import new4 from '../../../assets/bestSellers/rm.png';
 import ProductCard from '../products/ProductCard';
 
 const newReleases = [
@@ -47,7 +47,7 @@ const ShopNewReleases = () => {
           SHOP ALL NEW
         </a>
       </div>
-      <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-light-gray scrollbar-track-white">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 w-full">
         {newReleases.map((item, idx) => (
           <ProductCard
             key={idx}
@@ -56,6 +56,7 @@ const ShopNewReleases = () => {
             badge={item.isNew ? 'NEW' : undefined}
             image={item.img}
             onClick={() => {}}
+            large
           />
         ))}
       </div>
