@@ -1,286 +1,384 @@
-import React, { useContext, useState } from 'react';
-import Sidebar from '../../components/(Admin)/Sidebar';
-import axios from 'axios';
-import { AppContext } from '../../context/AppContext';
+import React, { useState } from 'react';
+import AdminSidebar from '../../components/(Admin)/Sidebar';
+import { SidebarProvider } from '../../context/SidebarContext';
+import { useSidebarContext } from '../../context/SidebarContext';
+import { motion } from 'framer-motion';
 
-const sizeOptions = ['S', 'M', 'L', 'XL'];
+const sizeOptions = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+const genderOptions = ['Men', 'Woman', 'Unisex'];
+const categoryOptions = [
+  'International',
+  'Womens', 
+  'Seasonal',
+  'Retro',
+  'Kids',
+  'Accessories',
+  'Special Edition',
+  'Customized Jersey'
+];
 
 const initialState = {
   name: '',
   description: '',
   category: '',
-  basePrice: '',
-  variants: [], // Array of { size, price, stock, sku }
-  images: [''], // Start with one image URL field
-  isFeatured: false,
+  price: '',
+  stock: '',
+  discount: '',
+  discountType: 'percentage',
+  gender: '',
+  sizes: [],
+  image: '',
+  additionalImages: '',
+  featured: false,
 };
 
-const AddProduct = () => {
-  const { backendUrl } = useContext(AppContext);
+const AddProductContent = () => {
+  const { isOpen } = useSidebarContext();
   const [form, setForm] = useState(initialState);
-  const [selectedSizes, setSelectedSizes] = useState([]); // Track selected sizes
-  const [variantInputs, setVariantInputs] = useState({}); // { S: { price, stock }, ... }
+  const [selectedSizes, setSelectedSizes] = useState([]);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, checked, type } = e.target;
-    if (name === 'sizes') {
-      let updatedSizes;
-      if (checked) {
-        updatedSizes = [...selectedSizes, value];
-        if (!variantInputs[value]) {
-          setVariantInputs({ ...variantInputs, [value]: { price: '', stock: '' } });
-        }
-      } else {
-        updatedSizes = selectedSizes.filter(s => s !== value);
-        const newVariantInputs = { ...variantInputs };
-        delete newVariantInputs[value];
-        setVariantInputs(newVariantInputs);
-      }
-      setSelectedSizes(updatedSizes);
-    } else if (name.startsWith('variant-')) {
-      // name: variant-S-price, variant-M-stock
-      const [, size, field] = name.split('-');
-      setVariantInputs({
-        ...variantInputs,
-        [size]: {
-          ...variantInputs[size],
-          [field]: value,
-        },
-      });
-    } else if (name.startsWith('price-')) {
-      const size = name.split('-')[1];
-      setVariantInputs({
-        ...variantInputs,
-        [size]: {
-          ...variantInputs[size],
-          price: value,
-        },
-      });
-    } else if (name.startsWith('stock-')) {
-      const size = name.split('-')[1];
-      setVariantInputs({
-        ...variantInputs,
-        [size]: {
-          ...variantInputs[size],
-          stock: value,
-        },
-      });
-    } else if (name.startsWith('image-url-')) {
-      // name: image-url-0, image-url-1, etc.
-      const idx = parseInt(name.split('-')[2], 10);
-      const newImages = [...form.images];
-      newImages[idx] = value;
-      setForm({ ...form, images: newImages });
-    } else if (name === 'isFeatured') {
-      setForm({ ...form, isFeatured: checked });
+    
+    if (name === 'featured') {
+      setForm({ ...form, featured: checked });
     } else {
       setForm({ ...form, [name]: value });
     }
   };
 
-  const handleAddImageField = () => {
-    setForm({ ...form, images: [...form.images, ''] });
-  };
-
-  const handleRemoveImageField = (idx) => {
-    const newImages = form.images.filter((_, i) => i !== idx);
-    setForm({ ...form, images: newImages.length ? newImages : [''] });
+  const handleSizeChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setSelectedSizes([...selectedSizes, value]);
+    } else {
+      setSelectedSizes(selectedSizes.filter(size => size !== value));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    // Build variants array
-    const variants = selectedSizes.map(size => ({
-      size,
-      price: Number(variantInputs[size]?.price || 0),
-      stock: Number(variantInputs[size]?.stock || 0),
-    }));
-    // Validate at least one variant
-    if (variants.length === 0) {
-      setError('Please select at least one size and fill its details.');
+    
+    if (!form.name || !form.description || !form.category || !form.price || !form.stock || !form.gender) {
+      setError('Please fill in all required fields.');
       return;
     }
-    // Validate at least one image URL
-    const validImages = form.images.filter(url => url.trim() !== '');
-    if (validImages.length === 0) {
-      setError('Please provide at least one image URL.');
+    
+    if (selectedSizes.length === 0) {
+      setError('Please select at least one size.');
       return;
     }
-    // Prepare data
+    
     const payload = {
       name: form.name,
       description: form.description,
       category: form.category,
-      basePrice: form.basePrice,
-      images: validImages,
-      variants,
-      isFeatured: form.isFeatured,
+      price: parseFloat(form.price),
+      stock: parseInt(form.stock),
+      discount: form.discount ? parseFloat(form.discount) : 0,
+      discountType: form.discountType,
+      gender: form.gender,
+      sizes: selectedSizes,
+      image: form.image,
+      additionalImages: form.additionalImages,
+      featured: form.featured,
     };
+    
     try {
-      const res = await axios.post(`${backendUrl}/api/products`, payload);
-      if (!res.data.success) {
-        throw new Error(res.data.message || 'Failed to add product');
-      }
+      console.log('Submitting product:', payload);
       setSuccess(true);
       setForm(initialState);
       setSelectedSizes([]);
-      setVariantInputs({});
       setTimeout(() => setSuccess(false), 2000);
     } catch (err) {
-      setError(err.response?.data?.message || err.message);
+      setError(err.message);
     }
   };
 
-  return (
-    <div className="min-h-screen bg-black flex">
-      <Sidebar />
-      <main className="flex-1 ml-0 md:ml-64 px-6 py-10">
-        <h1 className="text-2xl font-bold text-white mb-8">Add Product</h1>
-        <form onSubmit={handleSubmit} className="max-w-xl bg-white/5 rounded-2xl p-8 shadow-lg">
-          {success && <div className="mb-4 text-[#00FF99] font-semibold">Product added successfully!</div>}
-          {error && <div className="mb-4 text-red-400 font-semibold">{error}</div>}
-          <div className="mb-6">
-            <label className="block text-white mb-2">Product Name</label>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              required
-              className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
-            />
+      return (
+      <div className="min-h-screen bg-[#d4d4d4]">
+        <AdminSidebar />
+        <motion.main
+          className="transition-all duration-150 ease-out"
+          animate={{
+            marginLeft: isOpen ? "280px" : "70px"
+          }}
+          style={{
+            marginLeft: isOpen ? "280px" : "70px"
+          }}
+        >
+          <div className="px-6 py-10 bg-white rounded-tl-3xl min-h-screen shadow-lg">
+            <div className="flex justify-between items-center mb-8">
+              <h1 className="text-2xl font-bold text-dark-gray">Add New Product</h1>
+                          <div className="flex gap-4">
+                <button className="bg-white text-dark-gray px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 border border-gray-200">
+                  Save Draft
+                </button>
+                <button 
+                  onClick={handleSubmit}
+                  className="bg-[#2B2B2B] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#1a1a1a]"
+                >
+                  Add Product
+                </button>
+              </div>
           </div>
-          <div className="mb-6">
-            <label className="block text-white mb-2">Description</label>
-            <textarea
-              name="description"
-              value={form.description}
-              onChange={handleChange}
-              required
-              rows={3}
-              className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
-            />
-          </div>
-          <div className="mb-6">
-            <label className="block text-white mb-2">Category</label>
-            <select
-              name="category"
-              value={form.category}
-              onChange={handleChange}
-              required
-              className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
-            >
-              <option value="" disabled>Select category</option>
-              <option value="International">International</option>
-              <option value="Womens">Womens</option>
-              <option value="Retro kits">Retro kits</option>
-              <option value="Seasonal clubs">Seasonal clubs</option>
-            </select>
-          </div>
-          <div className="mb-6">
-            <label className="block text-white mb-2">Base Price</label>
-            <input
-              type="number"
-              name="basePrice"
-              value={form.basePrice}
-              onChange={handleChange}
-              required
-              min={0}
-              step="0.01"
-              className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
-            />
-          </div>
-          <div className="mb-6">
-            <label className="block text-white mb-2">Sizes & Variants</label>
-            <div className="flex gap-4 mb-2">
-              {sizeOptions.map(size => (
-                <label key={size} className="flex items-center gap-2 text-white">
+
+          {success && <div className="mb-4 text-dark-gray font-semibold">Product added successfully!</div>}
+          {error && <div className="mb-4 text-red-600 font-semibold">{error}</div>}
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Left Column */}
+            <div className="space-y-8">
+              {/* General Information */}
+              <div className="bg-white rounded-2xl p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-dark-gray mb-4">General Information</h2>
+                
+                <div className="mb-4">
+                  <label className="block text-dark-gray mb-2">Name Product</label>
                   <input
-                    type="checkbox"
-                    name="sizes"
-                    value={size}
-                    checked={selectedSizes.includes(size)}
+                    type="text"
+                    name="name"
+                    value={form.name}
                     onChange={handleChange}
-                    className="accent-[#00FF99] w-5 h-5"
+                    placeholder=""
+                    required
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-4 py-3 text-dark-gray focus:outline-none focus:border-dark-gray placeholder-gray-500"
                   />
-                  {size}
-                </label>
-              ))}
-            </div>
-            {selectedSizes.length > 0 && (
-              <div className="space-y-4 mt-4">
-                {selectedSizes.map(size => (
-                  <div key={size} className="flex gap-4 items-end bg-black/30 p-3 rounded-lg">
-                    <span className="text-white font-semibold w-8">{size}</span>
+                </div>
+                
+                <div>
+                  <label className="block text-dark-gray mb-2">Description Product</label>
+                  <textarea
+                    name="description"
+                    value={form.description}
+                    onChange={handleChange}
+                    placeholder=""
+                    required
+                    rows={4}
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-4 py-3 text-dark-gray focus:outline-none focus:border-dark-gray placeholder-gray-500"
+                  />
+                </div>
+              </div>
+
+              {/* Size & Gender */}
+              <div className="bg-white rounded-2xl p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-dark-gray mb-4">Size & Gender</h2>
+                
+                <div className="mb-6">
+                  <label className="block text-dark-gray mb-2">Size</label>
+                  <p className="text-gray-500 text-sm mb-3">Pick Available Size</p>
+                  <div className="flex flex-wrap gap-2">
+                    {sizeOptions.map(size => (
+                      <button
+                        key={size}
+                        type="button"
+                        onClick={() => {
+                          if (selectedSizes.includes(size)) {
+                            setSelectedSizes(selectedSizes.filter(s => s !== size));
+                          } else {
+                            setSelectedSizes([...selectedSizes, size]);
+                          }
+                        }}
+                        className={`px-4 py-2 rounded-lg border transition-colors ${
+                          selectedSizes.includes(size)
+                            ? 'bg-[#2B2B2B] text-white border-[#2B2B2B]'
+                            : 'bg-gray-100 text-dark-gray border-gray-200 hover:border-gray-300'
+                        }`}
+                      >
+                        {size}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-dark-gray mb-2">Gender</label>
+                  <p className="text-gray-500 text-sm mb-3">Pick Available Gender</p>
+                  <div className="space-y-2">
+                    {genderOptions.map(gender => (
+                      <label key={gender} className="flex items-center gap-3 text-dark-gray cursor-pointer">
+                        <input
+                          type="radio"
+                          name="gender"
+                          value={gender}
+                          checked={form.gender === gender}
+                          onChange={handleChange}
+                          className="accent-[#2B2B2B] w-4 h-4"
+                        />
+                        {gender}
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Pricing And Stock */}
+              <div className="bg-white rounded-2xl p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-dark-gray mb-4">Pricing And Stock</h2>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-dark-gray mb-2">Base Pricing</label>
                     <input
                       type="number"
-                      name={`price-${size}`}
-                      placeholder="Price"
-                      value={variantInputs[size]?.price || ''}
+                      name="price"
+                      value={form.price}
                       onChange={handleChange}
+                      placeholder="$47.55"
                       required
                       min={0}
                       step="0.01"
-                      className="bg-black/40 border border-white/20 rounded px-2 py-1 text-white w-24"
-                    />
-                    <input
-                      type="number"
-                      name={`stock-${size}`}
-                      placeholder="Stock"
-                      value={variantInputs[size]?.stock || ''}
-                      onChange={handleChange}
-                      required
-                      min={0}
-                      className="bg-black/40 border border-white/20 rounded px-2 py-1 text-white w-20"
+                      className="w-full bg-gray-100 border border-gray-200 rounded px-4 py-3 text-dark-gray focus:outline-none focus:border-dark-gray placeholder-gray-500"
                     />
                   </div>
-                ))}
+                  
+                  <div>
+                    <label className="block text-dark-gray mb-2">Stock</label>
+                    <input
+                      type="number"
+                      name="stock"
+                      value={form.stock}
+                      onChange={handleChange}
+                      placeholder="77"
+                      required
+                      min={0}
+                      className="w-full bg-gray-100 border border-gray-200 rounded px-4 py-3 text-dark-gray focus:outline-none focus:border-dark-gray placeholder-gray-500"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-dark-gray mb-2">Discount</label>
+                    <input
+                      type="text"
+                      name="discount"
+                      value={form.discount}
+                      onChange={handleChange}
+                      placeholder="10%"
+                      className="w-full bg-gray-100 border border-gray-200 rounded px-4 py-3 text-dark-gray focus:outline-none focus:border-dark-gray placeholder-gray-500"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-dark-gray mb-2">Discount Type</label>
+                    <select
+                      name="discountType"
+                      value={form.discountType}
+                      onChange={handleChange}
+                      className="w-full bg-gray-100 border border-gray-200 rounded px-4 py-3 text-dark-gray focus:outline-none focus:border-dark-gray"
+                    >
+                      <option value="">Select discount type</option>
+                      <option value="Chinese New Year Discount">Chinese New Year Discount</option>
+                      <option value="Summer Sale">Summer Sale</option>
+                      <option value="Holiday Special">Holiday Special</option>
+                      <option value="Clearance">Clearance</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-            )}
-          </div>
-          <div className="mb-6">
-            <label className="block text-white mb-2">Product Images (Cloudinary URLs)</label>
-            {form.images.map((url, idx) => (
-              <div key={idx} className="flex items-center gap-2 mb-2">
-                <input
-                  type="text"
-                  name={`image-url-${idx}`}
-                  value={url}
-                  onChange={handleChange}
-                  placeholder="https://res.cloudinary.com/..."
-                  className="w-full bg-black/40 border border-white/20 rounded px-4 py-2 text-white focus:outline-none"
-                  required={idx === 0}
-                />
-                {form.images.length > 1 && (
-                  <button type="button" onClick={() => handleRemoveImageField(idx)} className="text-red-400 px-2 py-1 rounded hover:bg-red-900/30">Remove</button>
-                )}
+            </div>
+
+            {/* Right Column */}
+            <div className="space-y-8">
+              {/* Upload Img */}
+              <div className="bg-white rounded-2xl p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-dark-gray mb-4">Upload Img</h2>
+                
+                <div className="mb-4">
+                  <div className="w-full h-64 bg-gray-100 border border-gray-200 rounded-lg flex items-center justify-center mb-4">
+                    <div className="text-center text-dark-gray">
+                      <div className="text-4xl mb-2">📷</div>
+                      <p>Main Product Image</p>
+                      <p className="text-sm text-gray-500">Upload your main product image here</p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-4 gap-2">
+                    <div className="aspect-square bg-gray-100 border border-gray-200 rounded-lg flex items-center justify-center">
+                      <div className="text-center text-dark-gray">
+                        <div className="text-2xl mb-1">+</div>
+                        <p className="text-xs">Add Image</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Cloudinary URLs Section */}
+                <div>
+                  <label className="block text-dark-gray mb-2">Cloudinary URLs</label>
+                  <div className="flex items-center gap-2 mb-2">
+                    <input
+                      type="text"
+                      name="image"
+                      value={form.image}
+                      onChange={handleChange}
+                      placeholder="https://res.cloudinary.com/..."
+                      className="flex-1 bg-gray-100 border border-gray-200 rounded px-4 py-2 text-dark-gray focus:outline-none focus:border-dark-gray placeholder-gray-500"
+                      required
+                    />
+                  </div>
+                </div>
               </div>
-            ))}
-            <button type="button" onClick={handleAddImageField} className="mt-2 bg-[#00FF99] text-black rounded px-4 py-2 font-semibold hover:bg-[#00E589]">Add Image</button>
+
+              {/* Category */}
+              <div className="bg-white rounded-2xl p-6 shadow-sm">
+                <h2 className="text-xl font-semibold text-dark-gray mb-4">Category</h2>
+                
+                <div className="mb-4">
+                  <label className="block text-dark-gray mb-2">Product Category</label>
+                  <select
+                    name="category"
+                    value={form.category}
+                    onChange={handleChange}
+                    required
+                    className="w-full bg-gray-100 border border-gray-200 rounded px-4 py-3 text-dark-gray focus:outline-none focus:border-dark-gray"
+                  >
+                    <option value="" disabled>Select category</option>
+                    {categoryOptions.map(category => (
+                      <option key={category} value={category}>{category}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                <button 
+                  type="button" 
+                  className="bg-[#2B2B2B] text-white px-6 py-2 rounded-lg font-semibold hover:bg-[#1a1a1a]"
+                >
+                  Add Category
+                </button>
+              </div>
+
+              {/* Featured Product Checkbox */}
+              <div className="bg-white rounded-2xl p-6 shadow-sm">
+                <div className="flex items-center gap-3">
+                  <input
+                    type="checkbox"
+                    name="featured"
+                    checked={form.featured}
+                    onChange={handleChange}
+                    className="accent-[#2B2B2B] w-5 h-5"
+                    id="featured"
+                  />
+                  <label htmlFor="featured" className="text-dark-gray select-none cursor-pointer">
+                    Add to Featured Product Section
+                  </label>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="mb-6 flex items-center gap-3">
-            <input
-              type="checkbox"
-              name="isFeatured"
-              checked={form.isFeatured}
-              onChange={handleChange}
-              className="accent-[#00FF99] w-5 h-5"
-              id="isFeatured"
-            />
-            <label htmlFor="isFeatured" className="text-white select-none cursor-pointer">Featured Product</label>
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-[#00FF99] text-black font-semibold rounded-full py-3 text-lg hover:bg-[#00E589] transition"
-          >
-            Add Product
-          </button>
-        </form>
-      </main>
+        </div>
+      </motion.main>
     </div>
+  );
+};
+
+const AddProduct = () => {
+  return (
+    <SidebarProvider>
+      <AddProductContent />
+    </SidebarProvider>
   );
 };
 

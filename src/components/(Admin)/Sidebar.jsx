@@ -1,43 +1,94 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Sidebar, SidebarBody, SidebarLink } from '../ui/sidebar';
+import { LayoutDashboard, Package, ShoppingCart, Plus } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { cn } from '../../lib/utils';
+import { useSidebarContext } from '../../context/SidebarContext';
 
-const links = [
-  { label: 'Dashboard', to: '/admin' },
-  { label: 'Products', to: '/admin/products' },
-  { label: 'Orders', to: '/admin/orders' },
-  { label: 'Add Product', to: '/admin/add-product' },
-];
-
-const Sidebar = () => {
-  const location = useLocation();
+const AdminSidebar = () => {
+  const { isOpen, setIsOpen } = useSidebarContext();
+  
+  const links = [
+    {
+      label: "Dashboard",
+      href: "/admin",
+      icon: (
+        <LayoutDashboard className="text-[#2B2B2B] h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Products",
+      href: "/admin/products",
+      icon: (
+        <Package className="text-[#2B2B2B] h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Orders",
+      href: "/admin/orders",
+      icon: (
+        <ShoppingCart className="text-[#2B2B2B] h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Add Product",
+      href: "/admin/add-product",
+      icon: (
+        <Plus className="text-[#2B2B2B] h-5 w-5 flex-shrink-0" />
+      ),
+    },
+  ];
+  
   return (
-    <aside className="hidden md:block fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-200 shadow-lg z-40">
-      <div className="flex flex-col h-full p-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-10">Admin</h2>
-        <nav className="flex-1">
-          <ul className="space-y-4">
-            {links.map(link => (
-              <li key={link.to}>
-                <Link
-                  to={link.to}
-                  className={`block px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
-                    location.pathname === link.to
-                      ? 'bg-gray-100 text-gray-900 font-semibold border-l-4 border-gray-800'
-                      : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
-                  }`}
-                >
-                  {link.label}
-                </Link>
-              </li>
+    <Sidebar open={isOpen} setOpen={setIsOpen}>
+      <SidebarBody className="justify-between gap-10">
+        <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+          {isOpen ? <Logo /> : <LogoIcon />}
+          <div className="mt-8 flex flex-col gap-2">
+            {links.map((link, idx) => (
+              <SidebarLink key={idx} link={link} />
             ))}
-          </ul>
-        </nav>
-        <div className="mt-auto pt-8 border-t border-gray-100 text-xs text-gray-400">
-          &copy; {new Date().getFullYear()} Kickoff Admin
+          </div>
         </div>
-      </div>
-    </aside>
+        <div>
+          <SidebarLink
+            link={{
+              label: "Admin User",
+              href: "#",
+              icon: (
+                <div className="h-7 w-7 flex-shrink-0 rounded-full bg-[#B3B3B3] flex items-center justify-center">
+                  <span className="text-xs font-medium text-[#2B2B2B]">A</span>
+                </div>
+              ),
+            }}
+          />
+        </div>
+      </SidebarBody>
+    </Sidebar>
   );
 };
 
-export default Sidebar; 
+export const Logo = () => {
+  return (
+    <div className="font-normal flex space-x-2 items-center text-sm text-[#2B2B2B] py-1 relative z-20">
+      <div className="h-5 w-6 bg-[#2B2B2B] rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+      <motion.span
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="font-medium text-[#2B2B2B] whitespace-pre"
+      >
+        Kickoff Admin
+      </motion.span>
+    </div>
+  );
+};
+
+export const LogoIcon = () => {
+  return (
+    <div className="font-normal flex space-x-2 items-center text-sm text-[#2B2B2B] py-1 relative z-20">
+      <div className="h-5 w-6 bg-[#2B2B2B] rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0" />
+    </div>
+  );
+};
+
+export default AdminSidebar; 

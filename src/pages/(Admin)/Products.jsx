@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Sidebar from '../../components/(Admin)/Sidebar';
+import AdminSidebar from '../../components/(Admin)/Sidebar';
+import { SidebarProvider } from '../../context/SidebarContext';
+import { useSidebarContext } from '../../context/SidebarContext';
+import { motion } from 'framer-motion';
 import { Pencil, Trash2, ArrowLeft } from 'lucide-react';
 import axios from 'axios';
 import { AppContext } from '../../context/AppContext';
 
 const sizeOptions = ['S', 'M', 'L', 'XL'];
 
-const Products = () => {
+const ProductsContent = () => {
   const { backendUrl } = useContext(AppContext);
+  const { isOpen } = useSidebarContext();
   const [products, setProducts] = useState([]);
   const [selected, setSelected] = useState(null);
   const [editForm, setEditForm] = useState(null);
@@ -181,155 +185,308 @@ const Products = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex">
-        <Sidebar />
-        <main className="flex-1 ml-0 md:ml-64 px-6 py-10 flex items-center justify-center">
-          <div className="text-white text-xl">Loading products...</div>
-        </main>
+      <div className="min-h-screen bg-white">
+        <AdminSidebar />
+        <motion.main
+          className="transition-all duration-150 ease-out"
+          animate={{
+            marginLeft: isOpen ? "280px" : "70px"
+          }}
+          style={{
+            marginLeft: isOpen ? "280px" : "70px"
+          }}
+        >
+          <div className="px-6 py-10 bg-white rounded-tl-3xl min-h-screen flex items-center justify-center">
+            <div className="text-dark-gray text-xl">Loading products...</div>
+          </div>
+        </motion.main>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-black flex">
-        <Sidebar />
-        <main className="flex-1 ml-0 md:ml-64 px-6 py-10 flex items-center justify-center">
-          <div className="text-red-400 text-xl">{error}</div>
-        </main>
+      <div className="min-h-screen bg-white">
+        <AdminSidebar />
+        <motion.main
+          className="transition-all duration-150 ease-out"
+          animate={{
+            marginLeft: isOpen ? "280px" : "70px"
+          }}
+          style={{
+            marginLeft: isOpen ? "280px" : "70px"
+          }}
+        >
+          <div className="px-6 py-10 bg-white rounded-tl-3xl min-h-screen flex items-center justify-center">
+            <div className="text-red-600 text-xl">{error}</div>
+          </div>
+        </motion.main>
       </div>
     );
   }
 
   if (selected) {
     return (
-      <div className="min-h-screen bg-black flex">
-        <Sidebar />
-        <main className="flex-1 ml-0 md:ml-64 px-6 py-10">
-          <button onClick={() => setSelected(null)} className="flex items-center gap-2 text-white/70 hover:text-[#00FF99] mb-6">
-            <ArrowLeft size={18} /> Back to Products
-          </button>
-          <div className="max-w-xl bg-white/5 rounded-2xl p-8 shadow-lg">
-            <h2 className="text-xl font-bold text-white mb-6">Edit Product</h2>
-            <form onSubmit={e => { e.preventDefault(); handleEditSave(selected._id); }}>
-              <div className="mb-6 flex flex-col items-center">
-                <>
-                  {editForm.images.map((url, idx) => (
-                    <div key={idx} className="flex items-center gap-2 mb-2 w-full">
-                      <img src={url} alt={editForm.name} className="w-20 h-20 object-cover rounded-xl border border-white/10" />
-                      <input
-                        type="text"
-                        name={`image-url-${idx}`}
-                        value={url}
-                        onChange={handleEditChange}
-                        placeholder="Image URL"
-                        className="w-full bg-black/40 border border-white/20 rounded px-4 py-2 text-white focus:outline-none"
-                        required={idx === 0}
-                      />
-                      {editForm.images.length > 1 && (
-                        <button type="button" onClick={() => handleRemoveImageField(idx)} className="text-red-400 px-2 py-1 rounded hover:bg-red-900/30">Remove</button>
-                      )}
-                    </div>
-                  ))}
-                  <button type="button" onClick={handleAddImageField} className="mt-2 bg-[#00FF99] text-black rounded px-4 py-2 font-semibold hover:bg-[#00E589]">Add Image</button>
-                </>
-              </div>
-              <div className="mb-6">
-                <label className="block text-white mb-2">Product Name</label>
-                <input type="text" name="name" value={editForm.name} onChange={handleEditChange} required className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none" />
-              </div>
-              <div className="mb-6">
-                <label className="block text-white mb-2">Description</label>
-                <textarea name="description" value={editForm.description} onChange={handleEditChange} required rows={3} className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none" />
-              </div>
-              <div className="mb-6">
-                <label className="block text-white mb-2">Price</label>
-                <input type="number" name="price" value={editForm.price} onChange={handleEditChange} required min={0} step="0.01" className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none" />
-              </div>
-              <div className="mb-6">
-                <label className="block text-white mb-2">Category</label>
-                <select
-                  name="category"
-                  value={editForm.category}
-                  onChange={handleEditChange}
-                  required
-                  className="w-full bg-black/40 border border-white/20 rounded px-4 py-3 text-white focus:outline-none"
+      <div className="min-h-screen bg-gray-50">
+        <AdminSidebar />
+        <motion.main
+          className="transition-all duration-150 ease-out"
+          animate={{
+            marginLeft: isOpen ? "280px" : "70px"
+          }}
+          style={{
+            marginLeft: isOpen ? "280px" : "70px"
+          }}
+        >
+          <div className="px-6 pt-10 pb-0 bg-white rounded-tl-3xl shadow-lg">
+            <div className="flex justify-between items-center mb-8">
+              <button onClick={() => setSelected(null)} className="flex items-center gap-2 text-medium-gray hover:text-dark-gray">
+                <ArrowLeft size={18} /> Back to Products
+              </button>
+              <h1 className="text-2xl font-bold text-dark-gray">Edit Product</h1>
+              <div className="flex gap-4">
+                <button className="bg-white text-dark-gray px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 border border-gray-200">
+                  Save Draft
+                </button>
+                <button 
+                  onClick={() => handleEditSave(selected._id)}
+                  className="bg-[#2B2B2B] text-white px-6 py-2 rounded-lg font-semibold hover:bg-gray-800"
                 >
-                  <option value="" disabled>Select category</option>
-                  <option value="International">International</option>
-                  <option value="Womens">Womens</option>
-                  <option value="Retro kits">Retro kits</option>
-                  <option value="Seasonal clubs">Seasonal clubs</option>
-                </select>
+                  Save Changes
+                </button>
               </div>
-              <div className="mb-6">
-                <label className="block text-white mb-2">Sizes</label>
-                <div className="flex flex-col gap-2">
-                  {sizeOptions.map(size => (
-                    <div key={size} className="flex items-center gap-4">
-                      <label className="flex items-center gap-2 text-white">
-                        <input
-                          type="checkbox"
-                          name={`size-${size}`}
-                          value={size}
-                          checked={editForm.sizes.includes(size)}
-                          onChange={handleEditChange}
-                          className="accent-[#00FF99] w-5 h-5"
-                        />
-                        {size}
-                      </label>
-                      {editForm.sizes.includes(size) && (
-                        <>
-                          <input
-                            type="number"
-                            name={`price-${size}`}
-                            placeholder="Price"
-                            value={editForm.sizeData[size]?.price || ''}
-                            onChange={handleEditChange}
-                            required
-                            min={0}
-                            step="0.01"
-                            className="bg-black/40 border border-white/20 rounded px-2 py-1 text-white w-24"
-                          />
-                          <input
-                            type="number"
-                            name={`stock-${size}`}
-                            placeholder="Stock"
-                            value={editForm.sizeData[size]?.stock || ''}
-                            onChange={handleEditChange}
-                            required
-                            min={0}
-                            className="bg-black/40 border border-white/20 rounded px-2 py-1 text-white w-20"
-                          />
-                        </>
-                      )}
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Left Column - Scrollable */}
+              <div className="space-y-8">
+                {/* General Information */}
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#2B2B2B]">
+                  <h2 className="text-xl font-semibold text-dark-gray mb-4">General Information</h2>
+                  
+                  <div className="mb-4">
+                    <label className="block text-dark-gray mb-2">Name Product</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={editForm.name}
+                      onChange={handleEditChange}
+                      placeholder=""
+                      required
+                      className="w-full bg-gray-100 border border-gray-200 rounded px-4 py-3 text-dark-gray focus:outline-none focus:border-dark-gray placeholder-gray-500"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-dark-gray mb-2">Description Product</label>
+                    <textarea
+                      name="description"
+                      value={editForm.description}
+                      onChange={handleEditChange}
+                      placeholder=""
+                      required
+                      rows={4}
+                      className="w-full bg-gray-100 border border-gray-200 rounded px-4 py-3 text-dark-gray focus:outline-none focus:border-dark-gray placeholder-gray-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Size & Gender */}
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#2B2B2B]">
+                  <h2 className="text-xl font-semibold text-dark-gray mb-4">Size & Variants</h2>
+                  
+                  <div className="mb-6">
+                    <label className="block text-dark-gray mb-2">Size</label>
+                    <p className="text-gray-500 text-sm mb-3">Pick Available Size</p>
+                    <div className="flex flex-wrap gap-2">
+                      {sizeOptions.map(size => (
+                        <button
+                          key={size}
+                          type="button"
+                          onClick={() => {
+                            const newSizes = editForm.sizes.includes(size) 
+                              ? editForm.sizes.filter(s => s !== size)
+                              : [...editForm.sizes, size];
+                            setEditForm({ ...editForm, sizes: newSizes });
+                          }}
+                          className={`px-4 py-2 rounded-lg border transition-colors ${
+                            editForm.sizes.includes(size)
+                              ? 'bg-[#2B2B2B] text-white border-[#2B2B2B]'
+                              : 'bg-gray-100 text-dark-gray border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          {size}
+                        </button>
+                      ))}
                     </div>
-                  ))}
+                  </div>
+                  
+                  {/* Size Variants */}
+                  {editForm.sizes.length > 0 && (
+                    <div>
+                      <label className="block text-dark-gray mb-2">Size Variants</label>
+                      <div className="space-y-3">
+                        {editForm.sizes.map(size => (
+                          <div key={size} className="bg-gray-50 rounded-lg p-3">
+                            <h4 className="font-medium text-dark-gray mb-2">{size}</h4>
+                            <div className="grid grid-cols-2 gap-3">
+                              <div>
+                                <label className="block text-medium-gray text-sm mb-1">Price</label>
+                                <input
+                                  type="number"
+                                  name={`price-${size}`}
+                                  placeholder="Price"
+                                  value={editForm.sizeData[size]?.price || ''}
+                                  onChange={handleEditChange}
+                                  required
+                                  min={0}
+                                  step="0.01"
+                                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-sm text-dark-gray focus:outline-none focus:border-dark-gray"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-medium-gray text-sm mb-1">Stock</label>
+                                <input
+                                  type="number"
+                                  name={`stock-${size}`}
+                                  placeholder="Stock"
+                                  value={editForm.sizeData[size]?.stock || ''}
+                                  onChange={handleEditChange}
+                                  required
+                                  min={0}
+                                  className="w-full bg-gray-100 border border-gray-200 rounded px-3 py-2 text-sm text-dark-gray focus:outline-none focus:border-dark-gray"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+              </div>
+
+              {/* Right Column - Fixed */}
+              <div className="space-y-8 sticky top-0">
+                {/* Upload Img */}
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#2B2B2B]">
+                  <h2 className="text-xl font-semibold text-dark-gray mb-4">Product Images</h2>
+                  
+                  <div className="mb-4">
+                    <div className="space-y-3">
+                      {editForm.images.map((url, idx) => (
+                        <div key={idx} className="flex items-center gap-3">
+                          <img src={url} alt={editForm.name} className="w-16 h-16 object-cover rounded-lg border border-gray-200" />
+                          <input
+                            type="text"
+                            name={`image-url-${idx}`}
+                            value={url}
+                            onChange={handleEditChange}
+                            placeholder="Image URL"
+                            className="flex-1 bg-gray-100 border border-gray-200 rounded px-3 py-2 text-sm text-dark-gray focus:outline-none focus:border-dark-gray"
+                            required={idx === 0}
+                          />
+                          {editForm.images.length > 1 && (
+                            <button 
+                              type="button" 
+                              onClick={() => handleRemoveImageField(idx)} 
+                              className="text-red-500 hover:text-red-700 px-2 py-1 rounded"
+                            >
+                              Remove
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                    <button 
+                      type="button" 
+                      onClick={handleAddImageField} 
+                      className="mt-3 bg-[#2B2B2B] text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-800"
+                    >
+                      Add Image
+                    </button>
+                  </div>
+                </div>
+
+                {/* Featured Product Checkbox */}
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#2B2B2B]">
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      name="isFeatured"
+                      checked={editForm.isFeatured}
+                      onChange={handleEditChange}
+                      className="accent-[#2B2B2B] w-5 h-5"
+                      id="isFeatured-edit"
+                    />
+                    <label htmlFor="isFeatured-edit" className="text-dark-gray select-none cursor-pointer">
+                      Add to Featured Product Section
+                    </label>
+                  </div>
+                </div>
+
+                {/* Delete Button */}
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#2B2B2B]">
+                  <button 
+                    onClick={() => openDeleteConfirm(selected)} 
+                    className="w-full bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition flex items-center justify-center gap-2"
+                  >
+                    <Trash2 size={18}/>Delete Product
+                  </button>
+                </div>
+
+                {/* Pricing And Stock */}
+                <div className="bg-white rounded-2xl p-6 shadow-sm border border-[#2B2B2B]">
+                  <h2 className="text-xl font-semibold text-dark-gray mb-4">Pricing And Stock</h2>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-dark-gray mb-2">Base Pricing</label>
+                      <input
+                        type="number"
+                        name="price"
+                        value={editForm.price}
+                        onChange={handleEditChange}
+                        placeholder="$47.55"
+                        required
+                        min={0}
+                        step="0.01"
+                        className="w-full bg-gray-100 border border-gray-200 rounded px-4 py-3 text-dark-gray focus:outline-none focus:border-dark-gray placeholder-gray-500"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-dark-gray mb-2">Category</label>
+                      <select
+                        name="category"
+                        value={editForm.category}
+                        onChange={handleEditChange}
+                        required
+                        className="w-full bg-gray-100 border border-gray-200 rounded px-4 py-3 text-dark-gray focus:outline-none focus:border-dark-gray"
+                      >
+                        <option value="" disabled>Select category</option>
+                        <option value="International">International</option>
+                        <option value="Womens">Womens</option>
+                        <option value="Seasonal">Seasonal</option>
+                        <option value="Retro">Retro</option>
+                        <option value="Kids">Kids</option>
+                        <option value="Accessories">Accessories</option>
+                        <option value="Special Edition">Special Edition</option>
+                        <option value="Customized Jersey">Customized Jersey</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="mb-6 flex items-center gap-3">
-                <input
-                  type="checkbox"
-                  name="isFeatured"
-                  checked={editForm.isFeatured}
-                  onChange={handleEditChange}
-                  className="accent-[#00FF99] w-5 h-5"
-                  id="isFeatured-edit"
-                />
-                <label htmlFor="isFeatured-edit" className="text-white select-none cursor-pointer">Featured Product</label>
-              </div>
-              <div className="flex gap-4">
-                <button type="submit" className="bg-[#00FF99] text-black font-semibold rounded-full py-3 px-8 text-lg hover:bg-[#00E589] transition">Save</button>
-                <button type="button" onClick={() => setSelected(null)} className="bg-white/10 text-white font-semibold rounded-full py-3 px-8 text-lg hover:bg-white/20 transition">Cancel</button>
-                <button type="button" onClick={() => openDeleteConfirm(selected)} className="bg-red-500 text-white font-semibold rounded-full py-3 px-8 text-lg hover:bg-red-600 transition flex items-center gap-2"><Trash2 size={18}/>Delete</button>
-              </div>
-            </form>
+            </div>
           </div>
+
           {deleteConfirm.show && (
             <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
               <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full flex flex-col items-center">
-                <h3 className="text-lg font-bold mb-4 text-black">Confirm Delete</h3>
-                <p className="mb-2 text-black">Type <span className="font-mono bg-gray-200 px-2 py-1 rounded">{deleteConfirm.product?.name}</span> to confirm deletion.</p>
+                <h3 className="text-lg font-bold mb-4 text-dark-gray">Confirm Delete</h3>
+                <p className="mb-2 text-medium-gray">Type <span className="font-mono bg-gray-200 px-2 py-1 rounded">{deleteConfirm.product?.name}</span> to confirm deletion.</p>
                 <input
                   type="text"
                   value={deleteConfirm.input}
@@ -347,7 +504,7 @@ const Products = () => {
                     Delete
                   </button>
                   <button
-                    className="bg-gray-200 text-black px-4 py-2 rounded font-semibold"
+                    className="bg-gray-200 text-dark-gray px-4 py-2 rounded font-semibold"
                     onClick={closeDeleteConfirm}
                   >
                     Cancel
@@ -356,34 +513,52 @@ const Products = () => {
               </div>
             </div>
           )}
-        </main>
+        </motion.main>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-black flex">
-      <Sidebar />
-      <main className="flex-1 ml-0 md:ml-64 px-6 py-10">
-        <h1 className="text-2xl font-bold text-white mb-8">Update / Delete Products</h1>
+    <div className="min-h-screen bg-[#d4d4d4]">
+      <AdminSidebar />
+      <motion.main
+        className="transition-all duration-150 ease-out"
+        animate={{
+          marginLeft: isOpen ? "280px" : "70px"
+        }}
+        style={{
+          marginLeft: isOpen ? "280px" : "70px"
+        }}
+      >
+        <div className="px-6 py-10 bg-white rounded-tl-3xl min-h-screen shadow-lg">
+        <h1 className="text-2xl font-bold text-dark-gray mb-8">Update / Delete Products</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {products.map(product => (
-            <div key={product._id} className="bg-white/5 rounded-2xl shadow-lg p-6 flex flex-col items-center">
-              <img src={product.images && product.images.length > 0 ? product.images[0] : ''} alt={product.name} className="w-24 h-24 object-cover rounded-xl mb-4 border border-white/10" />
-              <h3 className="text-lg font-bold text-white mb-1">{product.name}</h3>
-              <div className="text-[#00FF99] font-semibold mb-1">${product.basePrice}</div>
-              <div className="text-white/70 text-sm mb-2">{product.category}</div>
-              {product.isFeatured && <div className="text-[#00FF99] text-xs font-bold mb-2">★ Featured</div>}
-              <div className="text-white/60 text-xs mb-4">Sizes: {product.variants ? product.variants.map(v => v.size).join(', ') : ''}</div>
+            <div key={product._id} className="bg-[#D4D4D4] rounded-2xl shadow-lg p-6 flex flex-col items-center">
+              <img src={product.images && product.images.length > 0 ? product.images[0] : ''} alt={product.name} className="w-24 h-24 object-cover rounded-xl mb-4 border border-medium-gray" />
+              <h3 className="text-lg font-bold text-dark-gray mb-1">{product.name}</h3>
+              <div className="text-medium-gray font-semibold mb-1">${product.basePrice}</div>
+              <div className="text-medium-gray text-sm mb-2">{product.category}</div>
+              {product.isFeatured && <div className="text-dark-gray text-xs font-bold mb-2">★ Featured</div>}
+              <div className="text-medium-gray text-xs mb-4">Sizes: {product.variants ? product.variants.map(v => v.size).join(', ') : ''}</div>
               <div className="flex gap-2">
-                <button onClick={() => handleEdit(product)} className="bg-blue-500 text-white px-4 py-1 rounded font-semibold flex items-center gap-1 hover:bg-blue-600 transition"><Pencil size={16}/>Edit</button>
-                <button onClick={() => openDeleteConfirm(product)} className="bg-red-500 text-white px-4 py-1 rounded font-semibold flex items-center gap-1 hover:bg-red-600 transition"><Trash2 size={16}/>Delete</button>
+                <button onClick={() => handleEdit(product)} className="bg-[#2B2B2B] text-white px-4 py-1 rounded font-semibold flex items-center gap-1 hover:bg-gray-800 transition"><Pencil size={16}/>Edit</button>
+                <button onClick={() => openDeleteConfirm(product)} className="bg-[#2B2B2B] text-white px-4 py-1 rounded font-semibold flex items-center gap-1 hover:bg-gray-800 transition"><Trash2 size={16}/>Delete</button>
               </div>
             </div>
           ))}
         </div>
-      </main>
+        </div>
+      </motion.main>
     </div>
+  );
+};
+
+const Products = () => {
+  return (
+    <SidebarProvider>
+      <ProductsContent />
+    </SidebarProvider>
   );
 };
 

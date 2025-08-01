@@ -26,8 +26,8 @@ module.exports = {
         },
       },
       colors: {
-        white: '#FFFFFF', // Background, cards
-        'light-gray': '#D4D4D4', // Secondary elements, borders
+        white: '#FFFFFF', // Background, 
+        'light-gray': '#D4D4D4', // Secondary elements, borders,cards
         'medium-gray': '#B3B3B3', // Text/icons on white
         'dark-gray': '#2B2B2B', // Headings, primary text
       },
